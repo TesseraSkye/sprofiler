@@ -2,7 +2,7 @@
   <v-container>
     <v-row>
       <v-col>
-        <h1>Liwve</h1>
+        <h1>hiwwstowwy!</h1>
       </v-col>
     </v-row>
   </v-container>
@@ -11,7 +11,7 @@
 <script>
 // @ is an alias to /src
 export default {
-  name: 'live',
+  name: 'history',
   components: {
   }
 }

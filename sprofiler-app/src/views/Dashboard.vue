@@ -1,11 +1,11 @@
 <template>
-  <b-container>
-    <b-row>
-      <b-col>
-        <h1>Hey!</h1>
-      </b-col>
-    </b-row>
-  </b-container>
+  <v-container>
+    <v-row>
+      <v-col>
+        <h1>hwwo!</h1>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
