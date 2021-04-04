@@ -1,0 +1,33 @@
+{
+    "version": "0.0.1",
+    "name": "sprofiler",
+    "app-name": "'Sprofiler - Bripe Edition",
+    "package-name": "sprofiler",
+    "project-type": "webview",
+    "icon": "./assets/icon/icon.png",
+    "dist-path": "./dist",
+    "permission": [
+        "android.permission.INTERNET"
+    ],
+    "description": "",
+    "main": "main.js",
+    "scripts": {
+        "start:dev": "node .",
+        "build": "androidjs build"
+    },
+    "author": "Tessera Skye",
+    "license": "MIT",
+    "dependencies": {
+        "androidjs": "^2.0.2",
+        "vue": "^2.6.12"
+    },
+    "project-name": "sprofiler",
+    "theme": {
+        "theme": {
+            "fullScreen": true,
+            "colorAccent": "#a584c6",
+            "colorPrimary": "#84c6c1",
+            "colorPrimaryDark": "#FFFFFF"
+        }
+    }
+}
