@@ -1,33 +1,52 @@
 {
-    "version": "0.0.1",
-    "name": "sprofiler",
-    "app-name": "'Sprofiler - Bripe Edition",
-    "package-name": "sprofiler",
-    "project-type": "webview",
-    "icon": "./assets/icon/icon.png",
-    "dist-path": "./dist",
-    "permission": [
-        "android.permission.INTERNET"
-    ],
-    "description": "",
-    "main": "main.js",
-    "scripts": {
-        "start:dev": "node .",
-        "build": "androidjs build"
-    },
-    "author": "Tessera Skye",
-    "license": "MIT",
-    "dependencies": {
-        "androidjs": "^2.0.2",
-        "vue": "^2.6.12"
-    },
-    "project-name": "sprofiler",
-    "theme": {
-        "theme": {
-            "fullScreen": true,
-            "colorAccent": "#a584c6",
-            "colorPrimary": "#84c6c1",
-            "colorPrimaryDark": "#FFFFFF"
-        }
-    }
+  "name": "@nativescript/template-blank-vue",
+  "main": "app/app.js",
+  "displayName": "Blank",
+  "version": "8.0.2",
+  "description": "NativeScript Application",
+  "author": "NativeScript Team <oss@nativescript.org>",
+  "license": "SEE LICENSE IN <your-license-filename>",
+  "repository": "<fill-your-repository-here>",
+  "homepage": "https://github.com/NativeScript/nativescript-app-templates",
+  "bugs": {
+    "url": "https://github.com/NativeScript/NativeScript/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "app",
+    "App_Resources",
+    "tools",
+    "hooks",
+    "!tools/assets",
+    ".editorconfig",
+    "jsconfig.json"
+  ],
+  "keywords": [
+    "nstudio",
+    "nativescript",
+    "mobile",
+    "{N}",
+    "tns",
+    "vue",
+    "nativescript-vue",
+    "template",
+    "master-detail",
+    "detail",
+    "category-general"
+  ],
+  "dependencies": {
+    "@nativescript/core": "~8.0.0",
+    "@nativescript/theme": "~3.0.1",
+    "nativescript-vue": "~2.9.0"
+  },
+  "devDependencies": {
+    "@nativescript/android": "8.0.0",
+    "@nativescript/webpack": "5.0.0-beta.2",
+    "nativescript-vue-template-compiler": "~2.9.0",
+    "sass": "^1.32.8"
+  },
+  "private": "true",
+  "readme": "NativeScript Application"
 }
