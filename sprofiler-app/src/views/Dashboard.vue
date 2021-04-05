@@ -2,7 +2,7 @@
   <v-container>
     <v-row>
       <v-col>
-        <h1>hwwo!</h1>
+        <h1 class="text-center">'Sprofiler</h1>
       </v-col>
     </v-row>
   </v-container>

@@ -1,18 +1,21 @@
 <template>
   <v-container>
-    <v-row>
-      <v-col>
-        <h1>Liwve</h1>
-      </v-col>
-    </v-row>
+    <line-chart/>
   </v-container>
 </template>
 
 <script>
-// @ is an alias to /src
+
+import LineChart from '../components/LineChart.vue'
+
 export default {
   name: 'live',
   components: {
+    LineChart
+  },
+  data () {
+    return {
+    }
   }
 }
 </script>
