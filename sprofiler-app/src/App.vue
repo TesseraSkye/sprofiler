@@ -32,3 +32,9 @@
 export default {
 }
 </script>
+
+<style>
+.h-100 {
+  height: 100vh;
+}
+</style>

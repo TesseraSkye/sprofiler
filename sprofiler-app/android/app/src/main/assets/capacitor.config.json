@@ -1,0 +1,13 @@
+{
+  "appId": "com.sprofiler.app",
+  "appName": "sprofiler",
+  "bundledWebRuntime": false,
+  "npmClient": "yarn",
+  "webDir": "./public",
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 0
+    }
+  },
+  "cordova": {}
+}

@@ -7,11 +7,9 @@ export default {
   mounted () {
     this.renderChart({
       datasets: [{
-        label: 'Dataset 1',
-        borderColor: '#a8f',
-        backgroundColor: '#fad',
-        innerGlowWidth: 100,
-        innerGlowColor: '#0ff',
+        label: 'bar',
+        borderColor: '#faa',
+        backgroundColor: '#ddd',
         lineTension: 0.5
       }]
     }, {
@@ -31,7 +29,7 @@ export default {
           }
         }]
       }
-    })
+    }, this.options)
   }
 }
 </script>
