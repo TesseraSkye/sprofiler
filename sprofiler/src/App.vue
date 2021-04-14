@@ -1,9 +1,9 @@
 <template>
-  <v-app class="">
+  <v-app>
     <v-main>
-      <router-view transition = 'fade-transition'/>
+      <router-view transition='fade-transition'/>
     </v-main>
-    <v-bottom-navigation background-color="#f5f5f5" grow v-model="this.$router.currentRoute.name" mandatory color="primary">
+    <v-bottom-navigation shift fixed background-color="#272727" grow v-model="this.$router.currentRoute.name" mandatory :color="getAccent">
 
         <v-btn x-large value="Dashboard" href="/">
           <span>Dashboard</span>
@@ -30,11 +30,10 @@
 
 <script>
 export default {
+  computed: {
+    getAccent () {
+      return this.$store.state.accent || 'grey'
+    }
+  }
 }
 </script>
-
-<style>
-.cht {
-  height: 100%;
-}
-</style>

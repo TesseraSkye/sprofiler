@@ -44,16 +44,23 @@ export default {
       }
     }
   },
+
+  computed: {
+    getAccent () {
+      return this.$store.state.accent || 'grey'
+    }
+  },
+
   mounted () {
     this.renderChart({
       datasets: [
         {
           label: 'pressure (bar)',
-          borderColor: '#249EBF',
-          pointBackgroundColor: 'white',
-          borderWidth: 1,
-          pointBorderColor: '#249EBF',
-          backgroundColor: '#33333333'
+          borderColor: this.getAccent,
+          pointBackgroundColor: 'dark',
+          borderWidth: 2,
+          pointBorderColor: this.getAccent,
+          backgroundColor: '#aaaaaa11'
         }
       ]
     }, this.options)

@@ -1,13 +1,8 @@
 <template>
   <v-container>
-    <v-row>
-      <v-col class="text-center">
-        <h1>Live Pressure Data</h1>
-      </v-col>
-    </v-row>
     <v-row >
       <v-col>
-        <line-chart class="cht"/>
+        <line-chart class="chart-lg my-4"/>
       </v-col>
     </v-row>
   </v-container>
@@ -27,4 +22,14 @@ export default {
     }
   }
 }
+
 </script>
+
+<style scoped>
+.chart-md {
+  height: 86vh;
+}
+.chart-lg {
+  height: 76vh;
+}
+</style>
