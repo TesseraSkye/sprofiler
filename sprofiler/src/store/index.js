@@ -45,6 +45,9 @@ export default new Vuex.Store({
           dispatch('setAccent', data)
           return data
         })
+        .catch(err => {
+          console.error(err)
+        })
     }
   },
   modules: {
