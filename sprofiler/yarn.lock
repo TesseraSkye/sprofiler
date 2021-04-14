@@ -871,6 +871,13 @@
   resolved "https://registry.yarnpkg.com/@capacitor/android/-/android-3.0.0-rc.0.tgz#9dc6e82a1368310b5ddc99e5fb010be21d9cab34"
   integrity sha512-61CDzUQ6H3uqM/jmvq40wX4c0HuUAQvdBsvF94mGlFU3IKtjAjFV/UyrLfYgdL6v1RD+hv6UGUUj9k1Kto7sPA==
 
+"@capacitor/core@^2.4.7":
+  version "2.4.7"
+  resolved "https://registry.yarnpkg.com/@capacitor/core/-/core-2.4.7.tgz#f3b4d5728db7e764c1153da5e67d369bda35b772"
+  integrity sha512-ZPzXXQ4EPwR/ZhNDkmlxyzw4FvquIl/ROj8HMMM0MEd4xZfM8ulNGPIL6br9TWdlFLGBKq40eymPZjKaivGnig==
+  dependencies:
+    tslib "^1.9.0"
+
 "@hapi/address@2.x.x":
   version "2.1.4"
   resolved "https://registry.yarnpkg.com/@hapi/address/-/address-2.1.4.tgz#5d67ed43f3fd41a69d4b9ff7b56e7c0d1d0a81e5"

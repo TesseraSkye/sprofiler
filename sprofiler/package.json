@@ -15,6 +15,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@capacitor/android": "^3.0.0-rc.0",
+    "@capacitor/core": "^2.4.7",
     "axios": "^0.21.1",
     "chart.js": "2.8.0",
     "chartjs-plugin-streaming": "^1.8.0",

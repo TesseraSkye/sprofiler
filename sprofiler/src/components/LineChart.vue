@@ -47,7 +47,8 @@ export default {
 
   computed: {
     getAccent () {
-      return this.$store.state.accent || 'grey'
+      this.$store.dispatch('getAccent')
+      return this.$store.state.accent
     }
   },
 
