@@ -1,30 +1,30 @@
 <template>
-  <v-app>
+  <v-app class="">
     <v-main>
       <router-view transition = 'fade-transition'/>
     </v-main>
-    <v-bottom-navigation grow height=52 v-model="this.$router.currentRoute.name" class="dark" mandatory color="red">
+    <v-bottom-navigation background-color="#f5f5f5" grow v-model="this.$router.currentRoute.name" mandatory color="primary">
 
-      <v-btn x-large value="Dashboard" href="/">
-        <span>Dashboard</span>
-        <v-icon>mdi-view-dashboard-variant</v-icon>
-      </v-btn>
+        <v-btn x-large value="Dashboard" href="/">
+          <span>Dashboard</span>
+          <v-icon>mdi-view-dashboard-variant</v-icon>
+        </v-btn>
 
-      <v-btn x-large value="Live"  href="/live">
-        <span>Live</span>
-        <v-icon>mdi-chart-bell-curve</v-icon>
-      </v-btn>
+        <v-btn x-large value="Live"  href="/live">
+          <span>Live</span>
+          <v-icon>mdi-chart-bell-curve</v-icon>
+        </v-btn>
 
-      <v-btn x-large value="History"  href="/history">
-        <span>History</span>
-        <v-icon>mdi-clock</v-icon>
-      </v-btn>
+        <v-btn x-large value="History"  href="/history">
+          <span>History</span>
+          <v-icon>mdi-clock</v-icon>
+        </v-btn>
 
-      <v-btn x-large value="Settings"  href="/settings">
-        <span>Settings</span>
-        <v-icon>mdi-cog</v-icon>
-      </v-btn>
-  </v-bottom-navigation>
+        <v-btn x-large value="Settings"  href="/settings">
+          <span>Settings</span>
+          <v-icon>mdi-cog</v-icon>
+        </v-btn>
+      </v-bottom-navigation>
   </v-app>
 </template>
 
@@ -34,7 +34,7 @@ export default {
 </script>
 
 <style>
-.vh-100 {
-  height: 10%;
+.cht {
+  height: 100%;
 }
 </style>

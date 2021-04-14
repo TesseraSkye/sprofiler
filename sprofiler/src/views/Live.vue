@@ -1,12 +1,12 @@
 <template>
-  <v-container class = 'vh-100'>
+  <v-container>
     <v-row>
       <v-col class="text-center">
         <h1>Live Pressure Data</h1>
       </v-col>
     </v-row>
-    <v-row>
-      <v-col flex>
+    <v-row >
+      <v-col>
         <line-chart class="cht"/>
       </v-col>
     </v-row>
