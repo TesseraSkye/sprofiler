@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="2e4103cd-fcf4-4b98-a293-22c15903e36f" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/sprofiler/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/sprofiler/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sprofiler/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/sprofiler/src/router/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sprofiler/vue.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/sprofiler/vue.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sprofiler/www/favicon.ico" beforeDir="false" afterPath="$PROJECT_DIR$/sprofiler/www/favicon.ico" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sprofiler/www/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/sprofiler/www/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sprofiler/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/sprofiler/yarn.lock" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1r9OgqsvBeJFC7rMxQLBlRV5pkc" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/sprofiler" />
+    <property name="settings.editor.selected.configurable" value="AndroidSdkUpdater" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="2e4103cd-fcf4-4b98-a293-22c15903e36f" name="Default Changelist" comment="" />
+      <created>1618384953139</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1618384953139</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="1467" y="440" key="FileChooserDialogImpl" timestamp="1618384966977">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="1467" y="440" key="FileChooserDialogImpl/0.0.2560.1400@0.0.2560.1400" timestamp="1618384966977" />
+  </component>
+</project>

@@ -1,0 +1,15 @@
+{
+  "appId": "com.tesseraskye.sprofiler",
+  "appName": "sprofiler",
+  "bundledWebRuntime": false,
+  "npmClient": "yarn",
+  "webDir": "www",
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 0
+    }
+  },
+  "cordova": {
+    "preferences": {}
+  }
+}
