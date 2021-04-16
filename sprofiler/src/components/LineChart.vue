@@ -6,6 +6,31 @@ export default {
   extends: Line,
   props: {
   },
+  computed: {
+    getAccent () {
+      this.$store.dispatch('getAccent')
+      return this.$store.state.accent
+    },
+    getPressure () {
+      return this.$store.state.pressure
+    }
+  },
+
+  mounted () {
+    this.renderChart({
+      datasets: [
+        {
+          label: 'pressure (bar)',
+          borderColor: this.getAccent,
+          pointBackgroundColor: 'dark',
+          borderWidth: 2,
+          pointBorderColor: this.getAccent,
+          backgroundColor: '#aaaaaa11'
+        }
+      ]
+    }, this.options)
+  },
+
   data () {
     return {
       options: {
@@ -24,11 +49,11 @@ export default {
             },
             type: 'realtime',
             realtime: {
-              onRefresh: function (chart) {
-                chart.data.datasets.forEach(function (dataset) {
+              onRefresh: (chart) => {
+                chart.data.datasets.forEach((dataset) => {
                   dataset.data.push({
                     x: Date.now(),
-                    y: Math.random()
+                    y: this.getPressure
                   })
                 })
               },
@@ -43,28 +68,6 @@ export default {
         maintainAspectRatio: false
       }
     }
-  },
-
-  computed: {
-    getAccent () {
-      this.$store.dispatch('getAccent')
-      return this.$store.state.accent
-    }
-  },
-
-  mounted () {
-    this.renderChart({
-      datasets: [
-        {
-          label: 'pressure (bar)',
-          borderColor: this.getAccent,
-          pointBackgroundColor: 'dark',
-          borderWidth: 2,
-          pointBorderColor: this.getAccent,
-          backgroundColor: '#aaaaaa11'
-        }
-      ]
-    }, this.options)
   }
 }
 </script>

@@ -42,7 +42,8 @@ export default {
       this.$store.dispatch('setAccent', data)
     },
     getAccent () {
-      return this.$store.dispatch('getAccent')
+      this.$store.dispatch('getAccent')
+      return this.$store.state.accent
     },
     isAccent (color) {
       return this.getAccent() === color
