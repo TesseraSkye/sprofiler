@@ -2,18 +2,21 @@
 import { Line } from 'vue-chartjs'
 import 'chartjs-plugin-streaming'
 
+// import { Plugins } from '@capacitor/core'
+
+// const { Storage } = Plugins
+
+// async function getAccentStorage () {
+//   const ret = await Storage.get({ key: 'accent' })
+//   const accent = JSON.parse(ret.value)
+//   return accent
+// }
+
 export default {
   extends: Line,
-  props: {
-  },
+  props: ['color', 'pressure'],
   computed: {
-    getAccent () {
-      this.$store.dispatch('getAccent')
-      return this.$store.state.accent
-    },
-    getPressure () {
-      return this.$store.state.pressure
-    }
+
   },
 
   mounted () {
@@ -21,10 +24,10 @@ export default {
       datasets: [
         {
           label: 'pressure (bar)',
-          borderColor: this.getAccent,
+          borderColor: this.color,
           pointBackgroundColor: 'dark',
           borderWidth: 2,
-          pointBorderColor: this.getAccent,
+          pointBorderColor: this.color,
           backgroundColor: '#aaaaaa11'
         }
       ]
@@ -53,7 +56,7 @@ export default {
                 chart.data.datasets.forEach((dataset) => {
                   dataset.data.push({
                     x: Date.now(),
-                    y: this.getPressure
+                    y: this.pressure
                   })
                 })
               },

@@ -4,6 +4,7 @@ import Dashboard from '../views/Dashboard.vue'
 import Live from '../views/Live.vue'
 import History from '../views/History.vue'
 import Settings from '../views/Settings.vue'
+import store from '../store'
 
 Vue.use(VueRouter)
 
@@ -44,6 +45,11 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
+})
+
+router.afterEach((to, from) => {
+  // stuff to do after each route
+  store.dispatch('updateStorage')
 })
 
 export default router

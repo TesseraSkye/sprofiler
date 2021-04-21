@@ -32,9 +32,10 @@
 export default {
   computed: {
     getAccent () {
-      this.$store.dispatch('getAccent')
       return this.$store.state.accent
     }
+  },
+  methods: {
   }
 }
 </script>

@@ -13,16 +13,16 @@
           </v-card-text>
           <v-row>
             <v-col cols=3 align-self="center">
-              <v-btn color="pink" :small="isAccent('pink')" fab x-small class = "mx-2 my-4" @click="setAccent('pink')"/>
-            </v-col>
-            <v-col cols=3 align-self="center">
-              <v-btn color="orange" :small="isAccent('orange')" fab x-small class = "mx-2 my-4" @click="setAccent('orange')"/>
-            </v-col>
-            <v-col cols=3 align-self="center">
               <v-btn color="cyan" :small="isAccent('cyan')" fab x-small class = "mx-2 my-4" @click="setAccent('cyan')"/>
             </v-col>
             <v-col cols=3 align-self="center">
+              <v-btn color="pink" :small="isAccent('pink')" fab x-small class = "mx-2 my-4" @click="setAccent('pink')"/>
+            </v-col>
+            <v-col cols=3 align-self="center">
               <v-btn color="white" :small="isAccent('white')" fab x-small class = "mx-2 my-4" @click="setAccent('white')"/>
+            </v-col>
+            <v-col cols=3 align-self="center">
+              <v-btn color="orange" :small="isAccent('orange')" fab x-small class = "mx-2 my-4" @click="setAccent('orange')"/>
             </v-col>
           </v-row>
         </v-card>
@@ -32,25 +32,34 @@
 </template>
 
 <script>
-// @ is an alias to /src
 export default {
   name: 'settings',
   components: {
   },
-  methods: {
-    setAccent (data) {
-      this.$store.dispatch('setAccent', data)
-    },
+  computed: {
     getAccent () {
-      this.$store.dispatch('getAccent')
       return this.$store.state.accent
-    },
-    isAccent (color) {
-      return this.getAccent() === color
     }
   },
-  computed: {
-    //
+  methods: {
+    setAccent (data) {
+      new Promise((resolve, reject) => {
+        this.$store.dispatch('setAccent', data)
+      }).then(() => {
+        console.log()
+      }, console.error)
+    },
+    // getAccent () {
+    //   new Promise((resolve, reject) => {
+    //     this.$store.dispatch('getAccent')
+    //   }).then(() => {
+    //     console.log()
+    //   }, console.error)
+    //   return this.$store.state.accent
+    // },
+    isAccent (color) {
+      return this.getAccent === color
+    }
   }
 }
 </script>
