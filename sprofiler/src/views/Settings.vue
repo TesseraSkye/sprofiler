@@ -6,6 +6,8 @@
         <h5>version 0.0.1</h5>
         <h5>Trans Rights</h5>
       </v-col>
+    </v-row>
+    <v-row>
       <v-col sm="12" md="6">
         <v-card outlined elevation="10">
           <v-card-text>
@@ -28,13 +30,20 @@
         </v-card>
       </v-col>
     </v-row>
+    <v-row>
+      <v-col>
+        <Ble/>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
 <script>
+import Ble from '../components/Ble.vue'
 export default {
   name: 'settings',
   components: {
+    Ble
   },
   computed: {
     getAccent () {

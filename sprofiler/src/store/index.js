@@ -2,23 +2,24 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 import { Plugins } from '@capacitor/core'
+// import { forEach } from 'core-js/core/array'
 
 const { Storage } = Plugins
 
-async function putAccent (color) {
+async function putData (key, data) {
   await Storage.set({
-    key: 'accent',
+    key: key,
     value: JSON.stringify({
-      accent: color
+      [data]: key
     })
   })
 }
 
 // JSON "get" example
-async function readAccent () {
-  const ret = await Storage.get({ key: 'accent' })
-  const accent = JSON.parse(ret.value)
-  return accent
+async function getData (key) {
+  const ret = await Storage.get({ key: key })
+  const data = JSON.parse(ret.value)
+  return data
 }
 
 Vue.use(Vuex)
@@ -26,43 +27,47 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     accent: 'white',
-    pressure: 9
+    pressure: 0,
+    // bt stuff
+    deviceID: 0
   },
   mutations: {
-    setAccent (state, data) {
-      state.accent = data
-    },
-    setPressure (state, data) {
-      state.pressure = data
+    // array is [key, data]
+    setState (state, [array]) {
+      state[array[0]] = array[1]
     }
   },
   actions: {
-    setAccent ({ commit }, data) {
-      commit('setAccent', data)
-      putAccent(data)
-    },
-    setpressure ({ commit }, data) {
-      commit('setPressure', data)
-    },
-
     // Update state from Storage
 
-    updateStorage ({ dispatch }) {
+    initStorage ({ dispatch }) {
       console.log('updating state from storage..')
-      dispatch('readAccent')
+      dispatch('getFromStorage', ['accent', 'pressure', 'deviceID'])
     },
 
-    readAccent ({ dispatch }) {
-      readAccent()
-        .then(res => {
-          const data = res.accent
-          console.log(data)
-          dispatch('setAccent', data)
-          // return data
-        })
-        .catch(err => {
-          console.error(err)
-        })
+    // storage related stuff
+    getFromStorage ({ commit }, array) {
+      array.forEach(item => {
+        getData(item)
+          .then(res => {
+            const data = res[item]
+            console.log(data)
+            commit('setState', item, data)
+            // return data
+          })
+          .catch(err => {
+            console.error(err)
+          })
+      })
+    },
+
+    pushToStorage (item) {
+      putData(item, this.state[item])
+    },
+
+    // array is [key, data]
+    setState ({ commit }, array) {
+      commit('setState', array)
     }
   },
   modules: {

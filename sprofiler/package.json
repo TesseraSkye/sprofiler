@@ -16,7 +16,8 @@
   "dependencies": {
     "@capacitor-community/bluetooth-le": "^1.0.0-4",
     "@capacitor/android": "^3.0.0-rc.0",
-    "@capacitor/core": "^2.4.7",
+    "@capacitor/cli": "^3.0.0-rc.0",
+    "@capacitor/core": "^3.0.0-rc.0",
     "chart.js": "2.8.0",
     "chartjs-plugin-streaming": "^1.8.0",
     "core-js": "^3.6.5",

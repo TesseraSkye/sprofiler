@@ -12,7 +12,7 @@ uint32_t pressure = 0;
 byte aPin = A0;
 
 #define SERVICE_UUID "d43d1e53-4fb6-4907-9f4e-1237e5a39971"
-#define CHAR_UUID "50739418-766d-46f5-9670-f5ef11392f3b"
+#define CHARACTERISTIC_UUID "50739418-766d-46f5-9670-f5ef11392f3b"
 
 
 class SproCallbacks: public BLEServerCallbacks {
@@ -41,10 +41,12 @@ void setup() {
 
   // create a new characteristic
   pCharacteristic = pService->createCharacteristic(
-                      CHAR_UUID,
+                      CHARACTERISTIC_UUID,
                       BLECharacteristic::PROPERTY_READ   |
-                      BLECharacteristic::PROPERTY_WRITE
-                    );
+                      BLECharacteristic::PROPERTY_WRITE  |
+                      BLECharacteristic::PROPERTY_NOTIFY |
+                      BLECharacteristic::PROPERTY_INDICATE
+                      );
 
   pCharacteristic->addDescriptor(new BLE2902());
 
@@ -61,6 +63,8 @@ void setup() {
 
 void loop() {
     if (deviceConnected) {
+        pCharacteristic->setValue((uint8_t*)&pressure, 4);
+        pCharacteristic->notify();
         pressure = analogRead(aPin);
         Serial.println(pressure);
         pCharacteristic->setValue(pressure);

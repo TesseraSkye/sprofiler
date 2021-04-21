@@ -10,8 +10,6 @@
 
 <script>
 export default {
-  name: 'history',
-  components: {
-  }
+  name: 'history'
 }
 </script>
