@@ -52,20 +52,8 @@ export default {
   },
   methods: {
     setAccent (data) {
-      new Promise((resolve, reject) => {
-        this.$store.dispatch('setAccent', data)
-      }).then(() => {
-        console.log()
-      }, console.error)
+      this.$store.dispatch('putData', ['accent', data])
     },
-    // getAccent () {
-    //   new Promise((resolve, reject) => {
-    //     this.$store.dispatch('getAccent')
-    //   }).then(() => {
-    //     console.log()
-    //   }, console.error)
-    //   return this.$store.state.accent
-    // },
     isAccent (color) {
       return this.getAccent === color
     }

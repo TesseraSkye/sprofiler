@@ -24,11 +24,13 @@ export default {
   name: 'ble',
   computed: {
     getDeviceID () {
-      return this.$store.state.bleSettings.deviceID
+      console.log('fetching deviceID..')
+      return this.$store.state.deviceID
     }
   },
   methods: {
     bleInit () {
+      const dispatch = this.$store.dispatch
       async function main () {
         try {
           await BleClient.initialize()
@@ -36,7 +38,8 @@ export default {
           const device = await BleClient.requestDevice({
             services: [sproService]
           })
-          this.$store.dispatch('setDeviceID', device.deviceId)
+          console.log(JSON.stringify(device))
+          dispatch('putData', ['deviceID', device.deviceId])
         } catch (error) {
           console.error(error)
         }
@@ -44,7 +47,9 @@ export default {
       main()
     },
     bleServe () {
-      const deviceID = this.getDeviceID()
+      const dispatch = this.$store.dispatch
+      const deviceID = this.getDeviceID
+      console.log(deviceID)
       async function main () {
         try {
           await BleClient.connect(deviceID)
@@ -72,7 +77,9 @@ export default {
           console.error(error)
         }
         function BTDataHandler (value) {
-          return value.getUint32()
+          const out = value.getUint16()
+          dispatch('appendRTPressure', out)
+          return out
         }
       }
       main()

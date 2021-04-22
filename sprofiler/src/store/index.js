@@ -1,24 +1,22 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import { Plugins } from '@capacitor/core'
+import { Storage } from '@capacitor/storage'
 // import { forEach } from 'core-js/core/array'
 
-const { Storage } = Plugins
-
 async function putData (key, data) {
+  // console.log(key + ' ' + data)
   await Storage.set({
     key: key,
-    value: JSON.stringify({
-      [data]: key
-    })
+    value: data
   })
 }
 
 // JSON "get" example
 async function getData (key) {
-  const ret = await Storage.get({ key: key })
-  const data = JSON.parse(ret.value)
+  const res = await Storage.get({ key: key })
+  console.log(res)
+  const data = JSON.parse(res.value)
   return data
 }
 
@@ -27,14 +25,18 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     accent: 'white',
-    pressure: 0,
+    pressureArray: [[-1], ['a']],
     // bt stuff
     deviceID: 0
   },
   mutations: {
     // array is [key, data]
-    setState (state, [array]) {
+    setState (state, array) {
       state[array[0]] = array[1]
+    },
+    appendPressure (state, data) {
+      state.pressureArray[0].push(data)
+      state.pressureArray[1].push(Date.now())
     }
   },
   actions: {
@@ -42,18 +44,18 @@ export default new Vuex.Store({
 
     initStorage ({ dispatch }) {
       console.log('updating state from storage..')
-      dispatch('getFromStorage', ['accent', 'pressure', 'deviceID'])
+      dispatch('_getFromStorage', [['accent'], ['deviceID']])
     },
 
     // storage related stuff
-    getFromStorage ({ commit }, array) {
+    _getFromStorage ({ dispatch }, array) {
       array.forEach(item => {
-        getData(item)
+        getData(item[0])
           .then(res => {
-            const data = res[item]
-            console.log(data)
-            commit('setState', item, data)
-            // return data
+            console.log(res)
+            const data = res || 0
+            dispatch('_setState', [item[0], data])
+            return data
           })
           .catch(err => {
             console.error(err)
@@ -61,13 +63,20 @@ export default new Vuex.Store({
       })
     },
 
-    pushToStorage (item) {
-      putData(item, this.state[item])
+    // array is [key, data]
+    _setState ({ commit }, array) {
+      console.log('setting state with ' + array)
+      commit('setState', array)
     },
 
-    // array is [key, data]
-    setState ({ commit }, array) {
-      commit('setState', array)
+    putData ({ dispatch }, array) {
+      dispatch('_setState', array)
+      putData(array[0], array[1])
+    },
+
+    appendRTPressure ({ commit, dispatch }, data) {
+      commit('appendPressure', data)
+      if (new Date().getSeconds() % 2 === 0) { dispatch('putData', ['pressureArray', this.state.pressureArray]) }
     }
   },
   modules: {

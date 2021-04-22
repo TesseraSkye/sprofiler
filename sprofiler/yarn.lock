@@ -908,6 +908,11 @@
   dependencies:
     tslib "^2.1.0"
 
+"@capacitor/storage@^0.3.6":
+  version "0.3.6"
+  resolved "https://registry.yarnpkg.com/@capacitor/storage/-/storage-0.3.6.tgz#4389b798e2fa8dd3dbb9ccb403b26425d5735ac2"
+  integrity sha512-87MtsZVqBnAeVblJH3DzrfdrOCJ7pKg085fhwZzPoKUjvLR8XPywKSqkT7LPCjWQGnTf56gQO7dvaLqsqTOCbg==
+
 "@hapi/address@2.x.x":
   version "2.1.4"
   resolved "https://registry.yarnpkg.com/@hapi/address/-/address-2.1.4.tgz#5d67ed43f3fd41a69d4b9ff7b56e7c0d1d0a81e5"

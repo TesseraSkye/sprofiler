@@ -49,7 +49,7 @@ const router = new VueRouter({
 
 router.afterEach((to, from) => {
   // stuff to do after each route
-  store.dispatch('updateStorage')
+  store.dispatch('initStorage')
 })
 
 export default router
