@@ -2,14 +2,25 @@
   <v-container>
     <v-row>
       <v-col>
-        <h1 class="text-center">'Sprofiler</h1>
+        <v-card elevation="10" outlined>
+          <v-card-title>
+            <h1>Welcome!</h1>
+          </v-card-title>
+          <v-card-text>
+            <h2>To get started, head over to the <i>Settings</i> tab and connect to your Sprofiler.</h2>
+          </v-card-text>
+        </v-card>
       </v-col>
     </v-row>
     <v-row>
       <v-col>
-        <v-card>
+        <v-card elevation="10" outlined>
+          <v-card-title>
+            <h3>Before you go:</h3>
+          </v-card-title>
           <v-card-text>
-            <h1>I'm so sorry</h1>
+            <h4>This app is in a beta state. Expect bugs and weird behaviors.</h4>
+            <h4>Message me @tesseraskye with any concerns.</h4>
           </v-card-text>
         </v-card>
       </v-col>

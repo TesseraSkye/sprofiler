@@ -1,22 +1,24 @@
 <template>
-  <v-container>
-    <v-row>
+  <v-row>
       <v-col>
         <v-card elevation="10" outlined>
           <v-card-title>
-            <h1>Shot History</h1>
+            <h3>Before you go:</h3>
           </v-card-title>
           <v-card-text>
-            <h3>Here' you'll find your past shots, and tools to help you manage them.</h3>
+            <h4>OwO</h4>
+            <h4>eeee</h4>
           </v-card-text>
         </v-card>
       </v-col>
     </v-row>
-  </v-container>
 </template>
 
 <script>
+// @ is an alias to /src
 export default {
-  name: 'history'
+  name: 'shot-card',
+  components: {
+  }
 }
 </script>

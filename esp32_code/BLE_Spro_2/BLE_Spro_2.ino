@@ -29,13 +29,20 @@ BLECharacteristic* pCharacteristic = NULL;
 bool deviceConnected = false;
 bool oldDeviceConnected = false;
 
+
+// calibration data [coeficient, offset]
+float cal[] = {0.156,3.04};
+
+
+
+
 // See the following for generating UUIDs:
 // https://www.uuidgenerator.net/
 
 #define SERVICE_UUID        "d43d1e53-4fb6-4907-9f4e-1237e5a39971"
 #define CHARACTERISTIC_UUID "50739418-766d-46f5-9670-f5ef11392f3b"
 
-uint16_t val;
+float val;
 uint8_t avg = 4; //num averages
 
 
@@ -97,9 +104,14 @@ void loop() {
           delay(100 / avg);
         }
         val = val / avg;
-        Serial.println(val);
-        pCharacteristic->setValue((uint8_t*)&val, 4);
-        pCharacteristic->notify();
+        // regression line, div psi / bar
+        float out = ((val * cal[0]) + cal[1]) / 14.5;
+        if (out > 1) {
+          uint8_t outTC = out * 100;
+          Serial.println(outTC);
+          pCharacteristic->setValue((uint8_t*)&outTC, 4);
+          pCharacteristic->notify();
+        }
         
         delay(20); // bluetooth stack will go into congestion, if too many packets are sent, in 6 hours test i was able to go as low as 3ms
     }

@@ -4,11 +4,19 @@
       <v-col cols=12>
         <line-chart :chart-data='activePressureArray' :key='rerenderKey' class="chart-lg"/>
       </v-col>
-      <v-col cols=12 align-self="center">
-        <v-btn @click='this.forceRerender' class="mx-1">scan</v-btn>
-        <v-btn @click='this.resetPressure' class="mx-1">reset</v-btn>
-        <v-btn @click='this.serveBLE' :disabled='!this.getID' class="mx-1">Go!</v-btn>
-        <v-btn @click='this.stopBLE' :disabled='!this.getID' class="mx-1">Stop</v-btn>
+    </v-row>
+    <v-row justify="center">
+      <v-col cols=3>
+        <v-btn @click='this.forceRerender'>pol</v-btn>
+      </v-col>
+      <v-col cols=3>
+        <v-btn @click='this.resetPressure'>del</v-btn>
+      </v-col>
+      <v-col cols=3>
+        <v-btn @click='this.serveBLE' :disabled='!this.getID'>bgn</v-btn>
+      </v-col>
+      <v-col cols=3>
+        <v-btn @click='this.stopBLE' :disabled='!this.getID'>stp</v-btn>
       </v-col>
     </v-row>
   </v-container>
@@ -41,7 +49,7 @@ export default {
       bleStop()
     },
     resetPressure () {
-      this.$store.dispatch('putData', ['pressureArray', [[0, 0], ['0', '0']]])
+      this.$store.dispatch('putData', ['pressureArray', [[], []]])
       this.rerender()
     },
     rerender () {
@@ -56,6 +64,7 @@ export default {
             borderColor: this.getAccent,
             pointBackgroundColor: 'dark',
             borderWidth: 2,
+            pointRadius: 1,
             pointBorderColor: this.getAccent,
             backgroundColor: '#aaaaaa11',
             data: this.getPressureData

@@ -25,7 +25,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     accent: 'white',
-    pressureArray: [[0, 0], ['0', '0']],
+    pressureArray: [[], []],
+    pressureThresh: 35,
     // bt stuff
     deviceID: 0
   },

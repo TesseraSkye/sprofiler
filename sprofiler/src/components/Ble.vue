@@ -10,16 +10,19 @@
     <v-btn @click='init()'>
       Start BLE
     </v-btn>
-    <v-btn @click='serve()' :disabled='!this.getID'>
-      Connect and Serve
+    <v-btn @click='disconnect()'>
+      Disconnect BLE
     </v-btn>
+    <!-- <v-btn @click='serve()' :disabled='!this.getID'>
+      Connect and Serve
+    </v-btn> -->
     </v-card-actions>
   </v-card>
 
 </template>
 
 <script>
-import { bleInit, bleServe } from './bleHandlers.js'
+import { bleInit, bleServe, bleDC } from './bleHandlers.js'
 
 export default {
   name: 'ble',
@@ -34,6 +37,9 @@ export default {
     },
     serve () {
       bleServe()
+    },
+    disconnect () {
+      bleDC()
     }
   }
 }

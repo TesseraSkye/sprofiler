@@ -44,7 +44,7 @@ async function bleServe () {
       console.error(error)
     }
     function BTDataHandler (value) {
-      const out = value.getUint8()
+      const out = (value.getUint8()) / 100 // multiplier for decimation purposes
       dispatch('appendRTPressure', out)
       return out
     }
@@ -53,6 +53,24 @@ async function bleServe () {
 }
 
 async function bleStop () {
+  const deviceID = getDeviceID()
+  async function main () {
+    try {
+      await BleClient.stopNotifications(
+        deviceID,
+        sproService,
+        pressureChar
+      )
+      // await BleClient.disconnect(deviceID)
+      // console.log('disconnected from device', deviceID)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+  main()
+}
+
+async function bleDC () {
   const deviceID = getDeviceID()
   async function main () {
     try {
@@ -75,4 +93,4 @@ function getDeviceID () {
   return store.state.deviceID
 }
 
-export { bleInit, bleServe, getDeviceID, bleStop }
+export { bleInit, bleServe, getDeviceID, bleStop, bleDC }
