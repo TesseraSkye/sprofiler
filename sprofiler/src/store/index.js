@@ -38,7 +38,7 @@ export default new Vuex.Store({
     deviceID: 0,
     // show debug tips
     debug: false,
-    version: '0.2.0',
+    version: '0.2.1',
     //
     //
     //

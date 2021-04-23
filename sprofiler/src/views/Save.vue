@@ -83,7 +83,7 @@ export default {
     },
     getDate () {
       const now = new Date()
-      return now.toLocaleString('default', { month: 'short' }) + ' ' + now.getDay() + ', ' + now.getFullYear() + ' at ' + now.getHours()
+      return now.toLocaleString('default', { month: 'short' }) + ' ' + now.getDay() + ', ' + now.getFullYear() + ' at ' + now.getHours() + ':' + now.getMinutes()
     }
   },
   methods: {
@@ -102,8 +102,8 @@ export default {
         notes: this.notes,
         data: this.getPressureArray
       })
-      setTimeout(() => { this.clear() }, 400)
-      setTimeout(() => { this.$router.push('/history') }, 600)
+      setTimeout(() => { this.$router.push('/history') }, 400)
+      setTimeout(() => { this.clear() }, 600)
     },
 
     fillShotData () {
