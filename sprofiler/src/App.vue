@@ -5,22 +5,22 @@
     </v-main>
     <v-bottom-navigation shift fixed background-color="#272727" grow v-model="this.$router.currentRoute.name" mandatory :color="this.getAccent">
 
-        <v-btn x-large value="Dashboard" href="/">
+        <v-btn x-large value="Dashboard" to="/">
           <span>Dashboard</span>
           <v-icon>mdi-view-dashboard-variant</v-icon>
         </v-btn>
 
-        <v-btn x-large value="Live"  href="/live">
+        <v-btn x-large value="Live"  to="/live">
           <span>Live</span>
           <v-icon>mdi-chart-bell-curve</v-icon>
         </v-btn>
 
-        <v-btn x-large value="History"  href="/history">
+        <v-btn x-large value="History"  to="/history">
           <span>History</span>
           <v-icon>mdi-clock</v-icon>
         </v-btn>
 
-        <v-btn x-large value="Settings"  href="/settings">
+        <v-btn x-large value="Settings"  to="/settings">
           <span>Settings</span>
           <v-icon>mdi-cog</v-icon>
         </v-btn>

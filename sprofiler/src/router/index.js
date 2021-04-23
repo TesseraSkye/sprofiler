@@ -4,7 +4,7 @@ import Dashboard from '../views/Dashboard.vue'
 import Live from '../views/Live.vue'
 import History from '../views/History.vue'
 import Settings from '../views/Settings.vue'
-import store from '../store'
+import store from '../store/index.js'
 
 Vue.use(VueRouter)
 

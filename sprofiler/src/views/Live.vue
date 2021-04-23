@@ -1,9 +1,14 @@
 <template>
   <v-container>
     <v-row >
-      <v-btn @click='this.forceReRender'>rerender</v-btn>
-      <v-col>
-        <line-chart :chart-data='activePressureArray' :key='reRender' class="chart-lg my-4"/>
+      <v-col cols=12>
+        <line-chart :chart-data='activePressureArray' :key='rerenderKey' class="chart-lg"/>
+      </v-col>
+      <v-col cols=12 align-self="center">
+        <v-btn @click='this.forceRerender' class="mx-1">scan</v-btn>
+        <v-btn @click='this.resetPressure' class="mx-1">reset</v-btn>
+        <v-btn @click='this.serveBLE' :disabled='!this.getID' class="mx-1">Go!</v-btn>
+        <v-btn @click='this.stopBLE' :disabled='!this.getID' class="mx-1">Stop</v-btn>
       </v-col>
     </v-row>
   </v-container>
@@ -12,6 +17,7 @@
 <script>
 
 import LineChart from '../components/LineChart.js'
+import { bleServe, bleStop } from '../components/bleHandlers.js'
 
 export default {
   name: 'live',
@@ -20,32 +26,45 @@ export default {
   },
   data () {
     return {
-      reRender: 0,
-      activePressureArray: null
+      rerenderKey: 0,
+      activePressureArray: {}
     }
   },
   mounted () {
     this.fillChart()
   },
   methods: {
+    serveBLE () {
+      bleServe()
+    },
+    stopBLE () {
+      bleStop()
+    },
+    resetPressure () {
+      this.$store.dispatch('putData', ['pressureArray', [[0, 0], ['0', '0']]])
+      this.rerender()
+    },
+    rerender () {
+      this.rerenderKey += 1
+    },
     fillChart () {
       this.activePressureArray = {
         labels: this.getLabels,
         datasets: [
           {
             label: 'pressure (bar)',
-            borderColor: '#fff',
+            borderColor: this.getAccent,
             pointBackgroundColor: 'dark',
             borderWidth: 2,
-            pointBorderColor: '#fff',
+            pointBorderColor: this.getAccent,
             backgroundColor: '#aaaaaa11',
             data: this.getPressureData
           }
         ]
       }
     },
-    forceReRender () {
-      this.reRender += 1
+    forceRerender () {
+      setInterval(() => { this.rerender() }, 200)
     }
   },
   computed: {
@@ -57,6 +76,9 @@ export default {
     },
     getLabels () {
       return this.$store.state.pressureArray[1]
+    },
+    getID () {
+      return this.$store.state.deviceID
     }
   }
 }
@@ -68,6 +90,6 @@ export default {
   height: 86vh;
 }
 .chart-lg {
-  height: 76vh;
+  height: 60vh;
 }
 </style>
