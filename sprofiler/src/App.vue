@@ -1,5 +1,6 @@
 <template>
   <v-app>
+    <v-banner v-if="this.isDebug" color="red">DEBUG MODE IS ENABLED</v-banner>
     <v-main>
       <router-view transition='fade-transition'/>
     </v-main>
@@ -33,9 +34,17 @@ export default {
   computed: {
     getAccent () {
       return this.$store.state.accent
+    },
+    isDebug () {
+      return this.$store.state.debug
     }
   },
   methods: {
   }
 }
 </script>
+<style scoped>
+.h-100 {
+  height: 90vh;
+}
+</style>

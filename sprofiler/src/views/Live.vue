@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-row v-if="!this.getID">
+    <v-row v-if="(!this.getID) || this.isDebug">
       <v-col>
         <v-card elevation="2">
           <v-card-title>
@@ -17,7 +17,7 @@
         </v-card>
       </v-col>
     </v-row>
-    <v-row justify="center" v-if="this.getID">
+    <v-row justify="center" v-if="this.getID || this.isDebug">
       <!-- <v-col cols=3>
         <v-btn @click='this.forceRerender'>pol</v-btn>
       </v-col> -->
@@ -28,10 +28,10 @@
         <v-btn @click='this.stopBLE' :disabled='!this.getID'>Done!</v-btn>
       </v-col>
       <v-col cols=4>
-        <v-btn @click='this.resetPressure' :disabled='!this.hasPressureData'>Clear</v-btn>
+        <v-btn :disabled='!this.hasPressureData' to="/save">Manage</v-btn>
       </v-col>
     </v-row>
-    <v-row v-if="this.getID">
+    <v-row v-if="this.getID || this.isDebug">
       <v-col cols=12>
         <line-chart :chart-data='activePressureArray' :key='rerenderKey' class="chart-lg"/>
       </v-col>
@@ -101,6 +101,9 @@ export default {
     }
   },
   computed: {
+    isDebug () {
+      return this.$store.state.debug
+    },
     getAccent () {
       return this.$store.state.accent
     },

@@ -5,9 +5,19 @@
           <v-card-title>
             <h3>{{this.data.nickname}}</h3>
           </v-card-title>
+          <v-rating
+          class="ml-4"
+            :color="this.getAccent"
+            dense
+            background-color="#aaa"
+            readonly
+            hover
+            length="5"
+            :value="this.data.raiting"
+          />
           <v-card-text>
-            <h4>{{this.data.date}}</h4>
-            <h4>ID: {{this.data.uuid}}</h4>
+            <h4>Note: {{this.data.notes}}</h4>
+            <h4>Pulled on {{this.data.date}}</h4>
           </v-card-text>
           <LineChart class="chart-sm" :chartData="this.shotData"/>
         </v-card>

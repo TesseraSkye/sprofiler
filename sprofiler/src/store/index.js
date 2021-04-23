@@ -25,7 +25,7 @@ export default new Vuex.Store({
   state: {
     accent: 'white',
     // pressure data
-    pressureArray: [[], []],
+    pressureArray: [[1, 2], [1, 5]],
     pressureThresh: 35,
     // bt stuff
     deviceID: 0,
@@ -36,12 +36,15 @@ export default new Vuex.Store({
     //
     //
     shotHistory: [
-      {
-        nickname: 'Dummy shot',
-        date: '04/22/21 : 11:07:30',
-        uuid: 'a7d9g7afdsg6j',
-        data: [[0, 0, 1, 2, 4, 6, 9, 5, 4, 3, 1, 1], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]]
-      }
+      // {
+      //   nickname: 'Dummy shot',
+      //   date: '04/22/21 : 11:07:30',
+      //   uuid: 'a7d9g7afdsg6j',
+      //   raiting: 4.5,
+      //   favorite: false,
+      //   notes: 'It was pretty ok',
+      //   data: [[0, 0, 1, 2, 4, 6, 9, 5, 4, 3, 1, 1], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]]
+      // }
     ]
   },
   mutations: {

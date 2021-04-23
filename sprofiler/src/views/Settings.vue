@@ -35,7 +35,7 @@
         </v-card>
       </v-col>
     </v-row>
-    <v-row v-if="this.$store.state.debug">
+    <v-row v-if="this.isDebug">
       <v-col sm="12" md="6">
         <v-card outlined elevation="10">
           <v-card-text>
@@ -69,6 +69,9 @@ export default {
     },
     getVersion () {
       return this.$store.state.version
+    },
+    isDebug () {
+      return this.$store.state.debug
     }
   },
   methods: {

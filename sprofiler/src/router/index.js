@@ -4,6 +4,8 @@ import Dashboard from '../views/Dashboard.vue'
 import Live from '../views/Live.vue'
 import History from '../views/History.vue'
 import Settings from '../views/Settings.vue'
+import Save from '../views/Save.vue'
+
 import store from '../store/index.js'
 
 Vue.use(VueRouter)
@@ -31,6 +33,12 @@ const routes = [
     path: '/settings',
     name: 'Settings',
     component: Settings
+  },
+
+  {
+    path: '/save',
+    name: 'Save',
+    component: Save
   },
 
   // wildcard so that weird requests aren't unhandeled

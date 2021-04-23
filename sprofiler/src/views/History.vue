@@ -7,7 +7,7 @@
             <h1>Shot History</h1>
           </v-card-title>
           <v-card-text>
-            <h3>Here' you'll find your past shots, and tools to help you manage them.</h3>
+            <h3>Here, you can relive your past glory (and failures..)</h3>
           </v-card-text>
         </v-card>
       </v-col>
