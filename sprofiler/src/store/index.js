@@ -16,8 +16,7 @@ async function putStorage (key, data) {
 async function getStorage (key) {
   const res = await Storage.get({ key: key })
   console.log(res)
-  const data = JSON.parse(res.value)
-  return data
+  return res.value
 }
 
 Vue.use(Vuex)
@@ -25,10 +24,16 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     accent: 'white',
+    // pressure data
     pressureArray: [[], []],
     pressureThresh: 35,
     // bt stuff
-    deviceID: 0
+    deviceID: 0,
+    // show debug tips
+    debug: true,
+    version: '
+    
+    0.2.0'
   },
   mutations: {
     // array is [key, data]
