@@ -26,13 +26,19 @@
               <v-btn color="pink" :small="isAccent('pink')" fab x-small class = "mx-2 my-4" @click="setAccent('pink')"/>
             </v-col>
             <v-col cols=3 align-self="center">
-              <v-btn color="white" :small="isAccent('white')" fab x-small class = "mx-2 my-4" @click="setAccent('white')"/>
+              <v-btn color="green" :small="isAccent('green')" fab x-small class = "mx-2 my-4" @click="setAccent('green')"/>
             </v-col>
             <v-col cols=3 align-self="center">
               <v-btn color="orange" :small="isAccent('orange')" fab x-small class = "mx-2 my-4" @click="setAccent('orange')"/>
             </v-col>
           </v-row>
         </v-card>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        <v-btn v-if="!this.isDebug" @click="setDebug(true)" color="grey" block>SHOW DEBUG</v-btn>
+        <v-btn v-if="this.isDebug" color="blue" @click="setDebug(false)"  block>HIDE DEBUG</v-btn>
       </v-col>
     </v-row>
     <v-row v-if="this.isDebug">
@@ -80,6 +86,9 @@ export default {
     },
     isAccent (color) {
       return this.getAccent === color
+    },
+    setDebug (bool) {
+      this.$store.dispatch('putData', ['debug', bool])
     }
   }
 }

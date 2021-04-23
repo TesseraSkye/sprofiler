@@ -17,23 +17,18 @@
         </v-card>
       </v-col>
     </v-row>
-    <v-row justify="center" v-if="this.getID || this.isDebug">
-      <!-- <v-col cols=3>
-        <v-btn @click='this.forceRerender'>pol</v-btn>
-      </v-col> -->
-      <v-col cols=4>
-        <v-btn @click='this.serveBLE' :disabled='!this.getID'>Go!</v-btn>
-      </v-col>
-      <v-col cols=4>
-        <v-btn @click='this.stopBLE' :disabled='!this.getID'>Done!</v-btn>
-      </v-col>
-      <v-col cols=4>
-        <v-btn :disabled='!this.hasPressureData' to="/save">Manage</v-btn>
-      </v-col>
-    </v-row>
     <v-row v-if="this.getID || this.isDebug">
       <v-col cols=12>
-        <line-chart :chart-data='activePressureArray' :key='rerenderKey' class="chart-lg"/>
+        <line-chart :chart-data='activePressureArray' :key='rerenderKey' class="chart-lg d-flex d-sm-none"/>
+        <line-chart :chart-data='activePressureArray' :key='rerenderKey' class="chart-md d-none d-sm-flex"/>
+      </v-col>
+    </v-row>
+    <v-row justify="center" v-if="this.getID || this.isDebug">
+      <v-col>
+        <v-btn :disabled='!this.hasPressureData' :color="this.getAccent" block to="/save">{{this.isWaiting}}</v-btn>
+        <br>
+        <br>
+        <br>
       </v-col>
     </v-row>
   </v-container>
@@ -104,6 +99,11 @@ export default {
     isDebug () {
       return this.$store.state.debug
     },
+    isWaiting () {
+      if (this.hasPressureData) {
+        return 'SAVE'
+      } else { return 'waiting for data...' }
+    },
     getAccent () {
       return this.$store.state.accent
     },
@@ -123,12 +123,16 @@ export default {
 }
 
 </script>
-
-<style scoped>
-.chart-md {
-  height: 86vh;
-}
+<style>
+/* chart styling */
 .chart-lg {
-  height: 60vh;
+  height: 75vh;
+}
+.chart-md {
+  height: 50vh;
+}
+.chart-sm {
+  height: 30vh;
+  width: 90vw;
 }
 </style>

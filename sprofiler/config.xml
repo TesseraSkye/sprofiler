@@ -1,6 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.tesseraskye.sprofiler" version="1.0.0" xmlns="http://www.w3.org/ns/widgets">
     <name>Sprofiler</name>
+      <icon src="./resources/icon.png"/>
     <description>
         An intelligent profiler for espresso
     </description>

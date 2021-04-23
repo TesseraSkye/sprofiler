@@ -3,7 +3,7 @@
       <v-col>
         <v-card elevation="10" outlined>
           <v-card-title>
-            <h3>{{this.data.nickname}}</h3>
+            <h3>{{this.data.name}}</h3>
           </v-card-title>
           <v-rating
           class="ml-4"
@@ -13,10 +13,10 @@
             readonly
             hover
             length="5"
-            :value="this.data.raiting"
+            :value="this.data.rating"
           />
           <v-card-text>
-            <h4>Note: {{this.data.notes}}</h4>
+            <h4>Note: {{this.data.notes || "none"}}</h4>
             <h4>Pulled on {{this.data.date}}</h4>
           </v-card-text>
           <LineChart class="chart-sm" :chartData="this.shotData"/>
@@ -67,8 +67,3 @@ export default {
   }
 }
 </script>
-<style scoped>
-.chart-sm {
-  height: 20vh;
-}
-</style>

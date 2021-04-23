@@ -21,6 +21,16 @@ async function bleInit () {
   }
   main()
 }
+async function bleStart () {
+  async function main () {
+    try {
+      await BleClient.initialize()
+    } catch (error) {
+      console.error(error)
+    }
+  }
+  main()
+}
 async function bleServe () {
   const dispatch = store.dispatch
   const deviceID = getDeviceID()
@@ -86,4 +96,4 @@ function getDeviceID () {
   return store.state.deviceID
 }
 
-export { bleInit, bleServe, getDeviceID, bleStop, bleDC }
+export { bleInit, bleServe, getDeviceID, bleStop, bleDC, bleStart }

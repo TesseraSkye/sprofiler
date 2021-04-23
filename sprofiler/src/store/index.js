@@ -11,6 +11,13 @@ async function putStorage (key, data) {
     value: data
   })
 }
+async function appendStorage (key, data) {
+  // console.log(key + ' ' + data)
+  await Storage.push({
+    key: key,
+    value: data
+  })
+}
 
 // JSON "get" example
 async function getStorage (key) {
@@ -25,19 +32,19 @@ export default new Vuex.Store({
   state: {
     accent: 'white',
     // pressure data
-    pressureArray: [[1, 2], [1, 5]],
+    pressureArray: [[], []],
     pressureThresh: 35,
     // bt stuff
     deviceID: 0,
     // show debug tips
-    debug: true,
+    debug: false,
     version: '0.2.0',
     //
     //
     //
     shotHistory: [
       // {
-      //   nickname: 'Dummy shot',
+      //   name: 'Dummy shot',
       //   date: '04/22/21 : 11:07:30',
       //   uuid: 'a7d9g7afdsg6j',
       //   raiting: 4.5,
@@ -57,6 +64,9 @@ export default new Vuex.Store({
       const now = date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
       state.pressureArray[0].push(data)
       state.pressureArray[1].push(now)
+    },
+    saveShot (state, data) {
+      state.shotHistory.push(data)
     }
   },
   actions: {
@@ -97,6 +107,10 @@ export default new Vuex.Store({
     appendRTPressure ({ commit, dispatch }, data) {
       commit('appendPressure', data)
       if (new Date().getSeconds() % 2 === 0) { dispatch('putData', ['pressureArray', this.state.pressureArray]) }
+    },
+    saveShot ({ commit }, data) {
+      commit('saveShot', data)
+      appendStorage('shotHistory', data)
     }
   },
   modules: {

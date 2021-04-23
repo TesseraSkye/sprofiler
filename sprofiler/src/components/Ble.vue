@@ -1,13 +1,13 @@
 <template>
   <v-card outlined elevation="10">
     <v-card-text>
-      <h2>Bluetooth Settings:</h2>
+      <h2>Bluetooth is {{ this.btActive }}</h2>
     </v-card-text>
     <v-card-actions>
-    <v-btn @click='init()'>
+    <v-btn @click='init()' v-if="!this.getID" block :color="this.getAccent">
       Connect
     </v-btn>
-    <v-btn @click='disconnect()' :disabled='!this.getID'>
+    <v-btn @click='disconnect()' v-if="this.getID" block color="grey">
       Disconnect
     </v-btn>
     <!-- <v-btn @click='serve()' :disabled='!this.getID'>
@@ -26,6 +26,16 @@ export default {
   computed: {
     getID () {
       return this.$store.state.deviceID
+    },
+    getAccent () {
+      return this.$store.state.accent
+    },
+    btActive () {
+      if (this.getID) {
+        return 'connected!'
+      } else {
+        return 'disconnected.'
+      }
     }
   },
   methods: {

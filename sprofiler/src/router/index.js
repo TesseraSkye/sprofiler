@@ -44,7 +44,7 @@ const routes = [
   // wildcard so that weird requests aren't unhandeled
   {
     path: '*',
-    redirect: '/dash',
+    redirect: '/',
     meta: { transitionType: 'fade' }
   }
 ]
