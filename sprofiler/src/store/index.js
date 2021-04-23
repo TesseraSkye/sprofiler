@@ -31,7 +31,18 @@ export default new Vuex.Store({
     deviceID: 0,
     // show debug tips
     debug: true,
-    version: '0.2.0'
+    version: '0.2.0',
+    //
+    //
+    //
+    shotHistory: [
+      {
+        nickname: 'Dummy shot',
+        date: '04/22/21 : 11:07:30',
+        uuid: 'a7d9g7afdsg6j',
+        data: [[0, 0, 1, 2, 4, 6, 9, 5, 4, 3, 1, 1], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]]
+      }
+    ]
   },
   mutations: {
     // array is [key, data]

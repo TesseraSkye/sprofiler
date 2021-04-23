@@ -2,7 +2,7 @@
   <v-container>
     <v-row>
       <v-col>
-        <v-card elevation="10" outlined>
+        <v-card elevation="2">
           <v-card-title>
             <h1>Shot History</h1>
           </v-card-title>
@@ -12,11 +12,21 @@
         </v-card>
       </v-col>
     </v-row>
+    <shot-card :data='shot' :key='shot.uuid' v-for="shot in shotList" />
   </v-container>
 </template>
 
 <script>
+import ShotCard from '../components/ShotCard.vue'
 export default {
-  name: 'history'
+  name: 'history',
+  components: {
+    ShotCard
+  },
+  computed: {
+    shotList () {
+      return this.$store.state.shotHistory
+    }
+  }
 }
 </script>

@@ -2,7 +2,7 @@
   <v-container>
     <v-row v-if="!this.getID">
       <v-col>
-        <v-card elevation="10" outlined>
+        <v-card elevation="2">
           <v-card-title>
             <h1>Hey!</h1>
           </v-card-title>
@@ -56,7 +56,7 @@ export default {
     }
   },
   mounted () {
-    if (this.getID()) { this.init() }
+    if (this.getID) { this.init() }
   },
   methods: {
     init () {
@@ -65,6 +65,7 @@ export default {
       this.serveBLE()
     },
     serveBLE () {
+      this.forceRerender()
       bleServe()
     },
     stopBLE () {
