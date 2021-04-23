@@ -31,9 +31,7 @@ export default new Vuex.Store({
     deviceID: 0,
     // show debug tips
     debug: true,
-    version: '
-    
-    0.2.0'
+    version: '0.2.0'
   },
   mutations: {
     // array is [key, data]

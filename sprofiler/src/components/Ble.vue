@@ -1,17 +1,14 @@
 <template>
   <v-card outlined elevation="10">
     <v-card-text>
-      <h2>BLE Options:</h2>
-    </v-card-text>
-    <v-card-text>
-      <h5>Device ID: {{this.getID}}</h5>
+      <h2>Bluetooth Settings:</h2>
     </v-card-text>
     <v-card-actions>
     <v-btn @click='init()'>
-      Start BLE
+      Connect
     </v-btn>
-    <v-btn @click='disconnect()'>
-      Disconnect BLE
+    <v-btn @click='disconnect()' :disabled='!this.getID'>
+      Disconnect
     </v-btn>
     <!-- <v-btn @click='serve()' :disabled='!this.getID'>
       Connect and Serve
@@ -40,6 +37,7 @@ export default {
     },
     disconnect () {
       bleDC()
+      this.$store.dispatch('putData', ['deviceID', 0])
     }
   }
 }

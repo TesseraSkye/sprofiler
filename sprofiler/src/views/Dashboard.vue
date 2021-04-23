@@ -9,6 +9,11 @@
           <v-card-text>
             <h2>To get started, head over to the <i>Settings</i> tab and connect to your Sprofiler.</h2>
           </v-card-text>
+          <v-card-actions>
+            <v-btn to='/settings'>
+              Let's go ->
+            </v-btn>
+          </v-card-actions>
         </v-card>
       </v-col>
     </v-row>

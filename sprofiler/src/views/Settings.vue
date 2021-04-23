@@ -3,8 +3,13 @@
     <v-row align-content="center">
       <v-col class="text-center" cols=12>
         <h1>Settings</h1>
-        <h5>version 0.1.0</h5>
+        <h5>{{this.getVersion}}</h5>
         <h5>Trans Rights</h5>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        <Ble/>
       </v-col>
     </v-row>
     <v-row>
@@ -30,25 +35,25 @@
         </v-card>
       </v-col>
     </v-row>
-    <v-row>
-      <v-col>
-        <Ble/>
-      </v-col>
-    </v-row>
-    <v-row>
+    <v-row v-if="this.$store.state.debug">
       <v-col sm="12" md="6">
         <v-card outlined elevation="10">
           <v-card-text>
-            <h2>State Stuff:</h2>
-            <h4>pressure data {{this.$store.state.pressureArray}}</h4>
+            <h2>Debugging Data:</h2>
+            <!-- <h4>pressure data {{this.$store.state.pressureArray}}</h4> -->
+            <h4>BLE Device ID: {{this.getID}}</h4>
           </v-card-text>
         </v-card>
       </v-col>
+    </v-row>
+    <v-row>
+      <v-spacer></v-spacer>
     </v-row>
   </v-container>
 </template>
 
 <script>
+
 import Ble from '../components/Ble.vue'
 export default {
   name: 'settings',
@@ -56,8 +61,14 @@ export default {
     Ble
   },
   computed: {
+    getID () {
+      return this.$store.state.deviceID
+    },
     getAccent () {
       return this.$store.state.accent
+    },
+    getVersion () {
+      return this.$store.state.version
     }
   },
   methods: {

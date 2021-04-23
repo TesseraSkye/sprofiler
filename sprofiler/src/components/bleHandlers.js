@@ -61,8 +61,6 @@ async function bleStop () {
         sproService,
         pressureChar
       )
-      // await BleClient.disconnect(deviceID)
-      // console.log('disconnected from device', deviceID)
     } catch (error) {
       console.error(error)
     }
@@ -74,11 +72,6 @@ async function bleDC () {
   const deviceID = getDeviceID()
   async function main () {
     try {
-      await BleClient.stopNotifications(
-        deviceID,
-        sproService,
-        pressureChar
-      )
       await BleClient.disconnect(deviceID)
       console.log('disconnected from device', deviceID)
     } catch (error) {

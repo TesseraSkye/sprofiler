@@ -1,22 +1,39 @@
 <template>
   <v-container>
-    <v-row >
-      <v-col cols=12>
-        <line-chart :chart-data='activePressureArray' :key='rerenderKey' class="chart-lg"/>
+    <v-row v-if="!this.getID">
+      <v-col>
+        <v-card elevation="10" outlined>
+          <v-card-title>
+            <h1>Hey!</h1>
+          </v-card-title>
+          <v-card-text>
+            <h3>To use the profiling feature, you'll need to connect to your Sprofiler in the settings tab.</h3>
+          </v-card-text>
+          <v-card-actions>
+            <v-btn to='/settings'>
+              Take me there ->
+            </v-btn>
+          </v-card-actions>
+        </v-card>
       </v-col>
     </v-row>
-    <v-row justify="center">
-      <v-col cols=3>
+    <v-row justify="center" v-if="this.getID">
+      <!-- <v-col cols=3>
         <v-btn @click='this.forceRerender'>pol</v-btn>
+      </v-col> -->
+      <v-col cols=4>
+        <v-btn @click='this.serveBLE' :disabled='!this.getID'>Go!</v-btn>
       </v-col>
-      <v-col cols=3>
-        <v-btn @click='this.resetPressure'>del</v-btn>
+      <v-col cols=4>
+        <v-btn @click='this.stopBLE' :disabled='!this.getID'>Done!</v-btn>
       </v-col>
-      <v-col cols=3>
-        <v-btn @click='this.serveBLE' :disabled='!this.getID'>bgn</v-btn>
+      <v-col cols=4>
+        <v-btn @click='this.resetPressure' :disabled='!this.hasPressureData'>Clear</v-btn>
       </v-col>
-      <v-col cols=3>
-        <v-btn @click='this.stopBLE' :disabled='!this.getID'>stp</v-btn>
+    </v-row>
+    <v-row v-if="this.getID">
+      <v-col cols=12>
+        <line-chart :chart-data='activePressureArray' :key='rerenderKey' class="chart-lg"/>
       </v-col>
     </v-row>
   </v-container>
@@ -39,9 +56,14 @@ export default {
     }
   },
   mounted () {
-    this.fillChart()
+    if (this.getID()) { this.init() }
   },
   methods: {
+    init () {
+      this.fillChart()
+      this.forceRerender()
+      this.serveBLE()
+    },
     serveBLE () {
       bleServe()
     },
@@ -54,6 +76,7 @@ export default {
     },
     rerender () {
       this.rerenderKey += 1
+      if (this.rerenderKey > 1000) { this.rerenderKey = 0 }
     },
     fillChart () {
       this.activePressureArray = {
@@ -88,6 +111,9 @@ export default {
     },
     getID () {
       return this.$store.state.deviceID
+    },
+    hasPressureData () {
+      return this.$store.state.pressureArray[0][0]
     }
   }
 }
