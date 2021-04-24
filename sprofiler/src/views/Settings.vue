@@ -135,7 +135,7 @@ export default {
     override () {
       this.$store.dispatch('putData', ['pressureArray', [[1, 9, 5, 2], [0, 1, 2, 3]]])
       this.$store.dispatch('putData', ['shotHistory',
-        [{
+        {
           dummy: {
             name: 'Dummy shot 1',
             date: 'Jan 1, 2021 at 00:00',
@@ -145,7 +145,7 @@ export default {
             notes: 'It was pretty ok',
             data: [[0, 0, 1, 2, 4, 6, 9, 5, 4, 3, 1, 1], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]]
           }
-        }]
+        }
       ])
       this.$store.dispatch('putData', ['deviceID', 1])
     },

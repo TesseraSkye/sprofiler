@@ -62,7 +62,7 @@ export default new Vuex.Store({
     },
     saveShot (state, data) {
       if (!this.state.shotHistory) { this.state.shotHistory = {} }
-      state.shotHistory[0][data[0]] = data[1]
+      state.shotHistory[data[0]] = data[1]
       putStorage('shotHistory', state.shotHistory)
     },
     removeShot (state, data) {
@@ -120,7 +120,7 @@ export default new Vuex.Store({
       clearStorage()
       setTimeout(() => { dispatch('putData', ['accent', 'blue']) }, 20)
       setTimeout(() => { dispatch('putData', ['deviceID', 0]) }, 40)
-      setTimeout(() => { dispatch('putData', ['shotHistory', [{}]]) }, 60)
+      setTimeout(() => { dispatch('putData', ['shotHistory', {}]) }, 60)
       setTimeout(() => { dispatch('putData', ['debug', false]) }, 80)
     },
     incrementTick ({ commit }) {
