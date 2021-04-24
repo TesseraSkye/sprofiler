@@ -1,7 +1,7 @@
 <template>
   <v-row>
       <v-col>
-        <v-card elevation="10" outlined>
+        <v-card @click="this.toggleOverlay" elevation="10" outlined>
           <v-card-title>
             <h3>{{this.data.name}}</h3>
           </v-card-title>
@@ -20,6 +20,38 @@
             <h4>Pulled on {{this.data.date}}</h4>
           </v-card-text>
           <LineChart class="chart-sm" :chartData="this.shotData"/>
+          <v-fade-transition>
+            <v-overlay
+                v-if="this.overlay"
+                absolute :color="this.getAccent + ' lighten-2'">
+                <v-btn @click="this.compare" class="mx-2" :color="this.getAccent">Compare</v-btn>
+                <v-btn @click="setDialog(true)" class="mx-2" color="red">Remove</v-btn>
+              </v-overlay>
+          </v-fade-transition>
+          <v-dialog v-model="dialog" width="500">
+            <v-card>
+              <v-card-title class="headline red">
+                Erase Shot?
+              </v-card-title>
+
+              <v-card-text class="my-2">
+                Are you sure you want to do this? This action can not be undone.
+              </v-card-text>
+
+              <v-divider></v-divider>
+
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn
+                  color="primary"
+                  text
+                  @click="remove()"
+                >
+                  Sure
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
         </v-card>
       </v-col>
     </v-row>
@@ -35,13 +67,29 @@ export default {
   },
   data () {
     return {
-      shotData: {}
+      shotData: {},
+      overlay: false,
+      dialog: false
     }
   },
   mounted () {
     this.fillShotData()
   },
   methods: {
+    compare () {
+      //
+    },
+    remove () {
+      this.dialog = false
+      this.$store.dispatch('removeShot', this.data.uuid)
+      setTimeout(() => { this.$router.push('/') }, 200)
+    },
+    setDialog (bool) {
+      this.dialog = bool
+    },
+    toggleOverlay () {
+      if (this.overlay === true) { this.overlay = false } else { this.overlay = true }
+    },
     fillShotData () {
       this.shotData = {
         labels: this.data.data[1],

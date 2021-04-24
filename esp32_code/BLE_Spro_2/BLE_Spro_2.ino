@@ -98,6 +98,7 @@ void setup() {
 
 void loop() {
     // notify changed value
+    val = 0;
     if (deviceConnected) {
         for(uint8_t i = 0; i < avg; i++) {
           val =+ analogRead(A0);
@@ -106,8 +107,8 @@ void loop() {
         val = val / avg;
         // regression line, div psi / bar
         float out = ((val * cal[0]) + cal[1]) / 14.5;
-        if (out > 1) {
-          uint8_t outTC = out * 100;
+        if (out > 0.96) {
+          uint16_t outTC = out * 100;
           Serial.println(outTC);
           pCharacteristic->setValue((uint8_t*)&outTC, 4);
           pCharacteristic->notify();

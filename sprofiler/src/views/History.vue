@@ -13,6 +13,8 @@
       </v-col>
     </v-row>
     <shot-card :data='shot' :key='shot.uuid' v-for="shot in shotList" />
+    <br>
+    <br>
   </v-container>
 </template>
 

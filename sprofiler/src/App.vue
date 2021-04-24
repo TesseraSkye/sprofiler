@@ -40,6 +40,9 @@ export default {
     }
   },
   methods: {
+  },
+  mounted () {
+    this.$store.dispatch('initStorage')
   }
 }
 </script>

@@ -55,6 +55,7 @@ async function bleServe () {
     }
     function BTDataHandler (value) {
       const out = (value.getUint8()) / 100 // multiplier for decimation purposes
+      dispatch('incrementTick')
       dispatch('appendRTPressure', out)
       return out
     }

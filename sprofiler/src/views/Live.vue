@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-row v-if="(!this.getID) || this.isDebug">
+    <v-row v-if="(!this.getID)">
       <v-col>
         <v-card elevation="2">
           <v-card-title>
@@ -18,15 +18,16 @@
       </v-col>
     </v-row>
     <v-row v-if="this.getID || this.isDebug">
+      <v-btn :disabled='!this.hasPressureData' :color="this.getAccent" block class="mb-2" to="/save">{{this.isWaiting}}</v-btn>
+      <br>
       <v-col cols=12>
-        <line-chart :chart-data='activePressureArray' :key='rerenderKey' class="chart-lg d-flex d-sm-none"/>
+        <line-chart :chart-data='activePressureArray' :key='rerenderKey + 1' class="chart-lg d-flex d-sm-none"/>
         <line-chart :chart-data='activePressureArray' :key='rerenderKey' class="chart-md d-none d-sm-flex"/>
       </v-col>
     </v-row>
     <v-row justify="center" v-if="this.getID || this.isDebug">
       <v-col>
-        <v-btn :disabled='!this.hasPressureData' :color="this.getAccent" block to="/save">{{this.isWaiting}}</v-btn>
-        <br>
+        <v-btn @click="this.resetPressure" :disabled='!this.hasPressureData' color="red" block>Clear</v-btn>
         <br>
         <br>
       </v-col>
@@ -68,11 +69,11 @@ export default {
     },
     resetPressure () {
       this.$store.dispatch('putData', ['pressureArray', [[], []]])
-      this.rerender()
+      setTimeout(() => { this.$router.push('/') }, 50)
     },
     rerender () {
       this.rerenderKey += 1
-      if (this.rerenderKey > 1000) { this.rerenderKey = 0 }
+      if (this.rerenderKey > 50) { this.rerenderKey = 0 }
     },
     fillChart () {
       this.activePressureArray = {

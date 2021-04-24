@@ -10,7 +10,7 @@
             <h2>To get started, head over to the <i>Settings</i> tab and connect to your Sprofiler.</h2>
           </v-card-text>
           <v-card-text v-if="this.getID">
-            <h2>Looks like we can still connect you to your Sprofiler!</h2>
+            <h2>Looks you still have the connection data for your Sprofiler!</h2>
           </v-card-text>
           <v-card-actions>
             <v-btn v-if="!this.getID" :color="this.getAccent" to='/settings'>

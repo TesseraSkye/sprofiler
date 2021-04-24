@@ -48,8 +48,38 @@
             <h2>Debugging Data:</h2>
             <!-- <h4>pressure data {{this.$store.state.pressureArray}}</h4> -->
             <h4>BLE Device ID: {{this.getID}}</h4>
+            <h4>State: {{this.getState}}</h4>
+            <v-btn @click="this.override" class="my-2" color="orange">OVERRIDE STATE</v-btn>
+            <br>
+            <v-btn @click="setDialog(true)" color="red">WIPE ALL DATA!!</v-btn>
           </v-card-text>
         </v-card>
+        <br>
+        <br>
+          <v-dialog v-model="dialog" width="500">
+            <v-card>
+              <v-card-title class="headline red">
+                Erase all data?
+              </v-card-title>
+
+              <v-card-text class="my-2">
+                Are you sure you want to do this? This action can not be undone.
+              </v-card-text>
+
+              <v-divider></v-divider>
+
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn
+                  color="primary"
+                  text
+                  @click="wipeStorage"
+                >
+                  Sure
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
       </v-col>
     </v-row>
     <v-row>
@@ -61,14 +91,23 @@
 <script>
 
 import Ble from '../components/Ble.vue'
+import { bleDC } from '../components/bleHandlers.js'
 export default {
   name: 'settings',
+  data () {
+    return {
+      dialog: false
+    }
+  },
   components: {
     Ble
   },
   computed: {
     getID () {
       return this.$store.state.deviceID
+    },
+    getState () {
+      return this.$store.state
     },
     getAccent () {
       return this.$store.state.accent
@@ -81,6 +120,9 @@ export default {
     }
   },
   methods: {
+    setDialog (bool) {
+      this.dialog = bool
+    },
     setAccent (data) {
       this.$store.dispatch('putData', ['accent', data])
     },
@@ -89,6 +131,29 @@ export default {
     },
     setDebug (bool) {
       this.$store.dispatch('putData', ['debug', bool])
+    },
+    override () {
+      this.$store.dispatch('putData', ['pressureArray', [[1, 9, 5, 2], [0, 1, 2, 3]]])
+      this.$store.dispatch('putData', ['shotHistory',
+        [{
+          dummy: {
+            name: 'Dummy shot 1',
+            date: 'Jan 1, 2021 at 00:00',
+            uuid: 'a7d9g7afdsg6j',
+            raiting: 4.5,
+            favorite: false,
+            notes: 'It was pretty ok',
+            data: [[0, 0, 1, 2, 4, 6, 9, 5, 4, 3, 1, 1], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]]
+          }
+        }]
+      ])
+      this.$store.dispatch('putData', ['deviceID', 1])
+    },
+    wipeStorage () {
+      this.dialog = false
+      this.$store.dispatch('wipeStorage')
+      setTimeout(() => { bleDC() }, 250)
+      setTimeout(() => { this.$router.push('/') }, 300)
     }
   }
 }

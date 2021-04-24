@@ -6,8 +6,6 @@ import History from '../views/History.vue'
 import Settings from '../views/Settings.vue'
 import Save from '../views/Save.vue'
 
-import store from '../store/index.js'
-
 Vue.use(VueRouter)
 
 const routes = [
@@ -57,7 +55,7 @@ const router = new VueRouter({
 
 router.afterEach((to, from) => {
   // stuff to do after each route
-  store.dispatch('initStorage')
+  //
 })
 
 export default router

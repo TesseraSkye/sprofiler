@@ -8,7 +8,7 @@
         </v-card>
         <v-card elevation="10" outlined class="my-2">
 
-          <v-form class="mx-2" ref="form">
+          <v-form class="mx-2" ref="form" @submit.prevent="submit">
             <v-text-field
               v-model="name"
               :counter="50"
@@ -30,7 +30,7 @@
             <br>
             <br>
             <br>
-            <v-btn class="my-2" @click="clear" color="red" block>clear</v-btn>
+            <v-btn class="my-2" @click="clear; setTimeout(() => { this.$router.push('/') }, 250)" color="red" block>clear</v-btn>
           </v-form>
         </v-card>
         <br>
@@ -62,10 +62,12 @@ export default {
       name: '',
       rating: 0,
       notes: '',
-      shotData: {}
+      shotData: {},
+      dateInfo: []
     }
   },
   mounted () {
+    this.dateInfo = this.getDate
     this.fillShotData()
   },
   computed: {
@@ -83,27 +85,27 @@ export default {
     },
     getDate () {
       const now = new Date()
-      return now.toLocaleString('default', { month: 'short' }) + ' ' + now.getDay() + ', ' + now.getFullYear() + ' at ' + now.getHours() + ':' + now.getMinutes()
+      return [now.getTime(), now.toLocaleString('default', { month: 'short' }) + ' ' + now.getDay() + ', ' + now.getFullYear() + ' at ' + now.getHours() + ':' + now.getMinutes()]
     }
   },
   methods: {
     clear () {
       this.$store.dispatch('putData', ['pressureArray', [[], []]])
-      this.$router.push('/')
+      this.$store.dispatch('putData', ['tick', 0])
     },
     submit () {
-      console.log('sub')
-      this.$store.dispatch('saveShot', {
+      this.date = this.getDate
+      this.$store.dispatch('saveShot', [this.dateInfo[0], {
         name: this.name,
-        date: this.getDate,
-        uuid: Date.now(),
+        uuid: this.dateInfo[0],
+        date: this.dateInfo[1],
         rating: this.rating,
         favourite: (this.rating >= 4.5),
         notes: this.notes,
         data: this.getPressureArray
-      })
-      setTimeout(() => { this.$router.push('/history') }, 400)
-      setTimeout(() => { this.clear() }, 600)
+      }])
+      setTimeout(() => { this.clear() }, 200)
+      setTimeout(() => { this.$router.push('/history') }, 220)
     },
 
     fillShotData () {
