@@ -54,7 +54,9 @@ async function bleServe () {
       console.error(error)
     }
     function BTDataHandler (value) {
-      const out = (value.getUint16()) / 100 // multiplier for decimation purposes
+      let out = value.getUint32(0, true) // uses little endians
+      out = out / 1000
+      console.log(out)
       dispatch('incrementTick')
       dispatch('appendRTPressure', out)
       return out
