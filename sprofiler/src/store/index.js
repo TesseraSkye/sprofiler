@@ -36,7 +36,7 @@ export default new Vuex.Store({
     deviceID: 0,
     // show debug tips
     debug: false,
-    version: '0.2.5',
+    version: '0.2.7',
     //
     //
     shotHistory: [{

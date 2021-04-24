@@ -76,7 +76,7 @@ void loop() {
         }
         val = val / avg;
         // regression fit, div psi / bar
-        uint32_t out = (((val * cal[0]) + cal[1]) / 14.5)*1000;
+        uint32_t out = (((val * cal[0]) + cal[1]) / 14.5 * 2)*1000;
 //        Serial.println(out);
         if (out > 1000) {;
           Serial.println(out);

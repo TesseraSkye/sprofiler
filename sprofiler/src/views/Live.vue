@@ -84,7 +84,7 @@ export default {
             borderColor: this.getAccent,
             pointBackgroundColor: 'dark',
             borderWidth: 2,
-            pointRadius: 1,
+            pointRadius: 0,
             pointBorderColor: this.getAccent,
             backgroundColor: '#aaaaaa11',
             data: this.getPressureData
