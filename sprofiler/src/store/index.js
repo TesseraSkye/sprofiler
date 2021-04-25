@@ -63,11 +63,11 @@ export default new Vuex.Store({
     saveShot (state, data) {
       if (!this.state.shotHistory) { this.state.shotHistory = {} }
       state.shotHistory[data[0]] = data[1]
-      putStorage('shotHistory', state.shotHistory)
+      setTimeout(() => { putStorage('shotHistory', state.shotHistory) }, 50)
     },
     removeShot (state, data) {
       delete state.shotHistory[data]
-      putStorage('shotHistory', state.shotHistory)
+      setTimeout(() => { putStorage('shotHistory', state.shotHistory) }, 50)
     },
     incrementTick (state) {
       state.tick += 1

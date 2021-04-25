@@ -5,6 +5,14 @@
   "npmClient": "yarn",
   "webDir": "www",
   "plugins": {
+    "BluetoothLe": {
+      "displayStrings": {
+        "scanning": "Looking for device..",
+        "cancel": "Cancel",
+        "availableDevices": "Device found!",
+        "noDeviceFound": "No devices found..."
+      }
+    },
     "SplashScreen": {
       "launchShowDuration": 1
     }

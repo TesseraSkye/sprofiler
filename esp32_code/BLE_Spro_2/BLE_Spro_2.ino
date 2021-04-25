@@ -9,16 +9,15 @@ bool deviceConnected = false;
 bool oldDeviceConnected = false;
 
 
-
 // calibration data [coeficient, offset]
-float cal[] = {0.156,3.04};
+float cal[] = {0.047, 3.0};
 
 
 #define SERVICE_UUID        "d43d1e53-4fb6-4907-9f4e-1237e5a39971"
 #define CHARACTERISTIC_UUID "50739418-766d-46f5-9670-f5ef11392f3b"
 
 uint32_t val;
-uint8_t avg = 4; //num averages
+uint8_t avg = 8; //num averages
 
 
 class bleCallbacks: public BLEServerCallbacks {
@@ -36,7 +35,7 @@ class bleCallbacks: public BLEServerCallbacks {
 void setup() {
   Serial.begin(115200);
 
-  BLEDevice::init("ESP32");
+  BLEDevice::init("Sprofiler");
 
   pServer = BLEDevice::createServer();
   pServer->setCallbacks(new bleCallbacks());
@@ -61,30 +60,33 @@ void setup() {
   // Start advertising
   BLEAdvertising *pAdvertising = BLEDevice::getAdvertising();
   pAdvertising->addServiceUUID(SERVICE_UUID);
-  pAdvertising->setScanResponse(false);
+  pAdvertising->setScanResponse(true);
   pAdvertising->setMinPreferred(0x0);
   BLEDevice::startAdvertising();
   Serial.println("Awaiting connection...");
 }
 
 void loop() {
-    val = 0;
+  val = 0;
     if (deviceConnected) {
         for(uint8_t i = 0; i < avg; i++) {
-          val =+ analogRead(A0);
+          val += analogRead(A0);
           delay(100 / avg);
         }
+
         val = val / avg;
+        Serial.println(analogRead(A0));
+        Serial.println(val);
+        
         // regression fit, div psi / bar
-        uint32_t out = (((val * cal[0]) + cal[1]) / 14.5 * 2)*1000;
-//        Serial.println(out);
-        if (out > 1000) {;
+        uint32_t out = (((val * cal[0]) + cal[1]) /14.5)*1000;
+        if (out > 1200) {;
           Serial.println(out);
           pCharacteristic->setValue(out);
           pCharacteristic->notify();
         }
         
-        delay(20); // prevents overload
+        delay(50); // prevents overload
     }
     // disconnecting
     // disconnecting
