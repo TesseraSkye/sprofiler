@@ -92,6 +92,7 @@ export default {
     clear () {
       this.$store.dispatch('putData', ['pressureArray', [[], []]])
       this.$store.dispatch('putData', ['tick', 0])
+      this.$store.dispatch('putData', ['overlayUUID', ''])
     },
     submit () {
       this.date = this.getDate

@@ -77,7 +77,8 @@ export default {
   },
   methods: {
     compare () {
-      //
+      this.$store.dispatch('putData', ['overlayUUID', this.data.uuid])
+      setTimeout(() => { this.$router.push('/live') }, 200)
     },
     remove () {
       this.dialog = false

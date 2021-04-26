@@ -139,7 +139,7 @@ export default {
           dummy: {
             name: 'Dummy shot 1',
             date: 'Jan 1, 2021 at 00:00',
-            uuid: 'a7d9g7afdsg6j',
+            uuid: 'dummy',
             raiting: 4.5,
             favorite: false,
             notes: 'It was pretty ok',
@@ -148,6 +148,7 @@ export default {
         }
       ])
       this.$store.dispatch('putData', ['deviceID', 1])
+      this.$store.dispatch('putData', ['overlayUUID', 'dummy'])
     },
     wipeStorage () {
       this.dialog = false

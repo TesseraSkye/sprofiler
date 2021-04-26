@@ -69,6 +69,7 @@ export default {
     },
     resetPressure () {
       this.$store.dispatch('putData', ['pressureArray', [[], []]])
+      this.$store.dispatch('putData', ['overlayUUID', ''])
       setTimeout(() => { this.$router.push('/') }, 50)
     },
     rerender () {
@@ -88,6 +89,16 @@ export default {
             pointBorderColor: this.getAccent,
             backgroundColor: '#aaaaaa11',
             data: this.getPressureData
+          },
+          {
+            label: 'pressure (bar)',
+            borderColor: '#555',
+            pointBackgroundColor: 'dark',
+            borderWidth: 2,
+            pointRadius: 0,
+            pointBorderColor: '#555',
+            backgroundColor: '#aaaaaa22',
+            data: this.getOverlayData[0] || []
           }
         ]
       }
@@ -97,6 +108,14 @@ export default {
     }
   },
   computed: {
+    getOverlayData () {
+      const data = this.$store.state.shotHistory[this.getOverlayUUID].data
+      return data
+    },
+    getOverlayUUID () {
+      const data = this.$store.state.overlayUUID
+      return data
+    },
     isDebug () {
       return this.$store.state.debug
     },
@@ -111,8 +130,19 @@ export default {
     getPressureData () {
       return this.$store.state.pressureArray[0]
     },
-    getLabels () {
+    getLabelData () {
       return this.$store.state.pressureArray[1]
+    },
+    getLabels () {
+      // if (this.getOverlayData[1]) {
+      const comp = (
+        this.getOverlayData[1][this.getOverlayData[1].length - 1] || 0
+      ) > (
+        this.getLabelData[this.getLabelData.length - 1] || 0
+      )
+      if (comp) {
+        return this.getOverlayData[1]
+      } else { return this.$store.state.pressureArray[1] }
     },
     getID () {
       return this.$store.state.deviceID

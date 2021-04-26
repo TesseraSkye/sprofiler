@@ -1,12 +1,13 @@
 {
   "name": "com.tesseraskye.sprofiler",
   "displayName": "Sprofiler",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "main": "./src/main.js",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build && npx cap copy",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "resources": "cordova-res android"
   },
   "keywords": [
     "ecosystem:cordova"
@@ -20,9 +21,7 @@
     "@capacitor/core": "^3.0.0-rc.0",
     "@capacitor/storage": "^0.3.6",
     "chart.js": "2.8.0",
-    "chartjs-plugin-streaming": "^1.8.0",
     "core-js": "^3.6.5",
-    "moment": "^2.29.1",
     "vue": "^2.6.11",
     "vue-chartjs": "^3.5.1",
     "vue-router": "^3.2.0",
