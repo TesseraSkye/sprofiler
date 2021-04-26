@@ -2,13 +2,12 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 import { Storage } from '@capacitor/storage'
-// import { forEach } from 'core-js/core/array'
 
 async function putStorage (key, data) {
   console.log('Setting storage at ' + key)
   await Storage.set({
     key: key,
-    value: data
+    value: JSON.stringify(data)
   })
 }
 
@@ -17,11 +16,12 @@ async function clearStorage () {
   await Storage.clear()
 }
 
-// JSON "get" example
 async function getStorage (key) {
+  console.log('getting storage..')
   const res = await Storage.get({ key: key })
-  console.log(res.value)
-  return res.value
+  const out = JSON.parse(res.value)
+  console.log(out)
+  return out
 }
 
 Vue.use(Vuex)
@@ -36,10 +36,10 @@ export default new Vuex.Store({
     deviceID: 0,
     // show debug tips
     debug: false,
-    version: '0.2.7',
+    version: '0.3.0',
     //
     //
-    shotHistory: [{
+    shotHistory: {
       // uuid: {
       //   name: 'Dummy shot',
       //   date: '04/22/21 : 11:07:30',
@@ -49,7 +49,7 @@ export default new Vuex.Store({
       //   notes: 'It was pretty ok',
       //   data: [[0, 0, 1, 2, 4, 6, 9, 5, 4, 3, 1, 1], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]]
       // }
-    }]
+    }
   },
   mutations: {
     // array is [key, data]
@@ -122,6 +122,7 @@ export default new Vuex.Store({
       setTimeout(() => { dispatch('putData', ['deviceID', 0]) }, 40)
       setTimeout(() => { dispatch('putData', ['shotHistory', {}]) }, 60)
       setTimeout(() => { dispatch('putData', ['debug', false]) }, 80)
+      setTimeout(() => { dispatch('putData', ['pressureArray', [[], []]]) }, 100)
     },
     incrementTick ({ commit }) {
       commit('incrementTick')
