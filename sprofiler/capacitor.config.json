@@ -1,6 +1,6 @@
 {
   "appId": "com.tesseraskye.sprofiler",
-  "appName": "sprofiler",
+  "appName": "Sprofiler",
   "bundledWebRuntime": false,
   "npmClient": "yarn",
   "webDir": "www",

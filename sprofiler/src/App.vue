@@ -43,6 +43,9 @@ export default {
   },
   mounted () {
     this.$store.dispatch('initStorage')
+    setTimeout(() => {
+      if (!this.getAccent) { this.$store.dispatch('wipeStorage') }
+    }, 100)
   }
 }
 </script>

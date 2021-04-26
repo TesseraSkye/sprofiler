@@ -34,13 +34,12 @@ async function bleStart () {
 async function bleServe () {
   const dispatch = store.dispatch
   const deviceID = getDeviceID()
-  console.log(deviceID)
   async function main () {
     try {
       await BleClient.initialize()
 
       await BleClient.connect(deviceID)
-      console.log('connected to device', deviceID)
+      console.error('connected to device', deviceID)
 
       await BleClient.startNotifications(
         deviceID,
@@ -96,7 +95,9 @@ async function bleDC () {
 
 function getDeviceID () {
   console.log('fetching deviceID..')
-  return store.state.deviceID
+  const id = store.state.deviceID
+  // console.error('ID: ' + id)
+  return id
 }
 
 export { bleInit, bleServe, getDeviceID, bleStop, bleDC, bleStart }

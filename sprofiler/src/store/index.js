@@ -16,11 +16,6 @@ async function clearStorage () {
   await Storage.clear()
 }
 
-async function isInit () {
-  const res = await Storage.keys()
-  if (res) { return false } else { return true }
-}
-
 async function getStorage (key) {
   console.log('getting storage..')
   const res = await Storage.get({ key: key })
@@ -33,13 +28,13 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    accent: 'white',
+    accent: '',
 
     // bt stuff
     deviceID: 0,
     // show debug tips
     debug: false,
-    version: '0.3.1',
+    version: '0.3.2',
     //
     //
     // shot data
@@ -85,7 +80,7 @@ export default new Vuex.Store({
 
     initStorage ({ dispatch }) {
       console.log('updating state from storage..')
-      if (isInit()) { dispatch('wipeStorage') } else { dispatch('getFromStorage', [['accent'], ['deviceID'], ['shotHistory']]) }
+      dispatch('getFromStorage', [['accent'], ['deviceID'], ['shotHistory']])
     },
 
     // storage related stuff
@@ -125,7 +120,7 @@ export default new Vuex.Store({
     },
     wipeStorage ({ dispatch }) {
       clearStorage()
-      setTimeout(() => { dispatch('putData', ['accent', 'teal']) }, 20)
+      setTimeout(() => { dispatch('putData', ['accent', 'cyan']) }, 20)
       setTimeout(() => { dispatch('putData', ['deviceID', 0]) }, 40)
       setTimeout(() => { dispatch('putData', ['shotHistory', {}]) }, 60)
       setTimeout(() => { dispatch('putData', ['debug', false]) }, 80)

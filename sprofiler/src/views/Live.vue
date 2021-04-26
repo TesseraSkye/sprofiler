@@ -109,8 +109,14 @@ export default {
   },
   computed: {
     getOverlayData () {
-      const data = this.$store.state.shotHistory[this.getOverlayUUID].data
-      return data
+      let data
+      try {
+        data = this.$store.state.shotHistory[this.getOverlayUUID].data
+      } catch (error) {
+        console.error('error retrieving overlay data')
+      }
+      console.error('got overlay data!')
+      return data || [[], []]
     },
     getOverlayUUID () {
       const data = this.$store.state.overlayUUID
@@ -134,15 +140,20 @@ export default {
       return this.$store.state.pressureArray[1]
     },
     getLabels () {
-      // if (this.getOverlayData[1]) {
-      const comp = (
-        this.getOverlayData[1][this.getOverlayData[1].length - 1] || 0
-      ) > (
-        this.getLabelData[this.getLabelData.length - 1] || 0
-      )
+      let comp
+      try {
+        comp = (
+          this.getOverlayData[1][this.getOverlayData[1].length - 1]
+        ) > (
+          this.getLabelData[this.getLabelData.length - 1] || 0
+        )
+      } catch (error) {
+        console.error('We did a fucky wucky' + error)
+      }
+      console.error('getting labels: ' + comp)
       if (comp) {
         return this.getOverlayData[1]
-      } else { return this.$store.state.pressureArray[1] }
+      } else { return this.getLabelData }
     },
     getID () {
       return this.$store.state.deviceID

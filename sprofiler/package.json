@@ -1,7 +1,7 @@
 {
   "name": "com.tesseraskye.sprofiler",
   "displayName": "Sprofiler",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "main": "./src/main.js",
   "scripts": {
     "serve": "vue-cli-service serve",
