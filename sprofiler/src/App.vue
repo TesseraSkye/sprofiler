@@ -1,6 +1,14 @@
 <template>
   <v-app>
-    <v-banner v-if="this.isDebug" color="red">DEBUG MODE IS ENABLED</v-banner>
+  <v-fade-transition v-if="this.splash">
+    <div id="splash" class="text-center">
+      <v-scroll-x-transition>
+        <v-img v-if="this.splashIcon" src="./assets/icon.png"/>
+        <!-- <h1 v-if="this.splashText">SPROFILER</h1> -->
+      </v-scroll-x-transition>
+    </div>
+  </v-fade-transition>
+    <v-banner v-if="this.isDebug" color="red" class="p-fixed">DEBUG MODE IS ENABLED</v-banner>
     <v-main>
       <router-view transition='fade-transition'/>
     </v-main>
@@ -31,6 +39,13 @@
 
 <script>
 export default {
+  data () {
+    return {
+      splash: true,
+      splashIcon: false,
+      splashText: false
+    }
+  },
   computed: {
     getAccent () {
       return this.$store.state.accent
@@ -43,6 +58,24 @@ export default {
   },
   mounted () {
     this.$store.dispatch('initStorage')
+    setTimeout(() => { this.splashIcon = true }, 500)
+    setTimeout(() => { this.splashIcon = false }, 2000)
+    setTimeout(() => { this.splash = false }, 2550)
   }
 }
 </script>
+
+<style scoped>
+.p-fixed {
+  position: fixed;
+  width: 100vw;
+  z-index: 95;
+}
+#splash {
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  background-color: black;
+  z-index: 100;
+}
+</style>

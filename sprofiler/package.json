@@ -1,5 +1,5 @@
 {
-  "name": "com.tesseraskye.sprofiler",
+  "name": "com.hungelabs.sprofiler",
   "displayName": "Sprofiler",
   "version": "0.3.1",
   "main": "./src/main.js",
@@ -12,7 +12,7 @@
   "keywords": [
     "ecosystem:cordova"
   ],
-  "author": "Tessera Skye",
+  "author": "Hunge Labs",
   "license": "MIT",
   "dependencies": {
     "@capacitor-community/bluetooth-le": "^1.0.0-4",

@@ -65,7 +65,7 @@ export default new Vuex.Store({
     },
     appendPressure (state, data) {
       state.pressureArray[0].push(data)
-      state.pressureArray[1].push(state.tick)
+      state.pressureArray[1].push(state.tick / 150)
     },
     saveShot (state, data) {
       if (!this.state.shotHistory) { this.state.shotHistory = {} }
@@ -125,7 +125,7 @@ export default new Vuex.Store({
     },
     wipeStorage ({ dispatch }) {
       clearStorage()
-      setTimeout(() => { dispatch('putData', ['accent', 'teal']) }, 20)
+      setTimeout(() => { dispatch('putData', ['accent', 'cyan']) }, 20)
       setTimeout(() => { dispatch('putData', ['deviceID', 0]) }, 40)
       setTimeout(() => { dispatch('putData', ['shotHistory', {}]) }, 60)
       setTimeout(() => { dispatch('putData', ['debug', false]) }, 80)

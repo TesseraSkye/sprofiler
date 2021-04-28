@@ -21,7 +21,7 @@
       <v-btn :disabled='!this.hasPressureData' :color="this.getAccent" block class="mb-2" to="/save">{{this.isWaiting}}</v-btn>
       <br>
       <v-col cols=12>
-        <line-chart :chart-data='activePressureArray' :key='rerenderKey + 1' class="chart-lg d-flex d-sm-none"/>
+        <line-chart :chart-data='activePressureArray' :key='rerenderKey + 5' class="chart-lg d-flex d-sm-none"/>
         <line-chart :chart-data='activePressureArray' :key='rerenderKey' class="chart-md d-none d-sm-flex"/>
       </v-col>
     </v-row>
@@ -74,6 +74,7 @@ export default {
     },
     rerender () {
       this.rerenderKey += 1
+      this.pressureArray.labels = this.getLabels
       if (this.rerenderKey > 50) { this.rerenderKey = 0 }
     },
     fillChart () {

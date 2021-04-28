@@ -61,7 +61,8 @@ void setup() {
   BLEAdvertising *pAdvertising = BLEDevice::getAdvertising();
   pAdvertising->addServiceUUID(SERVICE_UUID);
   pAdvertising->setScanResponse(true);
-  pAdvertising->setMinPreferred(0x0);
+  pAdvertising->setMinPreferred(0x6);
+  pAdvertising->setMinPreferred(0x12);
   BLEDevice::startAdvertising();
   Serial.println("Awaiting connection...");
 }
@@ -79,7 +80,7 @@ void loop() {
 //        Serial.println(val);
         
         // regression fit, div psi / bar
-        uint32_t out = (((val * cal[0]) + cal[1]) /14.5)*1000;
+        uint32_t out = (((val * cal[0]) + cal[1]) / 14.5)*1000;
         if (out > 1200) {;
           Serial.println(out);
           pCharacteristic->setValue(out);

@@ -1,6 +1,6 @@
 {
-  "appId": "com.tesseraskye.sprofiler",
-  "appName": "sprofiler",
+  "appId": "com.hungelabs.sprofiler",
+  "appName": "Sprofiler",
   "bundledWebRuntime": false,
   "npmClient": "yarn",
   "webDir": "www",
@@ -14,7 +14,7 @@
       }
     },
     "SplashScreen": {
-      "launchShowDuration": 1
+      "launchShowDuration": 0
     }
   },
   "cordova": {
