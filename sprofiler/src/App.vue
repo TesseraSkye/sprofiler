@@ -12,7 +12,7 @@
     <v-main>
       <router-view transition='fade-transition'/>
     </v-main>
-    <v-bottom-navigation shift fixed background-color="#272727" grow mandatory :color="this.getAccent">
+    <v-bottom-navigation elevation='24' shift fixed background-color="#272727" grow mandatory :color="this.getAccent">
 
         <v-btn x-large value="Dashboard" to="/">
           <span>Dashboard</span>
@@ -57,7 +57,7 @@ export default {
   methods: {
   },
   mounted () {
-    this.$store.dispatch('initStorage')
+    if (!this.getAccent) { this.$store.dispatch('wipeStorage') } else { this.$store.dispatch('initStorage') }
     setTimeout(() => { this.splashIcon = true }, 500)
     setTimeout(() => { this.splashIcon = false }, 2000)
     setTimeout(() => { this.splash = false }, 2550)

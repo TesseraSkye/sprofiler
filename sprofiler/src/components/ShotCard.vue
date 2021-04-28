@@ -10,6 +10,7 @@
             :color="this.getAccent"
             dense
             background-color="#aaa"
+            half-increments
             readonly
             hover
             length="5"

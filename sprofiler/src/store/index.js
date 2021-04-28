@@ -16,11 +16,6 @@ async function clearStorage () {
   await Storage.clear()
 }
 
-async function isInit () {
-  const res = await Storage.keys()
-  if (res) { return false } else { return true }
-}
-
 async function getStorage (key) {
   console.log('getting storage..')
   const res = await Storage.get({ key: key })
@@ -39,7 +34,7 @@ export default new Vuex.Store({
     deviceID: 0,
     // show debug tips
     debug: false,
-    version: '0.3.1',
+    version: '0.3.5',
     //
     //
     // shot data
@@ -85,7 +80,7 @@ export default new Vuex.Store({
 
     initStorage ({ dispatch }) {
       console.log('updating state from storage..')
-      if (isInit()) { dispatch('wipeStorage') } else { dispatch('getFromStorage', [['accent'], ['deviceID'], ['shotHistory']]) }
+      dispatch('getFromStorage', [['accent'], ['deviceID'], ['shotHistory']])
     },
 
     // storage related stuff
