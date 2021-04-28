@@ -23,17 +23,25 @@ uint8_t avg = 8; //num averages
 class bleCallbacks: public BLEServerCallbacks {
     void onConnect(BLEServer* pServer) {
       deviceConnected = true;
+      digitalWrite(25, HIGH); // Enables boost converter and pressure transducer
+      
     };
 
     void onDisconnect(BLEServer* pServer) {
       deviceConnected = false;
+      delay(60000);
+      if (deviceConnected == false) { digitalWrite(25, LOW); }; // dissables boost and sensor if it's been DC'd for over a minute
     }
 };
 
 
 
+
 void setup() {
   Serial.begin(115200);
+
+  pinMode(25, OUTPUT); // Pin 25 is an alias of A1
+  digitalWrite(25, LOW); // Disable the Boost converter & pressure transducer durring boot
 
   BLEDevice::init("Sprofiler");
 
@@ -61,7 +69,7 @@ void setup() {
   BLEAdvertising *pAdvertising = BLEDevice::getAdvertising();
   pAdvertising->addServiceUUID(SERVICE_UUID);
   pAdvertising->setScanResponse(true);
-  pAdvertising->setMinPreferred(0x6);
+  pAdvertising->setMinPreferred(0x06);
   pAdvertising->setMinPreferred(0x12);
   BLEDevice::startAdvertising();
   Serial.println("Awaiting connection...");
@@ -96,6 +104,7 @@ void loop() {
         pServer->startAdvertising(); // restart advertising
         Serial.println("start advertising");
         oldDeviceConnected = deviceConnected;
+        
     }
     // connecting
     if (deviceConnected && !oldDeviceConnected) {
