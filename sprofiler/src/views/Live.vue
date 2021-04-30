@@ -74,7 +74,7 @@ export default {
     },
     rerender () {
       this.rerenderKey += 1
-      this.pressureArray.labels = this.getLabels
+      this.activePressureArray.labels = this.getLabels // potential bug fix for chart overlap issues
       if (this.rerenderKey > 50) { this.rerenderKey = 0 }
     },
     fillChart () {
@@ -110,7 +110,7 @@ export default {
   },
   computed: {
     getOverlayData () {
-      const data = this.$store.state.shotHistory[this.getOverlayUUID].data
+      const data = this.$store.state.shotHistory[this.getOverlayUUID].data || [[], []]
       return data
     },
     getOverlayUUID () {

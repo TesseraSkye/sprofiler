@@ -12,6 +12,8 @@ bool oldDeviceConnected = false;
 // calibration data [coeficient, offset]
 float cal[] = {0.047, 3.0};
 
+byte enablePin = DAC1;
+
 
 #define SERVICE_UUID        "d43d1e53-4fb6-4907-9f4e-1237e5a39971"
 #define CHARACTERISTIC_UUID "50739418-766d-46f5-9670-f5ef11392f3b"
@@ -23,14 +25,14 @@ uint8_t avg = 8; //num averages
 class bleCallbacks: public BLEServerCallbacks {
     void onConnect(BLEServer* pServer) {
       deviceConnected = true;
-      digitalWrite(25, HIGH); // Enables boost converter and pressure transducer
+//      digitalWrite(enablePin, HIGH); // Enables boost converter and pressure transducer
       
     };
 
     void onDisconnect(BLEServer* pServer) {
       deviceConnected = false;
-      delay(60000);
-      if (deviceConnected == false) { digitalWrite(25, LOW); }; // dissables boost and sensor if it's been DC'd for over a minute
+      delay(10000);
+//      if (deviceConnected == false) { digitalWrite(enablePin, LOW); }; // dissables boost and sensor if it's been DC'd for over a minute
     }
 };
 
@@ -40,9 +42,7 @@ class bleCallbacks: public BLEServerCallbacks {
 void setup() {
   Serial.begin(115200);
 
-  pinMode(25, OUTPUT); // Pin 25 is an alias of A1
-  digitalWrite(25, LOW); // Disable the Boost converter & pressure transducer durring boot
-
+  pinMode(enablePin, OUTPUT);
   BLEDevice::init("Sprofiler");
 
   pServer = BLEDevice::createServer();
@@ -73,6 +73,7 @@ void setup() {
   pAdvertising->setMinPreferred(0x12);
   BLEDevice::startAdvertising();
   Serial.println("Awaiting connection...");
+  
 }
 
 void loop() {

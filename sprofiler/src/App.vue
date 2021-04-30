@@ -57,7 +57,12 @@ export default {
   methods: {
   },
   mounted () {
-    if (!this.getAccent) { this.$store.dispatch('wipeStorage') } else { this.$store.dispatch('initStorage') }
+    this.$store.dispatch('initStorage')
+    setTimeout(() => {
+      if (!this.getAccent) {
+        this.$store.dispatch('wipeStorage')
+      }
+    }, 200)
     setTimeout(() => { this.splashIcon = true }, 500)
     setTimeout(() => { this.splashIcon = false }, 2000)
     setTimeout(() => { this.splash = false }, 2550)

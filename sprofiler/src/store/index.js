@@ -28,7 +28,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    accent: 'white',
+    accent: '',
 
     // bt stuff
     deviceID: 0,
