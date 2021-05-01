@@ -12,7 +12,7 @@ bool oldDeviceConnected = false;
 // calibration data [coeficient, offset]
 float cal[] = {0.047, 3.0};
 
-byte enablePin = DAC1;
+byte enablePin = A1;
 
 
 #define SERVICE_UUID        "d43d1e53-4fb6-4907-9f4e-1237e5a39971"
@@ -96,7 +96,7 @@ void loop() {
           pCharacteristic->notify();
         }
         
-        delay(50); // prevents overload
+        delay(100); // prevents overload
     }
     // disconnecting
     // disconnecting

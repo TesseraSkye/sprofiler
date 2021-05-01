@@ -60,7 +60,7 @@ export default new Vuex.Store({
     },
     appendPressure (state, data) {
       state.pressureArray[0].push(data)
-      state.pressureArray[1].push(state.tick / 150)
+      state.pressureArray[1].push((Math.round(state.tick * 20)) / 100) // weird math to give 2 decimal point precition while dividing by 5
     },
     saveShot (state, data) {
       if (!this.state.shotHistory) { this.state.shotHistory = {} }

@@ -90,18 +90,20 @@ export default {
             pointBorderColor: this.getAccent,
             backgroundColor: '#aaaaaa11',
             data: this.getPressureData
-          },
-          {
-            label: 'pressure (bar)',
-            borderColor: '#555',
-            pointBackgroundColor: 'dark',
-            borderWidth: 2,
-            pointRadius: 0,
-            pointBorderColor: '#555',
-            backgroundColor: '#aaaaaa22',
-            data: this.getOverlayData[0] || []
           }
         ]
+      }
+      if (this.getOverlayUUID) {
+        this.activePressureArray.datasets[1] = {
+          label: 'pressure (bar)',
+          borderColor: '#555',
+          pointBackgroundColor: 'dark',
+          borderWidth: 2,
+          pointRadius: 0,
+          pointBorderColor: '#555',
+          backgroundColor: '#aaaaaa22',
+          data: this.getOverlayData[0] || []
+        }
       }
     },
     forceRerender () {
@@ -110,11 +112,13 @@ export default {
   },
   computed: {
     getOverlayData () {
-      const data = this.$store.state.shotHistory[this.getOverlayUUID].data || [[], []]
-      return data
+      const overlay = this.$store.state.shotHistory[this.getOverlayUUID] || {
+        data: [[], []]
+      }
+      return overlay.data
     },
     getOverlayUUID () {
-      const data = this.$store.state.overlayUUID
+      const data = this.$store.state.overlayUUID || 0 // this might cause issues, but shouldn't
       return data
     },
     isDebug () {
@@ -136,14 +140,10 @@ export default {
     },
     getLabels () {
       // if (this.getOverlayData[1]) {
-      const comp = (
-        this.getOverlayData[1][this.getOverlayData[1].length - 1] || 0
-      ) > (
-        this.getLabelData[this.getLabelData.length - 1] || 0
-      )
+      const comp = this.getOverlayData[1].length > this.getLabelData.length
       if (comp) {
         return this.getOverlayData[1]
-      } else { return this.$store.state.pressureArray[1] }
+      } else { return this.getLabelData }
     },
     getID () {
       return this.$store.state.deviceID
