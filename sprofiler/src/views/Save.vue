@@ -101,7 +101,7 @@ export default {
         uuid: this.dateInfo[0],
         date: this.dateInfo[1],
         rating: this.rating,
-        favourite: (this.rating >= 4.5),
+        favorite: (this.rating >= 4.5),
         notes: this.notes,
         data: this.getPressureArray
       }])

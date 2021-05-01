@@ -23,6 +23,7 @@
           <LineChart class="chart-sm" :chartData="this.shotData"/>
           <v-fade-transition>
             <v-overlay
+                class="zh-90"
                 v-if="this.overlay"
                 absolute :color="this.getAccent + ' lighten-2'">
                 <v-btn @click="this.compare" class="mx-2" :color="this.getAccent">Compare</v-btn>
