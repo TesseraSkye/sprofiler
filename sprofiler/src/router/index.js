@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Dashboard from '../views/Dashboard.vue'
 import Live from '../views/Live.vue'
-import History from '../views/History.vue'
+import Library from '../views/Library.vue'
 import Settings from '../views/Settings.vue'
 import Save from '../views/Save.vue'
 
@@ -22,9 +22,9 @@ const routes = [
   },
 
   {
-    path: '/history',
-    name: 'History',
-    component: History
+    path: '/library',
+    name: 'Library',
+    component: Library
   },
 
   {

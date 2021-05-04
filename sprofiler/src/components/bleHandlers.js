@@ -14,7 +14,7 @@ async function bleInit () {
         services: [sproService]
       })
       console.log(JSON.stringify(device))
-      dispatch('putData', ['deviceID', device.deviceId])
+      dispatch('setData', ['deviceID', device.deviceId])
     } catch (error) {
       console.error(error)
     }

@@ -79,12 +79,12 @@ export default {
   },
   methods: {
     compare () {
-      this.$store.dispatch('putData', ['overlayUUID', this.data.uuid])
+      this.$store.dispatch('setData', ['overlayUUID', this.data.uuid])
       setTimeout(() => { this.$router.push('/live') }, 200)
     },
     remove () {
       this.dialog = false
-      this.$store.dispatch('removeShot', this.data.uuid)
+      this.$store.dispatch('removeData', ['shotHistory', [this.data.uuid]])
       setTimeout(() => { this.$router.push('/') }, 200)
     },
     setDialog (bool) {

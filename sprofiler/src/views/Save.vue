@@ -90,13 +90,13 @@ export default {
   },
   methods: {
     clear () {
-      this.$store.dispatch('putData', ['pressureArray', [[], []]])
-      this.$store.dispatch('putData', ['tick', 0])
-      this.$store.dispatch('putData', ['overlayUUID', ''])
+      this.$store.dispatch('setData', ['pressureArray', [[], []]])
+      this.$store.dispatch('setData', ['tick', 0])
+      this.$store.dispatch('setData', ['overlayUUID', ''])
     },
     submit () {
       this.date = this.getDate
-      this.$store.dispatch('saveShot', [this.dateInfo[0], {
+      this.$store.dispatch('addData', ['shotHistory', [this.dateInfo[0], {
         name: this.name,
         uuid: this.dateInfo[0],
         date: this.dateInfo[1],
@@ -104,9 +104,9 @@ export default {
         favorite: (this.rating >= 4.5),
         notes: this.notes,
         data: this.getPressureArray
-      }])
+      }]])
       setTimeout(() => { this.clear() }, 200)
-      setTimeout(() => { this.$router.push('/history') }, 220)
+      setTimeout(() => { this.$router.push('/library') }, 220)
     },
 
     fillShotData () {

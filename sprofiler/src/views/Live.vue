@@ -68,8 +68,8 @@ export default {
       bleStop()
     },
     resetPressure () {
-      this.$store.dispatch('putData', ['pressureArray', [[], []]])
-      this.$store.dispatch('putData', ['overlayUUID', ''])
+      this.$store.dispatch('setData', ['pressureArray', [[], []]])
+      this.$store.dispatch('setData', ['overlayUUID', ''])
       setTimeout(() => { this.$router.push('/') }, 50)
     },
     rerender () {

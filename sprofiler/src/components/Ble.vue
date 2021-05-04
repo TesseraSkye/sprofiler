@@ -47,7 +47,7 @@ export default {
     },
     disconnect () {
       bleDC()
-      this.$store.dispatch('putData', ['deviceID', 0])
+      this.$store.dispatch('setData', ['deviceID', 0])
     }
   }
 }

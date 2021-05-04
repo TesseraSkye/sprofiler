@@ -23,8 +23,8 @@
           <v-icon>mdi-chart-bell-curve</v-icon>
         </v-btn>
 
-        <v-btn x-large value="History"  to="/history">
-          <span>History</span>
+        <v-btn x-large value="Library"  to="/library">
+          <span>Library</span>
           <v-icon>mdi-clock</v-icon>
         </v-btn>
 

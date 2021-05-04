@@ -124,17 +124,17 @@ export default {
       this.dialog = bool
     },
     setAccent (data) {
-      this.$store.dispatch('putData', ['accent', data])
+      this.$store.dispatch('setData', ['accent', data])
     },
     isAccent (color) {
       return this.getAccent === color
     },
     setDebug (bool) {
-      this.$store.dispatch('putData', ['debug', bool])
+      this.$store.dispatch('setData', ['debug', bool])
     },
     override () {
-      this.$store.dispatch('putData', ['pressureArray', [[1, 9, 5, 2], [0, 1, 2, 3]]])
-      this.$store.dispatch('putData', ['shotHistory',
+      this.$store.dispatch('setData', ['pressureArray', [[1, 9, 5, 2], [0, 1, 2, 3]]])
+      this.$store.dispatch('setData', ['shotHistory',
         {
           dummy: {
             name: 'Dummy shot 1',
@@ -147,8 +147,8 @@ export default {
           }
         }
       ])
-      this.$store.dispatch('putData', ['deviceID', 1])
-      this.$store.dispatch('putData', ['overlayUUID', 'dummy'])
+      this.$store.dispatch('setData', ['deviceID', 1])
+      this.$store.dispatch('setData', ['overlayUUID', 'dummy'])
     },
     wipeStorage () {
       this.dialog = false
