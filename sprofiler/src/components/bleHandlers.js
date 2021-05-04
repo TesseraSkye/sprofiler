@@ -1,17 +1,16 @@
 import { BleClient } from '@capacitor-community/bluetooth-le'
 import store from '../store/index.js'
 
-const sproService = 'd43d1e53-4fb6-4907-9f4e-1237e5a39971'
-const pressureChar = '50739418-766d-46f5-9670-f5ef11392f3b'
+const bleUUID = JSON.parse(require('./blueUUID.json'))
 
-async function bleInit () {
+async function bleInit (serviceUUID) {
   const dispatch = store.dispatch
   async function main () {
     try {
       await BleClient.initialize()
 
       const device = await BleClient.requestDevice({
-        services: [sproService]
+        services: [serviceUUID]
       })
       console.log(JSON.stringify(device))
       dispatch('setData', ['deviceID', device.deviceId])
@@ -31,9 +30,8 @@ async function bleStart () {
   }
   main()
 }
-async function bleServe () {
+async function bleServe (deviceID, serviceUUID, characteristicUUID) {
   const dispatch = store.dispatch
-  const deviceID = getDeviceID()
   console.log(deviceID)
   async function main () {
     try {
@@ -44,10 +42,13 @@ async function bleServe () {
 
       await BleClient.startNotifications(
         deviceID,
-        sproService,
-        pressureChar,
+        serviceUUID,
+        characteristicUUID,
         value => {
-          console.log('current pressure: ' + BTDataHandler(value))
+          console.log(
+            'characteristic val: ' + value
+            )
+            btDataHandler(value)
         }
       )
     } catch (error) {
@@ -65,14 +66,13 @@ async function bleServe () {
   main()
 }
 
-async function bleStop () {
-  const deviceID = getDeviceID()
+async function bleStop (deviceID, serviceUUID, characteristicUUID) {
   async function main () {
     try {
       await BleClient.stopNotifications(
         deviceID,
-        sproService,
-        pressureChar
+        serviceUUID,
+        characteristicUUID
       )
     } catch (error) {
       console.error(error)
@@ -81,12 +81,11 @@ async function bleStop () {
   main()
 }
 
-async function bleDC () {
-  const deviceID = getDeviceID()
+async function bleDC (deviceID) {
   async function main () {
     try {
       await BleClient.disconnect(deviceID)
-      console.log('disconnected from device', deviceID)
+      console.log('disconnected from device' + deviceID)
     } catch (error) {
       console.error(error)
     }
