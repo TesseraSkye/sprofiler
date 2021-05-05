@@ -31,7 +31,7 @@ export default {
       if (this.getID) {
         return 'connected!'
       } else {
-        return 'disconnected.'
+        return 'disActive.'
       }
     }
   },
@@ -46,9 +46,9 @@ export default {
       bleDC()
       this.$store.dispatch('setData', ['deviceID', 0])
     },
-    isConnected (device) { // defaults to sprofiler, if called with device param filled, checks for connected device by that name. (e.g. scale)
+    isActive (device) { // defaults to sprofiler, if called with device param filled, checks for connected device by that name. (e.g. scale)
     const _device = (device ? device : 'sprofiler')
-    return this.$store.state.connectedDevices[_device]
+    return this.$store.state.activeDevices[_device]
     }
   }
 }

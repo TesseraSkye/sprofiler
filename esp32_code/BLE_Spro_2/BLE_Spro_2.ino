@@ -1,3 +1,4 @@
+
 #include <BLEDevice.h>
 #include <BLEServer.h>
 #include <BLEUtils.h>
@@ -15,8 +16,8 @@ float cal[] = {0.047, 3.0};
 byte enablePin = A1;
 
 
-#define SERVICE_UUID        "d43d1e53-4fb6-4907-9f4e-1237e5a39971"
-#define CHARACTERISTIC_UUID "50739418-766d-46f5-9670-f5ef11392f3b"
+#define SERVICE_UUID        "0000FAFF-0000-1000-8000-00805F9B34FB"
+#define CHARACTERISTIC_UUID "0000FA01-0000-1000-8000-00805F9B34FB"
 
 uint32_t val;
 uint8_t avg = 8; //num averages

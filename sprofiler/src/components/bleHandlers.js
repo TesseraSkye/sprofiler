@@ -21,6 +21,7 @@ function getUUID (data) {
 
 async function bleInit (data) {
   const serviceUUID = getUUID([data[0], data[1]]) // recast to new array to prevent characteristic from muddying result
+  const characteristicUUID = getUUID([data[0], data[1]], 'read') // get cUUID at 'read'
   const dispatch = store.dispatch
   async function main () {
     try {
@@ -30,7 +31,7 @@ async function bleInit (data) {
         services: [serviceUUID]
       })
 
-      dispatch('addData', ['activeDevices', [data[1], device.deviceId ]]) // adds the name but no uuid or dID data, as that can be looked up.
+      dispatch('addData', ['activeDevices', [data[1], device.deviceId ]]) // adds the name but not uuid or dID data, as that can be looked up.
     } catch (error) {
       console.error(error)
     }
@@ -48,7 +49,9 @@ async function bleStart () {
   main()
 }
 async function bleServe (data) {
-  const deviceID = isConnected(data[1])
+  const serviceUUID = getUUID([data[0], data[1]]) // recast to new array to prevent characteristic from muddying result
+  const characteristicUUID = getUUID([data[0], data[1]], 'read') // get cUUID at 'read'
+  const deviceID = isActive(data[1])
   const dispatch = store.dispatch
   console.log(deviceID)
   async function main () {
@@ -103,7 +106,7 @@ async function bleDC (deviceID) {
   async function main () {
     try {
       await BleClient.disconnect(deviceID)
-      console.log('disconnected from device' + deviceID)
+      console.log('disActive from device' + deviceID)
     } catch (error) {
       console.error(error)
     }
@@ -111,9 +114,9 @@ async function bleDC (deviceID) {
   main()
 }
 
-function isConnected(device) { // defaults to sprofiler, if called with device param filled, checks for connected device by that name. (e.g. scale)
+function isActive(device) { // defaults to sprofiler, if called with device param filled, checks for connected device by that name. (e.g. scale)
   const _device = (device ? device : 'sprofiler')
-  return this.$store.state.connectedDevices[_device]
+  return this.$store.state.activeDevices[_device]
 }
 
-export { bleInit, bleServe, isConnected, bleStop, bleDC, bleStart, getUUID }
+export { bleInit, bleServe, isActive, bleStop, bleDC, bleStart, getUUID }
