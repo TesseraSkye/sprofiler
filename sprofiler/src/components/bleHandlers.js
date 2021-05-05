@@ -1,9 +1,26 @@
 import { BleClient } from '@capacitor-community/bluetooth-le'
 import store from '../store/index.js'
 
-const bleUUID = JSON.parse(require('./blueUUID.json'))
+const bleUUID = JSON.parse(require('./bleUUID.json'))
 
-async function bleInit (serviceUUID) {
+// data format [type, name, charName (optional)]
+function getUUID (data) {
+  const type = data[0]
+  const name = data[1]
+  const charName = data[2] || ''
+  const device = bleUUID[type][name]
+
+  // if charName, assume lookign for characteristic uuid, returns cUUID, error returns ""
+  // if no char name, reurn service uuid, error returns ""
+  return ((charName ? (device[charName] ? device[charName] : '') : (device.sUUID ? device.sUUID : ''))) // weird if / else shorthand
+}
+
+// async ble stuff
+// everything runs on a JSON LUT, so all you have to pass is the type and name as an array,
+// and in some cases, the characteristic you want to access
+
+async function bleInit (data) {
+  const serviceUUID = getUUID([data[0], data[1]]) // recast to new array to prevent characteristic from muddying result
   const dispatch = store.dispatch
   async function main () {
     try {
@@ -12,8 +29,8 @@ async function bleInit (serviceUUID) {
       const device = await BleClient.requestDevice({
         services: [serviceUUID]
       })
-      console.log(JSON.stringify(device))
-      dispatch('setData', ['deviceID', device.deviceId])
+
+      dispatch('addData', ['deviceIDs', [data[0], JSON.parse(`{"${data[1]}: {"id": ${device.deviceId}}}`)]])
     } catch (error) {
       console.error(error)
     }
@@ -30,7 +47,7 @@ async function bleStart () {
   }
   main()
 }
-async function bleServe (deviceID, serviceUUID, characteristicUUID) {
+async function bleServe (name, deviceID, serviceUUID, characteristicUUID) {
   const dispatch = store.dispatch
   console.log(deviceID)
   async function main () {
@@ -47,14 +64,14 @@ async function bleServe (deviceID, serviceUUID, characteristicUUID) {
         value => {
           console.log(
             'characteristic val: ' + value
-            )
-            btDataHandler(value)
+          )
+          btDataHandler(name, value)
         }
       )
     } catch (error) {
       console.error(error)
     }
-    function BTDataHandler (value) {
+    function btDataHandler (value) {
       let out = value.getUint32(0, true) // uses little endians
       out = out / 1000
       console.log(out)
@@ -98,4 +115,4 @@ function getDeviceID () {
   return store.state.deviceID
 }
 
-export { bleInit, bleServe, getDeviceID, bleStop, bleDC, bleStart }
+export { bleInit, bleServe, getDeviceID, bleStop, bleDC, bleStart, getUUID }
