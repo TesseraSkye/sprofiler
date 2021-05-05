@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-row v-if="(!this.isConnected)">
+    <v-row v-if="(!this.isActive)">
       <v-col>
         <v-card elevation="2">
           <v-card-title>
@@ -17,7 +17,7 @@
         </v-card>
       </v-col>
     </v-row>
-    <v-row v-if="this.isConnected || this.isDebug">
+    <v-row v-if="this.isActive || this.isDebug">
       <v-btn :disabled='!this.hasPressureData' :color="this.getAccent" block class="mb-2" to="/save">{{this.isWaiting}}</v-btn>
       <br>
       <v-col cols=12>
@@ -25,7 +25,7 @@
         <line-chart :chart-data='activePressureArray' :key='rerenderKey' class="chart-md d-none d-sm-flex"/>
       </v-col>
     </v-row>
-    <v-row justify="center" v-if="this.isConnected || this.isDebug">
+    <v-row justify="center" v-if="this.isActive || this.isDebug">
       <v-col>
         <v-btn @click="this.resetPressure" :disabled='!this.hasPressureData' color="red" block>Clear</v-btn>
         <br>
@@ -52,12 +52,12 @@ export default {
     }
   },
   mounted () {
-    if (this.isConnected) { this.init() }
+    if (this.isActive) { this.init() }
   },
   methods: {
-    isConnected (device) { // defaults to sprofiler, if called with device param filled, checks for connected device by that name. (e.g. scale)
+    isActive (device) { // defaults to sprofiler, if called with device param filled, checks for connected device by that name. (e.g. scale)
     const _device = (device ? device : 'sprofiler')
-    return this.$store.state.connectedDevices[_device]
+    return this.$store.state.activeDevices[_device]
     },
     init () {
       this.fillChart()
