@@ -31,7 +31,9 @@ export default new Vuex.Store({
     accent: '',
 
     // bt stuff
-    deviceID: 0,
+    activeDevies: { // written by bleHandler
+      // dummyDevice: '3h49t83457yth'
+    },
     // show debug tips
     debug: false,
     version: '0.3.5',

@@ -89,6 +89,7 @@ export default {
     }
   },
   methods: {
+    
     clear () {
       this.$store.dispatch('setData', ['pressureArray', [[], []]])
       this.$store.dispatch('setData', ['tick', 0])

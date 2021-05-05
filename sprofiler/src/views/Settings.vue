@@ -47,7 +47,7 @@
           <v-card-text>
             <h2>Debugging Data:</h2>
             <!-- <h4>pressure data {{this.$store.state.pressureArray}}</h4> -->
-            <h4>BLE Device ID: {{this.getID}}</h4>
+            <h4>BLE Device ID: {{this.isConnected}}</h4>
             <h4>State: {{this.getState}}</h4>
             <v-btn @click="this.override" class="my-2" color="orange">OVERRIDE STATE</v-btn>
             <br>
@@ -103,9 +103,6 @@ export default {
     Ble
   },
   computed: {
-    getID () {
-      return this.$store.state.deviceID
-    },
     getState () {
       return this.$store.state
     },
@@ -120,6 +117,10 @@ export default {
     }
   },
   methods: {
+    isConnected (device) { // defaults to sprofiler, if called with device param filled, checks for connected device by that name. (e.g. scale)
+    const _device = (device ? device : 'sprofiler')
+    return this.$store.state.connectedDevices[_device]
+    },
     setDialog (bool) {
       this.dialog = bool
     },

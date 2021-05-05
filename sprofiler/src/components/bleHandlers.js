@@ -30,7 +30,7 @@ async function bleInit (data) {
         services: [serviceUUID]
       })
 
-      dispatch('addData', ['deviceIDs', [data[0], JSON.parse(`{"${data[1]}: {"id": ${device.deviceId}}}`)]])
+      dispatch('addData', ['activeDevices', [data[1], device.deviceId ]]) // adds the name but no uuid or dID data, as that can be looked up.
     } catch (error) {
       console.error(error)
     }
@@ -47,7 +47,8 @@ async function bleStart () {
   }
   main()
 }
-async function bleServe (name, deviceID, serviceUUID, characteristicUUID) {
+async function bleServe (data) {
+  const deviceID = isConnected(data[1])
   const dispatch = store.dispatch
   console.log(deviceID)
   async function main () {
@@ -110,9 +111,9 @@ async function bleDC (deviceID) {
   main()
 }
 
-function getDeviceID () {
-  console.log('fetching deviceID..')
-  return store.state.deviceID
+function isConnected(device) { // defaults to sprofiler, if called with device param filled, checks for connected device by that name. (e.g. scale)
+  const _device = (device ? device : 'sprofiler')
+  return this.$store.state.connectedDevices[_device]
 }
 
-export { bleInit, bleServe, getDeviceID, bleStop, bleDC, bleStart, getUUID }
+export { bleInit, bleServe, isConnected, bleStop, bleDC, bleStart, getUUID }

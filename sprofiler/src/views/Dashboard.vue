@@ -6,17 +6,17 @@
           <v-card-title>
             <h1>Welcome!</h1>
           </v-card-title>
-          <v-card-text v-if="!this.getID">
+          <v-card-text v-if="!this.isConnected">
             <h2>To get started, head over to the <i>Settings</i> tab and connect to your Sprofiler.</h2>
           </v-card-text>
-          <v-card-text v-if="this.getID">
+          <v-card-text v-if="this.isConnected">
             <h2>Looks you can still connect to your Sprofiler!</h2>
           </v-card-text>
           <v-card-actions>
-            <v-btn v-if="!this.getID" :color="this.getAccent" to='/settings'>
+            <v-btn v-if="!this.isConnected" :color="this.getAccent" to='/settings'>
               Let's go ->
             </v-btn>
-            <v-btn v-if="this.getID" :color="this.getAccent" to='/live'>
+            <v-btn v-if="this.isConnected" :color="this.getAccent" to='/live'>
               Pull a shot ->
             </v-btn>
           </v-card-actions>
@@ -45,15 +45,15 @@ export default {
   components: {
   },
   methods: {
-    //
+    isConnected (device) { // defaults to sprofiler, if called with device param filled, checks for connected device by that name. (e.g. scale)
+    const _device = (device ? device : 'sprofiler')
+    return this.$store.state.connectedDevices[_device]
+    }
   },
   computed: {
     getAccent () {
       return this.$store.state.accent
     },
-    getID () {
-      return this.$store.state.deviceID
-    }
   }
 }
 </script>

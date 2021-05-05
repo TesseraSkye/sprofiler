@@ -24,9 +24,6 @@ import { bleInit, bleServe, bleDC } from './bleHandlers.js'
 export default {
   name: 'ble',
   computed: {
-    getID () {
-      return this.$store.state.deviceID
-    },
     getAccent () {
       return this.$store.state.accent
     },
@@ -48,6 +45,10 @@ export default {
     disconnect () {
       bleDC()
       this.$store.dispatch('setData', ['deviceID', 0])
+    },
+    isConnected (device) { // defaults to sprofiler, if called with device param filled, checks for connected device by that name. (e.g. scale)
+    const _device = (device ? device : 'sprofiler')
+    return this.$store.state.connectedDevices[_device]
     }
   }
 }
