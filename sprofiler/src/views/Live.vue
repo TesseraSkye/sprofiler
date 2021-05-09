@@ -98,6 +98,23 @@ export default {
           // }
         ]
       }
+
+      // build a slot for each device that's registered. If it doesn't have data, it won't show up anyway.
+
+      for(device in this.getActiveDevices) {
+        let builtData = {
+          //   label: 'Active Pressure',
+          //   borderColor: this.getAccent,
+          //   pointBackgroundColor: 'dark',
+          //   borderWidth: 2,
+          //   pointRadius: 0,
+          //   pointBorderColor: this.getAccent,
+          //   backgroundColor: '#aaaaaa11',
+          //   data: this.getActiveData.pressure,
+          //   yAxisID: 'pressure'
+        }
+        this.chartData.datasets.push()
+      }
     },
     forceRerender () {
       setInterval(() => { this.rerender() }, 200)
@@ -136,7 +153,10 @@ export default {
       } else { return this.getLabelData }
     },
     hasActiveData () {
-      return !!this.$store.state.activeData.data.profiler // !! casts return as a bool
+      return !!this.$store.state.activeData.data // !! casts return as a bool
+    },
+    getActiveDevices () {
+      return this.$store.state.activeDevices
     }
   }
 }

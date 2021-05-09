@@ -115,14 +115,14 @@ export default new Vuex.Store({
       const elapsed = Date.now() - rtData.date.getTime()
       rtData.data[family][name][1].push(elapsed) // [[data], [time]]
     },
-    addData (state, data) { // data = [stateName, [uuid, data]]
+    addData (state, data) { // data = [stateName, [name, data]]
       const name = data[0]
       const _data = data[1]
       if (!this.state[name]) { this.state[name] = {} }
       state[name][_data[0]] = _data[1]
       setTimeout(() => { putStorage(name, state[name]) }, 50)
     },
-    removeData (state, data) { // [stateName, [uuid, data]]
+    removeData (state, data) { // data = [stateName, [name, data]]
       const name = data[0]
       const _data = data[1]
       delete state[data[0]][_data[0]]

@@ -1,18 +1,16 @@
 <template>
   <v-card outlined elevation="10">
-    <v-card-text>
-      <h2>Bluetooth is {{ this.btActive }}</h2>
-    </v-card-text>
+    <v-card-title>Bluetooth {{ this.btActive }}</v-card-title>
+    <v-card-text>active devices:</v-card-text>
+    <v-card-text :key='device' v-for="device in this.getID">{{device}}</v-card-text>
     <v-card-actions>
-    <v-btn @click='init()' v-if="!this.getID" block :color="this.getAccent">
-      Connect
+    <v-btn @click="init('sprofiler')" v-if="!this.getID" block :color="this.getAccent">
+      <!-- switch when scale! -->
+      connect a profiler
     </v-btn>
     <v-btn @click='disconnect()' v-if="this.getID" block color="grey">
-      Disconnect
+      clear active devices
     </v-btn>
-    <!-- <v-btn @click='serve()' :disabled='!this.getID'>
-      Connect and Serve
-    </v-btn> -->
     </v-card-actions>
   </v-card>
 
@@ -29,9 +27,9 @@ export default {
     },
     btActive () {
       if (this.getID) {
-        return 'connected!'
+        return 'data found!'
       } else {
-        return 'disActive.'
+        return 'inactive.'
       }
     }
   },
@@ -42,12 +40,13 @@ export default {
     serve () {
       bleServe()
     },
-    disconnect () {
-      bleDC()
-      this.$store.dispatch('setData', ['deviceID', 0])
+    disconnect (name) {
+      bleDC(name)
+      if(name) { this.$store.dispatch('removeData', ['activeDevices', [name]]) } else { this.$store.dispatch('setData', ['activeDevices', {}])} // if no name, dc all
     },
-    isActive (device = 'sprofiler') { // defaults to sprofiler, if called with device param filled, checks for connected device by that name. (e.g. scale)
-      return this.$store.state.activeDevices[device]
+    getID (name) { // checks for connected at name. (e.g. 'acaia')
+      const aD = this.$store.state.activeDevices
+      return name ? ad[name] : ad // can be used as "are there active devices" with truthyness
     }
   }
 }

@@ -2,28 +2,15 @@ import { BleClient } from '@capacitor-community/bluetooth-le'
 import store from '../store/index.js'
 
 import { decodeData } from './dataHandlers.js'
-import * as bleUUID from './bleUUID.json'
+import * as deviceConfig from './deviceConfig.json'
 
-// uses a friendly name to lookup the family and name
-function getData (name) {
-  let data
-  for (const family in bleUUID) {
-    const d = bleUUID[family][name]
-    if (d) { data = d; break }
-  }
-  return data
-}
+// data format (name, cuuid (optional))
+function getUUID (name, cuuid = '') {
+  const device = deviceConfig[name]
 
-// data format [family, name, charName (optional)]
-function getUUID (data) {
-  const family = data[0]
-  const name = data[1]
-  const charName = data[2] || ''
-  const device = bleUUID[family][name]
-
-  // if charName, assume lookign for characteristic uuid, returns cUUID, error returns ""
+  // if cuuid, assume lookign for characteristic uuid, returns cUUID, error returns ""
   // if no char name, reurn service uuid, error returns ""
-  return ((charName ? (device[charName] ? device[charName] : '') : (device.sUUID ? device.sUUID : ''))) // weird if / else shorthand
+  return ((cuuid ? (device[cuuid] ? device[cuuid] : '') : (device.suuid ? device.suuid : ''))) // weird if / else shorthand
 }
 
 // async ble stuff
@@ -31,8 +18,7 @@ function getUUID (data) {
 // and in some cases, the characteristic you want to access
 
 async function bleInit (name) {
-  const data = getData(name)
-  const serviceUUID = getUUID(data)
+  const serviceUUID = getUUID(name)
   const dispatch = store.dispatch
   async function main () {
     try {
@@ -42,14 +28,14 @@ async function bleInit (name) {
         services: [serviceUUID]
       })
 
-      dispatch('addData', ['activeDevices', [data[1], device.deviceId]]) // adds the name but not uuid or dID data, as that can be looked up.
+      dispatch('addData', ['activeDevices', [name, device.deviceId]]) // adds the name but not uuid, as that can be looked up.
     } catch (error) {
       console.error(error)
     }
   }
   main()
 }
-async function bleStart () {
+async function bleStart () { // just turns ble on.
   async function main () {
     try {
       await BleClient.initialize()
@@ -60,51 +46,47 @@ async function bleStart () {
   main()
 }
 async function bleServe (name) {
-  const data = getData(name)
-  const serviceUUID = getUUID(data)
-  const characteristicUUID = getUUID([data[0], data[1], 'read']) // get cUUID at 'read'
-  const deviceID = isActive(data[1])
+  const suuid = getUUID(data)
+  const cuuid = getUUID(name, 'read') // get cUUID at 'read', this will do for now
+  const deviceID = getID(name)
   const dispatch = store.dispatch
-  console.log(deviceID)
+  console.warn('connecting to ' + name + ' at ' + deviceID)
   async function main () {
     try {
       await BleClient.initialize()
 
       await BleClient.connect(deviceID)
-      console.log('connected to device', deviceID)
+      console.log('connected to ' + name + ' at ' + deviceID)
 
       await BleClient.startNotifications(
         deviceID,
-        serviceUUID,
-        characteristicUUID,
+        suuid,
+        cuuid,
         value => {
           console.log(
-            'characteristic val: ' + value
+            'response at cuuid is ' + value
           )
-          btDataHandler(value, name)
+          const decoded = decodeData(value, name) // there's a good reason for not passing name first - if it gets left off, it should handle it in a default way, not an error.
+          dispatch('addActiveData', decoded)
         }
       )
     } catch (error) {
       console.error(error)
     }
-    function btDataHandler (value, name) {
-      // let out = value.getUint32(0, true) // uses little endians
-      // out = out / 1000
-      console.log(value)
-      const decoded = decodeData(value, name) // [value, type, name]
-      dispatch('addActiveData', decoded)
-    }
   }
   main()
 }
 
-async function bleStop (deviceID, serviceUUID, characteristicUUID) {
+async function bleStop (name, cName = 'read') { // fine for now
+  const deviceID = getID(name)
+  const suuid = getUUID(name)
+  const cuuid = getUUID(name, cName)
   async function main () {
     try {
       await BleClient.stopNotifications(
         deviceID,
-        serviceUUID,
-        characteristicUUID
+        suuid,
+        cuuid
       )
     } catch (error) {
       console.error(error)
@@ -113,11 +95,12 @@ async function bleStop (deviceID, serviceUUID, characteristicUUID) {
   main()
 }
 
-async function bleDC (deviceID) {
+async function bleDC (name) {
+  const deviceID = getID(name)
   async function main () {
     try {
       await BleClient.disconnect(deviceID)
-      console.log('disActive from device' + deviceID)
+      console.log('disconnected from ' + name + ' at ' + deviceID)
     } catch (error) {
       console.error(error)
     }
@@ -125,8 +108,9 @@ async function bleDC (deviceID) {
   main()
 }
 
-function isActive (device = 'sprofiler') { // defaults to sprofiler, if called with device param filled, checks for connected device by that name. (e.g. scale)
-  return this.$store.state.activeDevices[device]
+function getID (name) { // checks for connected at name. (e.g. 'acaia')
+  const aD = this.$store.state.activeDevices
+  return name ? ad[name] : false // can be used as "are there active devices"
 }
 
-export { bleInit, bleServe, isActive, bleStop, bleDC, bleStart, getUUID }
+export { bleInit, bleServe, getID, bleStop, bleDC, bleStart, getUUID }
