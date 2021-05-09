@@ -32,7 +32,7 @@ export default new Vuex.Store({
 
     // bt stuff
     activeDevies: { // written by bleHandler
-      // dummyDevice: '3h49t83457yth'
+      // dummyDevice: '3h49t83457yth' // deviceID
     },
     // show debug tips
     debug: false,
@@ -40,8 +40,19 @@ export default new Vuex.Store({
     //
     //
     // shot data
-    tick: 0,
-    pressureArray: [[], []],
+    //
+    activeData: {
+      // date: '04/22/21 : 11:07:30',
+      // uuid: 'h456h45h6k4k5g',
+      // data: {
+      //   profiler: {
+      //     sprofiler: [{x: 0, y: 0}, {x: 1, y: 0}, {x: 2, y: 1}, {x: 3, y: 2}, {x: 4, y: 4}, {x: 5, y: 6}, {x: 6, y: 9}, {x: 7, y: 5}, {x: 8, y: 4}, {x:9 , y: 3}, {x: 10, y: 1}, {x:11 , y: 1}]
+      //   },
+      //   scale: {
+      //     acaia: [{x: 0, y: 0.0}, {x: 1, y: 0.2}, {x: 2, y: 5.1}, {x: 3, y: 12.1}, {x: 4, y: 15.7}, {x: 5, y: 19.5}, {x: 6, y: 24.1}, {x: 7, y: 28.5}, {x: 8, y: 31.2}, {x: 9, y: 32.8}, {x: 10, y: 35.3}, {x: 11, y: 37.7} ]
+      //   }
+      // }
+    },
     overlayUUID: '',
     shotHistory: {
       // a7d9g7afdsg6j: {
@@ -51,7 +62,15 @@ export default new Vuex.Store({
       //   raiting: 4.5,
       //   favorite: false,
       //   comments: 'It was pretty ok',
-      //   data: [[0, 0, 1, 2, 4, 6, 9, 5, 4, 3, 1, 1], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]]
+      //   time: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+      //   data: {
+      //     profiler: {
+      //       sprofiler: [{x: 0, y: 0}, {x: 1, y: 0}, {x: 2, y: 1}, {x: 3, y: 2}, {x: 4, y: 4}, {x: 5, y: 6}, {x: 6, y: 9}, {x: 7, y: 5}, {x: 8, y: 4}, {x:9 , y: 3}, {x: 10, y: 1), {x:11 , y: 1}]
+      //     },
+      //     scale: {
+      //       acaia: [{x: 0, y: 0.0, {x: 1, y: 0.2}, {x: 2, y: 5.1}, {x: 3, y: 12.1}, {x: 4, y: 15.7}, {x: 5, y: 19.5}, {x: 6, y: 24.1}, {x: 7, y: 28.5}, {x: 8, y: 31.2}, {x: 9, y: 32.8}, {x: 10, y: 35.3}, {x: 11, y: 37.7} ]
+      //     }
+      //   }
       // }
     },
     coffeeHistory: {
@@ -75,9 +94,26 @@ export default new Vuex.Store({
     setState (state, array) {
       state[array[0]] = array[1]
     },
-    appendPressure (state, data) {
-      state.pressureArray[0].push(data)
-      state.pressureArray[1].push((Math.round(state.tick * 20)) / 100) // weird math to give 2 decimal point precition while dividing by 5
+    addActiveData (state, data) { // data = [value, family, name]
+      const val = data[0]
+      const family = data[1]
+      const name = data[2]
+      const rtData = this.state.activeData
+      if (!rtData.date) { rtData.date = new Date(); rtData.uuid = rtData.date.getTime() } // returns an actual date object and sets uuid
+
+      if (!rtData.data[family]) { rtData.data[family] = {} }
+      if (!rtData.data[family][name]) { rtData.data[family][name] = {} }
+      rtData.data[family][name][0].push(val) // [[data], [time]]
+      // for (fam in rtData.data) {
+      //   for(obj in fam) {
+      //     // everty time a new entry is added and a new time is appended, duplicate previous data.
+      //     // this is a bodge, but I'm not sure how to split label data
+      //     obj.push(obj[obj.length() - 1])
+      //   }
+      // }
+
+      const elapsed = Date.now() - rtData.date.getTime()
+      rtData.data[family][name][1].push(elapsed) // [[data], [time]]
     },
     addData (state, data) { // data = [stateName, [uuid, data]]
       const name = data[0]
@@ -86,14 +122,11 @@ export default new Vuex.Store({
       state[name][_data[0]] = _data[1]
       setTimeout(() => { putStorage(name, state[name]) }, 50)
     },
-    removeData (state, data) {
+    removeData (state, data) { // [stateName, [uuid, data]]
       const name = data[0]
       const _data = data[1]
       delete state[data[0]][_data[0]]
       setTimeout(() => { putStorage(name, state[name]) }, 50)
-    },
-    incrementTick (state) {
-      state.tick += 1
     }
   },
   actions: {
@@ -129,9 +162,9 @@ export default new Vuex.Store({
       putStorage(array[0], array[1])
     },
 
-    appendRTPressure ({ commit, dispatch }, data) {
-      commit('appendPressure', data)
-      if (new Date().getSeconds() % 2 === 0) { dispatch('setData', ['pressureArray', this.state.pressureArray]) }
+    addActiveData ({ commit }, data) {
+      commit('addActiveData', data)
+      if (new Date().getSeconds() % 4 === 0) { putStorage('activeData', this.state.activeData) }
     },
     addData ({ commit }, data) {
       commit('addData', data)
@@ -145,11 +178,8 @@ export default new Vuex.Store({
       setTimeout(() => { dispatch('setData', ['deviceID', 0]) }, 40)
       setTimeout(() => { dispatch('setData', ['shotHistory', {}]) }, 60)
       setTimeout(() => { dispatch('setData', ['debug', false]) }, 80)
-      setTimeout(() => { dispatch('setData', ['pressureArray', [[], []]]) }, 100)
+      setTimeout(() => { dispatch('setData', ['activeData', {}]) }, 100)
       setTimeout(() => { dispatch('setData', ['coffeeHistory', {}]) }, 120)
-    },
-    incrementTick ({ commit }) {
-      commit('incrementTick')
     }
 
   },

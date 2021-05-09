@@ -46,9 +46,8 @@ export default {
       bleDC()
       this.$store.dispatch('setData', ['deviceID', 0])
     },
-    isActive (device) { // defaults to sprofiler, if called with device param filled, checks for connected device by that name. (e.g. scale)
-    const _device = (device ? device : 'sprofiler')
-    return this.$store.state.activeDevices[_device]
+    isActive (device = 'sprofiler') { // defaults to sprofiler, if called with device param filled, checks for connected device by that name. (e.g. scale)
+      return this.$store.state.activeDevices[device]
     }
   }
 }

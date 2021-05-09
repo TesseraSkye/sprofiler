@@ -1,14 +1,25 @@
 import { BleClient } from '@capacitor-community/bluetooth-le'
 import store from '../store/index.js'
 
-const bleUUID = JSON.parse(require('./bleUUID.json'))
+import { decodeData } from './dataHandlers.js'
+import * as bleUUID from './bleUUID.json'
 
-// data format [type, name, charName (optional)]
+// uses a friendly name to lookup the family and name
+function getData (name) {
+  let data
+  for (const family in bleUUID) {
+    const d = bleUUID[family][name]
+    if (d) { data = d; break }
+  }
+  return data
+}
+
+// data format [family, name, charName (optional)]
 function getUUID (data) {
-  const type = data[0]
+  const family = data[0]
   const name = data[1]
   const charName = data[2] || ''
-  const device = bleUUID[type][name]
+  const device = bleUUID[family][name]
 
   // if charName, assume lookign for characteristic uuid, returns cUUID, error returns ""
   // if no char name, reurn service uuid, error returns ""
@@ -16,12 +27,12 @@ function getUUID (data) {
 }
 
 // async ble stuff
-// everything runs on a JSON LUT, so all you have to pass is the type and name as an array,
+// everything runs on a JSON LUT, so all you have to pass is the family and name as an array,
 // and in some cases, the characteristic you want to access
 
-async function bleInit (data) {
-  const serviceUUID = getUUID([data[0], data[1]]) // recast to new array to prevent characteristic from muddying result
-  const characteristicUUID = getUUID([data[0], data[1]], 'read') // get cUUID at 'read'
+async function bleInit (name) {
+  const data = getData(name)
+  const serviceUUID = getUUID(data)
   const dispatch = store.dispatch
   async function main () {
     try {
@@ -31,7 +42,7 @@ async function bleInit (data) {
         services: [serviceUUID]
       })
 
-      dispatch('addData', ['activeDevices', [data[1], device.deviceId ]]) // adds the name but not uuid or dID data, as that can be looked up.
+      dispatch('addData', ['activeDevices', [data[1], device.deviceId]]) // adds the name but not uuid or dID data, as that can be looked up.
     } catch (error) {
       console.error(error)
     }
@@ -48,9 +59,10 @@ async function bleStart () {
   }
   main()
 }
-async function bleServe (data) {
-  const serviceUUID = getUUID([data[0], data[1]]) // recast to new array to prevent characteristic from muddying result
-  const characteristicUUID = getUUID([data[0], data[1]], 'read') // get cUUID at 'read'
+async function bleServe (name) {
+  const data = getData(name)
+  const serviceUUID = getUUID(data)
+  const characteristicUUID = getUUID([data[0], data[1], 'read']) // get cUUID at 'read'
   const deviceID = isActive(data[1])
   const dispatch = store.dispatch
   console.log(deviceID)
@@ -69,19 +81,18 @@ async function bleServe (data) {
           console.log(
             'characteristic val: ' + value
           )
-          btDataHandler(name, value)
+          btDataHandler(value, name)
         }
       )
     } catch (error) {
       console.error(error)
     }
-    function btDataHandler (value) {
-      let out = value.getUint32(0, true) // uses little endians
-      out = out / 1000
-      console.log(out)
-      dispatch('incrementTick')
-      dispatch('appendRTPressure', out)
-      return out
+    function btDataHandler (value, name) {
+      // let out = value.getUint32(0, true) // uses little endians
+      // out = out / 1000
+      console.log(value)
+      const decoded = decodeData(value, name) // [value, type, name]
+      dispatch('addActiveData', decoded)
     }
   }
   main()
@@ -114,9 +125,8 @@ async function bleDC (deviceID) {
   main()
 }
 
-function isActive(device) { // defaults to sprofiler, if called with device param filled, checks for connected device by that name. (e.g. scale)
-  const _device = (device ? device : 'sprofiler')
-  return this.$store.state.activeDevices[_device]
+function isActive (device = 'sprofiler') { // defaults to sprofiler, if called with device param filled, checks for connected device by that name. (e.g. scale)
+  return this.$store.state.activeDevices[device]
 }
 
 export { bleInit, bleServe, isActive, bleStop, bleDC, bleStart, getUUID }

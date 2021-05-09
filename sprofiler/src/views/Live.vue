@@ -18,16 +18,16 @@
       </v-col>
     </v-row>
     <v-row v-if="this.isActive || this.isDebug">
-      <v-btn :disabled='!this.hasPressureData' :color="this.getAccent" block class="mb-2" to="/save">{{this.isWaiting}}</v-btn>
+      <v-btn :disabled='!this.hasActiveData' :color="this.getAccent" block class="mb-2" to="/save">{{this.hasActiveData ? "Save" : "Waiting for data..."}}</v-btn>
       <br>
       <v-col cols=12>
-        <line-chart :chart-data='activePressureArray' :key='rerenderKey + 5' class="chart-lg d-flex d-sm-none"/>
-        <line-chart :chart-data='activePressureArray' :key='rerenderKey' class="chart-md d-none d-sm-flex"/>
+        <line-chart :chart-data='chartData' :key='rerenderKey + 5' class="chart-lg d-flex d-sm-none"/>
+        <line-chart :chart-data='chartData' :key='rerenderKey' class="chart-md d-none d-sm-flex"/>
       </v-col>
     </v-row>
     <v-row justify="center" v-if="this.isActive || this.isDebug">
       <v-col>
-        <v-btn @click="this.resetPressure" :disabled='!this.hasPressureData' color="red" block>Clear</v-btn>
+        <v-btn @click="this.resetActiveData" :disabled='!this.hasActiveData' color="red" block>Clear</v-btn>
         <br>
         <br>
       </v-col>
@@ -48,16 +48,16 @@ export default {
   data () {
     return {
       rerenderKey: 0,
-      activePressureArray: {}
+      activeData: {},
+      chartData: {}
     }
   },
   mounted () {
-    if (this.isActive) { this.init() }
+    if (this.isConnected) { this.init() }
   },
   methods: {
-    isActive (device) { // defaults to sprofiler, if called with device param filled, checks for connected device by that name. (e.g. scale)
-    const _device = (device ? device : 'sprofiler')
-    return this.$store.state.activeDevices[_device]
+    isConnected (device = 'sprofiler') { // defaults to sprofiler, if called with device param filled, checks for connected device by that name. (e.g. acaia, etc)
+      return this.$store.state.activeDevices[device]
     },
     init () {
       this.fillChart()
@@ -72,42 +72,31 @@ export default {
       bleStop()
     },
     resetPressure () {
-      this.$store.dispatch('setData', ['pressureArray', [[], []]])
+      this.$store.dispatch('setData', ['activeData', {}])
       this.$store.dispatch('setData', ['overlayUUID', ''])
       setTimeout(() => { this.$router.push('/') }, 50)
     },
     rerender () {
       this.rerenderKey += 1
-      this.activePressureArray.labels = this.getLabels // potential bug fix for chart overlap issues
+      this.chartData.labels = this.getLabels // potential bug fix for chart overlap issues
       if (this.rerenderKey > 50) { this.rerenderKey = 0 }
     },
-    fillChart () {
-      this.activePressureArray = {
+    fillChart () { // parametrically create new datasets & charts based on connected devices
+      this.chartData = {
         labels: this.getLabels,
         datasets: [
-          {
-            label: 'pressure (bar)',
-            borderColor: this.getAccent,
-            pointBackgroundColor: 'dark',
-            borderWidth: 2,
-            pointRadius: 0,
-            pointBorderColor: this.getAccent,
-            backgroundColor: '#aaaaaa11',
-            data: this.getPressureData
-          }
+          // {
+          //   label: 'Active Pressure',
+          //   borderColor: this.getAccent,
+          //   pointBackgroundColor: 'dark',
+          //   borderWidth: 2,
+          //   pointRadius: 0,
+          //   pointBorderColor: this.getAccent,
+          //   backgroundColor: '#aaaaaa11',
+          //   data: this.getActiveData.pressure,
+          //   yAxisID: 'pressure'
+          // }
         ]
-      }
-      if (this.getOverlayUUID) {
-        this.activePressureArray.datasets[1] = {
-          label: 'pressure (bar)',
-          borderColor: '#555',
-          pointBackgroundColor: 'dark',
-          borderWidth: 2,
-          pointRadius: 0,
-          pointBorderColor: '#555',
-          backgroundColor: '#aaaaaa22',
-          data: this.getOverlayData[0] || []
-        }
       }
     },
     forceRerender () {
@@ -119,7 +108,9 @@ export default {
       const overlay = this.$store.state.shotHistory[this.getOverlayUUID] || {
         data: [[], []]
       }
-      return overlay.data
+      return {
+        pressure: overlay.data
+      }
     },
     getOverlayUUID () {
       const data = this.$store.state.overlayUUID || 0 // this might cause issues, but shouldn't
@@ -128,19 +119,14 @@ export default {
     isDebug () {
       return this.$store.state.debug
     },
-    isWaiting () {
-      if (this.hasPressureData) {
-        return 'SAVE'
-      } else { return 'waiting for data...' }
-    },
     getAccent () {
       return this.$store.state.accent
     },
     getPressureData () {
-      return this.$store.state.pressureArray[0]
+      return this.$store.state.Data[0]
     },
     getLabelData () {
-      return this.$store.state.pressureArray[1]
+      return this.$store.state.Data[1]
     },
     getLabels () {
       // if (this.getOverlayData[1]) {
@@ -149,8 +135,8 @@ export default {
         return this.getOverlayData[1]
       } else { return this.getLabelData }
     },
-    hasPressureData () {
-      return this.$store.state.pressureArray[0][0]
+    hasActiveData () {
+      return !!this.$store.state.activeData.data.profiler // !! casts return as a bool
     }
   }
 }

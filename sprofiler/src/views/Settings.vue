@@ -117,9 +117,8 @@ export default {
     }
   },
   methods: {
-    isActive (device) { // defaults to sprofiler, if called with device param filled, checks for connected device by that name. (e.g. scale)
-    const _device = (device ? device : 'sprofiler')
-    return this.$store.state.activeDevices[_device]
+    isActive (device = 'sprofiler') { // defaults to sprofiler, if called with device param filled, checks for connected device by that name. (e.g. scale)
+      return this.$store.state.activeDevices[device]
     },
     setDialog (bool) {
       this.dialog = bool
@@ -134,7 +133,18 @@ export default {
       this.$store.dispatch('setData', ['debug', bool])
     },
     override () {
-      this.$store.dispatch('setData', ['pressureArray', [[1, 9, 5, 2], [0, 1, 2, 3]]])
+      this.$store.dispatch('setData', ['activeData', {
+        date: '04/22/21 : 11:07:30',
+        uuid: 'h456h45h6k4k5g',
+        data: {
+          profiler: {
+            sprofiler: [{x: 0, y: 0}, {x: 1, y: 0}, {x: 2, y: 1}, {x: 3, y: 2}, {x: 4, y: 4}, {x: 5, y: 6}, {x: 6, y: 9}, {x: 7, y: 5}, {x: 8, y: 4}, {x:9 , y: 3}, {x: 10, y: 1}, {x:11 , y: 1}]
+          },
+          scale: {
+            acaia: [{x: 0, y: 0.0}, {x: 1, y: 0.2}, {x: 2, y: 5.1}, {x: 3, y: 12.1}, {x: 4, y: 15.7}, {x: 5, y: 19.5}, {x: 6, y: 24.1}, {x: 7, y: 28.5}, {x: 8, y: 31.2}, {x: 9, y: 32.8}, {x: 10, y: 35.3}, {x: 11, y: 37.7} ]
+          }
+        }
+      }])
       this.$store.dispatch('setData', ['shotHistory',
         {
           dummy: {
