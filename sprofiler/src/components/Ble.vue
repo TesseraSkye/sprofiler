@@ -4,6 +4,14 @@
     <v-card-text>active devices:</v-card-text>
     <v-card-text :key='device' v-for="device in this.getID">{{device}}</v-card-text>
     <v-card-actions>
+      <v-btn :v-model="bleSettings" >Connection Options</v-btn>
+      <v-fade-transition>
+        <v-overlay>
+          <v-btn>pair profiler</v-btn>
+          <v-btn disabled>pair scale</v-btn>
+          <v-btn disabled>pair endpoint</v-btn>
+        </v-overlay>
+      </v-fade-transition>
     <v-btn @click="init('sprofiler')" v-if="!this.getID" block :color="this.getAccent">
       <!-- switch when scale! -->
       connect a profiler

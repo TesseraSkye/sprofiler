@@ -36,6 +36,21 @@
         </v-card>
       </v-col>
     </v-row>
+    <v-row>
+      <v-col>
+        <v-card elevation="10" outlined :color="this.getAccent">
+          <v-card-title>
+            <h3>We have a rodamap!</h3>
+          </v-card-title>
+          <v-card-text>
+            <h4>To explore what we have planned, check our trello.</h4>
+          </v-card-text>
+          <v-card-actions>
+            <v-button href="https://trello.com/b/ME1z05LE/sprofiler">Show me -></v-button>
+          </v-card-actions>
+        </v-card>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 

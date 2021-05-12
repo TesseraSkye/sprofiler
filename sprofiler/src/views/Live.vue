@@ -7,7 +7,7 @@
             <h1>Hey!</h1>
           </v-card-title>
           <v-card-text>
-            <h3>To use the profiling feature, you'll need to connect to your Sprofiler in the settings tab.</h3>
+            <h3>To use the live data feature, you'll need to connect to a device in the settings tab.</h3>
           </v-card-text>
           <v-card-actions>
             <v-btn to='/settings'>
