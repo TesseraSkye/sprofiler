@@ -42,7 +42,8 @@ export default new Vuex.Store({
     // shot data
     //
     activeData: {
-      // date: '04/22/21 : 11:07:30',
+      // dateOBJ: {}, // this is a real, actual date object
+      // date: '11:23:12 on 12/22/13',
       // uuid: 'h456h45h6k4k5g',
       // data: {
       //   profiler: {
@@ -57,7 +58,7 @@ export default new Vuex.Store({
     shotHistory: {
       // a7d9g7afdsg6j: {
       //   name: 'Dummy shot',
-      //   date: '04/22/21 : 11:07:30',
+      //   dateOBJ: {}, // this is a real, actual date object
       //   uuid: 'a7d9g7afdsg6j',
       //   raiting: 4.5,
       //   favorite: false,
@@ -99,7 +100,7 @@ export default new Vuex.Store({
       const family = data[1]
       const name = data[2]
       const rtData = this.state.activeData
-      if (!rtData.date) { rtData.date = new Date(); rtData.uuid = rtData.date.getTime() } // returns an actual date object and sets uuid
+      if (!rtData.dateOBJ) { rtData.dateOBJ = new Date(); rtData.uuid = rtData.dateOBJ.getTime() } // returns an actual date object and sets uuid
 
       if (!rtData.data[family]) { rtData.data[family] = {} }
       if (!rtData.data[family][name]) { rtData.data[family][name] = {} }
