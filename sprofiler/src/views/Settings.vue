@@ -19,17 +19,8 @@
             <h2>Accent Color:</h2>
           </v-card-text>
           <v-row>
-            <v-col cols=3 align-self="center">
-              <v-btn color="cyan" :small="isAccent('cyan')" fab x-small class = "mx-2 my-4" @click="setAccent('cyan')"/>
-            </v-col>
-            <v-col cols=3 align-self="center">
-              <v-btn color="pink" :small="isAccent('pink')" fab x-small class = "mx-2 my-4" @click="setAccent('pink')"/>
-            </v-col>
-            <v-col cols=3 align-self="center">
-              <v-btn color="green" :small="isAccent('green')" fab x-small class = "mx-2 my-4" @click="setAccent('green')"/>
-            </v-col>
-            <v-col cols=3 align-self="center">
-              <v-btn color="orange" :small="isAccent('orange')" fab x-small class = "mx-2 my-4" @click="setAccent('orange')"/>
+            <v-col :key='accent' :v-for="accent in this.getAccentPresets" align-self="center">
+              <v-btn :color="accent" :small="isAccent(accent)" fab x-small class = "mx-2 my-4" :@click="setAccent(accent)"/>
             </v-col>
           </v-row>
         </v-card>
@@ -114,6 +105,9 @@ export default {
     },
     isDebug () {
       return this.$store.state.debug
+    },
+    getAccentPresets () {
+      return this.$store.state.accentPresets
     }
   },
   methods: {
