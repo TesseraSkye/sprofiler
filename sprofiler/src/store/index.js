@@ -29,9 +29,11 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     accent: '',
-    
     // preset accents
     accentPresets: ['pink', 'cyan', 'green', 'orange'],
+
+    // types of devices registered
+    deviceFamilies: ['profiler', 'scale', 'endpoint'],
 
     // bt stuff
     activeDevies: { // written by bleHandler

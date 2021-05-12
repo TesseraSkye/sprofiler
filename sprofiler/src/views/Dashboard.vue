@@ -25,20 +25,7 @@
     </v-row>
     <v-row>
       <v-col>
-        <v-card elevation="10" outlined :color="this.getAccent">
-          <v-card-title>
-            <h3>Before you go:</h3>
-          </v-card-title>
-          <v-card-text>
-            <h4>This app is in a beta state. Expect bugs and weird behaviors.</h4>
-            <h4>Message me @tesseraskye with any concerns.</h4>
-          </v-card-text>
-        </v-card>
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col>
-        <v-card elevation="10" outlined :color="this.getAccent">
+        <v-card elevation="10" outlined>
           <v-card-title>
             <h3>We have a rodamap!</h3>
           </v-card-title>
@@ -46,8 +33,21 @@
             <h4>To explore what we have planned, check our trello.</h4>
           </v-card-text>
           <v-card-actions>
-            <v-button href="https://trello.com/b/ME1z05LE/sprofiler">Show me -></v-button>
+            <v-btn :color="this.getAccent" href="https://trello.com/b/ME1z05LE/sprofiler">Show me -></v-btn>
           </v-card-actions>
+        </v-card>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        <v-card elevation="10" outlined color="red">
+          <v-card-title>
+            <h3>Before you go:</h3>
+          </v-card-title>
+          <v-card-text>
+            <h4>This app is in a beta state. Expect bugs and weird behaviors.</h4>
+            <h4>Message me @tesseraskye with any concerns.</h4>
+          </v-card-text>
         </v-card>
       </v-col>
     </v-row>

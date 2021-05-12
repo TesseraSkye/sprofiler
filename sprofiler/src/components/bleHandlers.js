@@ -46,7 +46,7 @@ async function bleStart () { // just turns ble on.
   main()
 }
 async function bleServe (name) {
-  const suuid = getUUID(data)
+  const suuid = getUUID(name)
   const cuuid = getUUID(name, 'read') // get cUUID at 'read', this will do for now
   const deviceID = getID(name)
   const dispatch = store.dispatch
@@ -109,8 +109,7 @@ async function bleDC (name) {
 }
 
 function getID (name) { // checks for connected at name. (e.g. 'acaia')
-  const aD = this.$store.state.activeDevices
-  return name ? ad[name] : false // can be used as "are there active devices"
+  return this.$store.state.activeDevices[name]
 }
 
 export { bleInit, bleServe, getID, bleStop, bleDC, bleStart, getUUID }

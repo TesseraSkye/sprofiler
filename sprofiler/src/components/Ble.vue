@@ -1,25 +1,31 @@
 <template>
   <v-card outlined elevation="10">
     <v-card-title>Bluetooth {{ this.btActive }}</v-card-title>
-    <v-card-text>active devices:</v-card-text>
-    <v-card-text :key='device' v-for="device in this.getID">{{device}}</v-card-text>
+    <v-card-text v-if="this.isDebug"><h4>active devices:</h4></v-card-text>
+    <v-card-text :key='device' v-for="device in this.getDevices">{{device}}</v-card-text>
     <v-card-actions>
-      <v-btn :v-model="bleSettings" >Connection Options</v-btn>
-      <v-fade-transition>
-        <v-overlay>
-          <v-btn>pair profiler</v-btn>
-          <v-btn disabled>pair scale</v-btn>
-          <v-btn disabled>pair endpoint</v-btn>
-        </v-overlay>
-      </v-fade-transition>
-    <v-btn @click="init('sprofiler')" v-if="!this.getID" block :color="this.getAccent">
-      <!-- switch when scale! -->
-      connect a profiler
-    </v-btn>
-    <v-btn @click='disconnect()' v-if="this.getID" block color="grey">
-      clear active devices
-    </v-btn>
+      <v-menu offset-y>
+        <template #activator="{ on, attrs }">
+          <v-btn :color="$parent.getAccent" v-bind="attrs" v-on="on">Pair a device</v-btn>
+        </template>
+        <v-list>
+            <v-list-item :key="family" v-for="family in this.getDeviceFamilies">
+              <v-list-item-title>{{ family }}</v-list-item-title>
+            </v-list-item>
+          </v-list>
+      </v-menu>
     </v-card-actions>
+    <!-- <v-menu offset-y value="">
+        <v-list>
+          <v-list-item :key="family" v-for="family in this.getDeviceFamilies">
+            <v-list-item-title>{{ family }}</v-list-item-title>
+          </v-list-item>
+        </v-list>
+    </v-menu> -->
+    <v-fade-transition>
+    <v-overlay absolute  v-if="this.connectionOverlay">
+    </v-overlay>
+    </v-fade-transition>
   </v-card>
 
 </template>
@@ -29,32 +35,48 @@ import { bleInit, bleServe, bleDC } from './bleHandlers.js'
 
 export default {
   name: 'ble',
+  data () {
+    return {
+      connectionOverlay: false
+    }
+  },
   computed: {
     getAccent () {
       return this.$store.state.accent
     },
     btActive () {
-      if (this.getID) {
+      if (this.getDevices) {
         return 'data found!'
       } else {
         return 'inactive.'
       }
+    },
+    isDebug () {
+      return this.$store.state.debug
+    },
+    getDevices () {
+      return this.$store.state.activeDevices
+    },
+    getDeviceFamilies () {
+      return this.$store.state.deviceFamilies
     }
   },
   methods: {
     init () {
       bleInit()
     },
-    serve () {
-      bleServe()
+    serve (device = 'sprofiler') {
+      bleServe(device)
     },
     disconnect (name) {
       bleDC(name)
-      if(name) { this.$store.dispatch('removeData', ['activeDevices', [name]]) } else { this.$store.dispatch('setData', ['activeDevices', {}])} // if no name, dc all
+      if (name) { this.$store.dispatch('removeData', ['activeDevices', [name]]) } else { this.$store.dispatch('setData', ['activeDevices', {}]) } // if no name, dc all
     },
     getID (name) { // checks for connected at name. (e.g. 'acaia')
-      const aD = this.$store.state.activeDevices
-      return name ? ad[name] : ad // can be used as "are there active devices" with truthyness
+      return this.$store.state.activeDevices[name]
+    },
+    setConOverlay (status) {
+      this.connectionOverlay = status
     }
   }
 }
