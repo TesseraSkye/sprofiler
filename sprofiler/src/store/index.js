@@ -30,7 +30,7 @@ export default new Vuex.Store({
   state: {
     accent: '',
     // preset accents
-    accentPresets: ['pink', 'cyan', 'green', 'orange'],
+    accentPresets: ['pink', 'cyan', 'green', 'deep-orange'],
 
     // types of devices registered
     deviceFamilies: ['profiler', 'scale', 'endpoint'],

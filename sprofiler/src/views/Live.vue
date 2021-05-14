@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-row v-if="(!this.isActive)">
+    <v-row v-if="(!this.hasActiveData)">
       <v-col>
         <v-card elevation="2">
           <v-card-title>
@@ -17,7 +17,7 @@
         </v-card>
       </v-col>
     </v-row>
-    <v-row v-if="this.isActive || this.isDebug">
+    <v-row v-if="this.hasActiveData || this.isDebug">
       <v-btn :disabled='!this.hasActiveData' :color="this.getAccent" block class="mb-2" to="/save">{{this.hasActiveData ? "Save" : "Waiting for data..."}}</v-btn>
       <br>
       <v-col cols=12>
@@ -25,7 +25,7 @@
         <line-chart :chart-data='chartData' :key='rerenderKey' class="chart-md d-none d-sm-flex"/>
       </v-col>
     </v-row>
-    <v-row justify="center" v-if="this.isActive || this.isDebug">
+    <v-row justify="center" v-if="this.hasActiveData || this.isDebug">
       <v-col>
         <v-btn @click="this.resetActiveData" :disabled='!this.hasActiveData' color="red" block>Clear</v-btn>
         <br>

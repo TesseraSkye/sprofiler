@@ -6,9 +6,9 @@
     <v-card-actions>
       <v-menu offset-y>
         <template #activator="{ on, attrs }">
-          <v-btn :color="$parent.getAccent" v-bind="attrs" v-on="on">Pair a device</v-btn>
+          <v-btn :color="$parent.getAccent" block v-bind="attrs" v-on="on">Pair a device</v-btn>
         </template>
-        <v-list>
+        <v-list elevation="10" outlined :color="$parent.getAccent + ' darken-2'">
             <v-list-item :key="family" v-for="family in this.getDeviceFamilies">
               <v-list-item-title>{{ family }}</v-list-item-title>
             </v-list-item>
