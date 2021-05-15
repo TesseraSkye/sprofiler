@@ -7,75 +7,82 @@
         <h5>Trans Rights</h5>
       </v-col>
     </v-row>
-    <v-row>
-      <v-col>
-        <Ble/>
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col sm="12" md="6">
-        <v-card outlined elevation="10">
-          <v-card-text>
-            <h2>Accent Color:</h2>
-          </v-card-text>
-          <v-row>
-            <v-col :key='accent' v-for="accent in getAccentPresets" align-self="center">
-              <v-btn :color="accent" :small="isAccent(accent)" fab x-small class = "mx-2 my-4" @click="setAccent(accent)"/>
-            </v-col>
-          </v-row>
-        </v-card>
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col>
-        <v-btn v-if="!this.isDebug" @click="setDebug(true)" color="grey" block>SHOW DEBUG</v-btn>
-        <v-btn v-if="this.isDebug" color="blue" @click="setDebug(false)"  block>HIDE DEBUG</v-btn>
-      </v-col>
-    </v-row>
-    <v-row v-if="this.isDebug">
-      <v-col sm="12" md="6">
-        <v-card outlined elevation="10">
-          <v-card-text>
-            <h2>Debugging Data:</h2>
-            <!-- <h4>pressure data {{this.$store.state.pressureArray}}</h4> -->
-            <h4>BLE Device ID: {{this.isActive}}</h4>
-            <h4>State: {{this.getState}}</h4>
-            <v-btn @click="this.override" class="my-2" color="orange">OVERRIDE STATE</v-btn>
-            <br>
-            <v-btn @click="setDialog(true)" color="red">WIPE ALL DATA!!</v-btn>
-          </v-card-text>
-        </v-card>
-        <br>
-        <br>
-          <v-dialog v-model="dialog" width="500">
-            <v-card>
-              <v-card-title class="headline red">
-                Erase all data?
-              </v-card-title>
-
-              <v-card-text class="my-2">
-                Are you sure you want to do this? This action can not be undone.
+    <v-divider/>
+    <v-tabs v-model="page">
+      <v-tab>Connection</v-tab>
+      <v-tab>Appearance</v-tab>
+      <v-tab>Debug</v-tab>
+    </v-tabs>
+    <v-divider/>
+    <v-tabs-items v-model="page">
+      <v-tab-item>
+        <v-row>
+          <v-col>
+            <Ble />
+          </v-col>
+        </v-row>
+      </v-tab-item>
+      <v-tab-item>
+        <v-row>
+          <v-col sm="12" md="6">
+            <v-card outlined elevation="10">
+              <v-card-text>
+                <h2>Accent Color:</h2>
               </v-card-text>
-
-              <v-divider></v-divider>
-
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn
-                  color="primary"
-                  text
-                  @click="wipeStorage"
-                >
-                  Sure
-                </v-btn>
-              </v-card-actions>
+              <v-row>
+                <v-col :key='accent' v-for="accent in getAccentPresets" align-self="center">
+                  <v-btn :color="accent" :small="isAccent(accent)" fab x-small class="mx-2 my-4" @click="setAccent(accent)" />
+                </v-col>
+              </v-row>
             </v-card>
-          </v-dialog>
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-spacer></v-spacer>
-    </v-row>
+          </v-col>
+        </v-row>
+      </v-tab-item>
+      <v-tab-item>
+        <v-row>
+          <v-col sm="12" md="6">
+            <h1>THERE ARE OPTIONS HERE THAT CAN AND WILL WIPE ALL OF YOUR DATA PERMANENTLY. USE WITH CARE.</h1>
+            <v-card outlined elevation="10">
+              <v-card-text>
+                <h2>Debugging Data:</h2>
+                <!-- <h4>pressure data {{this.$store.state.pressureArray}}</h4> -->
+                <h4>BLE Device ID: {{this.isActive}}</h4>
+                <h4>State: {{this.getState}}</h4>
+                <v-btn @click="this.override" class="my-2" color="orange">OVERRIDE STATE</v-btn>
+                <br>
+                <v-btn @click="setDialog(true)" color="red">WIPE ALL DATA!!</v-btn>
+              </v-card-text>
+            </v-card>
+            <br>
+            <br>
+              <v-dialog v-model="dialog" width="500">
+                <v-card>
+                  <v-card-title class="headline red">
+                    Erase all data?
+                  </v-card-title>
+    
+                  <v-card-text class="my-2">
+                    Are you sure you want to do this? This action can not be undone.
+                  </v-card-text>
+    
+                  <v-divider></v-divider>
+    
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn
+                      color="primary"
+                      text
+                      @click="wipeStorage"
+                    >
+                      Sure
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+          </v-col>
+        </v-row>
+      </v-tab-item>
+    </v-tabs-items>
   </v-container>
 </template>
 

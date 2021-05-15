@@ -2,6 +2,7 @@
   "sprofiler": {
     "family": "profiler",
     "dataType": "pressure",
+    "description": "A DIY pressure profiler.",
     "coefficient": 0.001,
     "offset": 0,
     "decodeFamily": "uint32",
@@ -14,6 +15,7 @@
   "acaia": {
     "family": "scale",
     "dataType": "weight",
+    "description": "One of a family of scales made by Acaia.",
     "suuid": "00001820-0000-1000-8000-00805F9B34FB",
     "characteristics": {
       "age": "00002A80-0000-1000-8000-00805F9B34FB"
@@ -22,6 +24,7 @@
   "decentscale": {
     "family": "scale",
     "dataType": "weight",
+    "description": "A scale designed by the folks at decent espresso.",
     "suuid": "0000FFF0-0000-1000-8000-00805F9B34FB",
     "characteristics": {
       "read": "0000FFF4-0000-1000-8000-00805F9B34FB",
@@ -32,6 +35,7 @@
   "felicita": {
     "family": "scale",
     "dataType": "weight",
+    "description": "It weighs things, and does it well.",
     "suuid": "0000FFE0-0000-1000-8000-00805F9B34FB",
     "characteristics": {
       "read": "0000FFE1-0000-1000-8000-00805F9B34FB"
@@ -40,6 +44,7 @@
   "hiroiajimmy": {
     "family": "scale",
     "dataType": "weight",
+    "description": "A scale! It can measure things like weight.",
     "suuid": "06C31822-8682-4744-9211-FEBC93E3BECE",
     "characteristics": {
       "read": "06C31824-8682-4744-9211-FEBC93E3BECE",
@@ -49,6 +54,7 @@
   "skale": {
     "family": "scale",
     "dataType": "weight",
+    "description": "The name says it all, and more.",
     "suuid": "0000FF08-0000-1000-8000-00805F9B34FB",
     "characteristics": {
       "skale_EF80": "0000EF80-0000-1000-8000-00805F9B34FB",
@@ -58,6 +64,7 @@
   },
   "de1": {
     "family": "endpoint",
+    "description": "This is still... very work-in-progress. At some point, you'll be able to run this app on a decent. I don't own one, so I'm.. going to hold off for a bit. *cry*",
     "suuid": "0000A000-0000-1000-8000-00805F9B34FB",
     "characteristics": {
       "0A": "0000A00A-0000-1000-8000-00805F9B34FB",
