@@ -70,7 +70,7 @@
   },
   "de1": {
     "family": "endpoint",
-    "description": "This is still... very work-in-progress. At some point, you'll be able to run this app on a decent. I don't own one, so I'm.. going to hold off for a bit. *cry*",
+    "description": "This is still... very work-in-progress. *cry*",
     "friendly": "De1 Family",
     "suuid": "0000A000-0000-1000-8000-00805F9B34FB",
     "characteristics": {

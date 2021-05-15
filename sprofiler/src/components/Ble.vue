@@ -1,5 +1,5 @@
 <template>
-  <v-card outlined elevation="10" class="px-2">
+  <v-card elevation="10" class="px-2">
     <v-card-title>Bluetooth {{ this.btActive }}</v-card-title>
     <template v-if="this.isDebug">
       <v-card-text><h4>active devices:</h4></v-card-text>
@@ -12,12 +12,12 @@
     <v-divider class="my-2"/>
     <v-tabs-items v-model="tab">
       <v-tab-item v-for="(family, key) in this.deviceTree" :key="key">
-        <v-card color="grey darken-3" :key="key" v-for="(item, key) in family" class="ma-2" elevation=10>
+        <v-card color="transparent" :key="key" v-for="(item, key) in family" elevation=4>
           <v-card-title>{{ item.friendly }}<i>{{!!getID(key) ? "..... active!" : ""}}</i></v-card-title>
           <v-card-subtitle>{{item.description}}</v-card-subtitle>
           <v-card-actions>
-            <v-btn v-if="!getID(key)" elevation=4 :color="getAccent + ' darken-2'" @click="serve(key)">Connect</v-btn>
-            <v-btn v-if="!!getID(key)" elevation=4 :color="getAccent + ' darken-2'" @click="disconnect(key)">Disonnect</v-btn>
+            <v-btn block v-if="!getID(key)" elevation=4 :color="getAccent + ' darken-2'" @click="serve(key)">Connect</v-btn>
+            <v-btn block v-if="!!getID(key)" elevation=4 :color="getAccent + ' darken-2'" @click="disconnect(key)">Disonnect</v-btn>
           </v-card-actions>
         </v-card>
       </v-tab-item>
@@ -43,7 +43,8 @@ export default {
       return this.$store.state.accent
     },
     btActive () {
-      if (this.getDevices) {
+      const d = this.getDevices
+      if (!(d && Object.keys(d).length === 0 && d.constructor === Object)) {
         return 'data found!'
       } else {
         return 'inactive.'
@@ -64,7 +65,7 @@ export default {
     init () {
       bleInit()
     },
-    serve (device = 'sprofiler') {
+    serve (device) {
       bleServe(device)
       // setTimeout(() => { this.$router.push('/dash') }, 220)
     },

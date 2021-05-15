@@ -2,7 +2,9 @@ import { BleClient } from '@capacitor-community/bluetooth-le'
 import store from '../store/index.js'
 
 import { decodeData } from './dataHandlers.js'
-import * as deviceConfig from './deviceConfig.json'
+import * as _deviceConfig from './deviceConfig.json'
+
+const deviceConfig = _deviceConfig.default
 
 // data format (name, cuuid (optional))
 function getUUID (name, cuuid = '') {

@@ -1,15 +1,17 @@
 <template>
   <v-app>
-  <v-fade-transition v-if="this.splash">
-    <div id="splash" class="text-center">
-      <v-scroll-x-transition class="vw-100">
-        <v-img v-if="this.splashIcon" max-width="100vh" src="./assets/icon.png"/>
-      </v-scroll-x-transition>
-    </div>
-  </v-fade-transition>
+    <v-fade-transition v-if="this.splash">
+      <div id="splash" class="text-center">
+        <v-scroll-x-transition class="vw-100">
+          <v-img v-if="this.splashIcon" max-width="100vh" src="./assets/icon.png"/>
+        </v-scroll-x-transition>
+      </div>
+    </v-fade-transition>
     <v-banner v-if="this.isDebug" color="red" class="p-fixed">DEBUG MODE IS ENABLED</v-banner>
     <v-main>
-      <router-view transition='fade-transition'/>
+      <v-slide-x-transition mode="out-in">
+        <router-view/>
+      </v-slide-x-transition>
     </v-main>
     <v-bottom-navigation elevation='24' class="zh-95" shift fixed background-color="#272727" grow mandatory :color="this.getAccent">
 
@@ -96,7 +98,6 @@ export default {
 <style scoped>
 #splash {
   height: 100vh;
-  width: 100vw;
   position: fixed;
   background-color: black;
   z-index: 100;
