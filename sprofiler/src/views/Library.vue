@@ -1,50 +1,52 @@
 <template>
   <v-container>
-    <v-tabs v-model="page" :background-color="this.getAccent" color="white" centered dark>
-      <v-tab v-for="tab in this.tabs" :key="tab.key">
-        {{tab.longName}}
-      </v-tab>
+    <v-row>
+      <v-col>
+        <v-tabs v-model="page" :color="this.getAccent" centered>
+      <v-tab>Shots</v-tab>
+      <v-tab>Coffees</v-tab>
     </v-tabs>
-    <v-tabs-items v-model="page">
-      <v-tab-item v-for="tab in this.tabs" :key="tab.key">
-        <v-card>
-          <v-card-title>
-            {{tab.longName}}
-          </v-card-title>
-          <v-card-text>
-            {{tab.flavorText}}
-          </v-card-text>
-        </v-card>
-        <CardList :listDataLink="tab.stateVar" :cardName="tab.componentName" />
-      </v-tab-item>
-    </v-tabs-items>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        <v-tabs-items v-model="page">
+          <v-tab-item>
+            <!-- Shots -->
+            <shot-card :data="shot" :key="shot.uuid" v-for="shot in this.getStateData('shotHistory')"/>
+          </v-tab-item>
+          <v-tab-item>
+            <!-- Coffee -->
+            <coffee-card :data="coffee" :key="coffee.uuid" v-for="coffee in this.getStateData('coffeeHistory')" />
+          </v-tab-item>
+        </v-tabs-items>
+      </v-col>
+    </v-row>
     <br>
     <br>
   </v-container>
 </template>
 
 <script>
-import CardList from '../components/CardList.vue'
+import ShotCard from '../components/ShotCard.vue'
+import CoffeeCard from '../components/CoffeeCard.vue'
 export default {
   name: 'library',
   data: () => ({
-    page: null,
-    tabs: [
-      {
-        key: 'history',
-        componentName: 'ShotCard',
-        longName: 'Shot History',
-        stateVar: 'shotHistory',
-        flavorText: 'Here, you can relive your past glory'
-      }
-    ]
+    page: 'Shots'
   }),
   components: {
-    CardList
+    ShotCard,
+    CoffeeCard
   },
   computed: {
     getAccent () {
       return this.$store.state.accent
+    }
+  },
+  methods: {
+    getStateData (name) {
+      return this.$store.state[name]
     }
   }
 }

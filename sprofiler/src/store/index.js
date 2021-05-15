@@ -85,15 +85,19 @@ export default new Vuex.Store({
       // sdf7g68dsfg8s: {
       //   name: 'Halo Beriti',
       //   origin: 'etheopia',
+      //   varietal: 'heirloom',
       //   process: 'natural',
-      //   roaster: 'bespoken (OR)'
+      //   elevation: '1600m',
+      //   roaster: 'Bespoken',
+      //   roastLocation: 'Oregon',
+      //   roastDate: '04/25/21',
       //   date: '05/02/21 : 09:51:30',
       //   uuid: 'sdf7g68dsfg8s',
-      //   raiting: 4
-      //   favorite: true
+      //   rating: 4,
+      //   favorite: true,
       //   comments: '',
       //   tastingNotes: 'Very fruity, quite sweet',
-      //   tastingTags: "blueberries, sugar"
+      //   tastingTags: 'blueberries, sugar'
       // }
     }
   },
@@ -199,7 +203,7 @@ export default new Vuex.Store({
     wipeStorage ({ dispatch }) {
       clearStorage()
       setTimeout(() => { dispatch('setData', ['accent', 'cyan']) }, 20)
-      setTimeout(() => { dispatch('setData', ['deviceID', 0]) }, 40)
+      setTimeout(() => { dispatch('setData', ['activeDevices', {}]) }, 40)
       setTimeout(() => { dispatch('setData', ['shotHistory', {}]) }, 60)
       setTimeout(() => { dispatch('setData', ['debug', false]) }, 80)
       setTimeout(() => { dispatch('setData', ['activeData', {}]) }, 100)

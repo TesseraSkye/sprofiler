@@ -3,7 +3,7 @@
     <v-row>
       <v-col>
         <h1 class="text-center mt-4">Welcome!</h1>
-        <v-divider class="ma-4"/>
+        <v-divider class="ma-1"/>
       </v-col>
     </v-row>
     <v-row>
@@ -27,7 +27,7 @@
             <h4>To get started, head over to the connections tab in settings.</h4>
           </v-card-text>
           <v-card-text v-if="!!this.isActive">
-            <h4>Looks we can still connect you.</h4>
+            <h4>You're ready to go!</h4>
           </v-card-text>
           <v-card-actions>
             <v-btn block v-if="!this.isActive" :color="this.getAccent" to='/settings'>
@@ -55,6 +55,7 @@
         </v-card>
       </v-col>
     </v-row>
+    <h1 class="text-center"><v-icon>mdi-chevron-down</v-icon></h1>
     <v-row>
       <v-col>
         <v-divider class="mt-2 mb-4"/>

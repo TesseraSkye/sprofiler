@@ -1,20 +1,34 @@
 <template>
   <v-row>
     <v-col>
-      <v-card>
-        <v-card-header>{{this.data.name}}</v-card-header>
+      <v-card outlined elevation="10">
+        <v-card-title><h3>{{this.data.name}}</h3></v-card-title>
         <v-card-subtitle>{{this.data.origin}}</v-card-subtitle>
-        <v-card-text>Roasted by {{this.data.roaster}}{{(this.data.roastDate ? (' on ' + this.data.roastDate) : '')}}</v-card-text>
-        <v-divider/>
-        <v-card-text>{{this.data.process}} process {{this.data.varietal}}</v-card-text>
-        <v-card-text>Grown at {{this.data.elevation}}</v-card-text>
+        <v-rating
+          class="ml-4"
+            :color="this.getAccent"
+            dense
+            background-color="#aaa"
+            half-increments
+            readonly
+            hover
+            length="5"
+            :value="this.data.rating"
+          />
+        <v-card-text><h4>{{this.data.process}} process {{this.data.varietal}} grown at {{this.data.elevation}}</h4></v-card-text>
+        <v-card-text><h4>Roasted by {{this.data.roaster}} in {{this.data.roastLocation }}{{(this.data.roastDate ? (' on ' + this.data.roastDate) : '')}}</h4></v-card-text>
       </v-card>
     </v-col>
   </v-row>
 </template>
 
 <script>
-  export default {
-    props: ['data']
+export default {
+  props: ['data'],
+  computed: {
+    getAccent () {
+      return this.$store.state.accent
+    }
   }
+}
 </script>
