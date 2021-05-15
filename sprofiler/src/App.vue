@@ -65,6 +65,7 @@ export default {
     setTimeout(() => { this.splashIcon = true }, 500)
     setTimeout(() => { this.splashIcon = false }, 2000)
     setTimeout(() => { this.splash = false }, 2550)
+    this.$store.dispatch('setupDeviceConfig')
   }
 }
 </script>

@@ -3,6 +3,8 @@ import Vuex from 'vuex'
 
 import { Storage } from '@capacitor/storage'
 
+import * as deviceConfig from '../components/deviceConfig.json'
+
 async function putStorage (key, data) {
   console.log('Setting storage at ' + key)
   await Storage.set({
@@ -33,10 +35,10 @@ export default new Vuex.Store({
     accentPresets: ['pink', 'cyan', 'green', 'deep-orange'],
 
     // types of devices registered
-    deviceFamilies: ['profiler', 'scale', 'endpoint'],
+    deviceTree: {}, // initialized at boot
 
     // bt stuff
-    activeDevies: { // written by bleHandler
+    activeDevices: { // written by bleHandler
       // dummyDevice: '3h49t83457yth' // deviceID
     },
     // show debug tips
@@ -133,6 +135,22 @@ export default new Vuex.Store({
       const _data = data[1]
       delete state[data[0]][_data[0]]
       setTimeout(() => { putStorage(name, state[name]) }, 50)
+    },
+    setupDeviceConfig (state) {
+      // get device config, sort based on family, recast to new array.
+      const defaultDC = deviceConfig.default
+      let newDC = {}
+      newDC = {} // this just forces a compiler error to go away. It want's a const, but that would break the conditional assignments.
+      for (const device in defaultDC) {
+        // console.log(device)
+        const family = defaultDC[device].family
+        if (!newDC[family]) { newDC[family] = {} }
+        if (!newDC[family][device]) { newDC[family][device] = {} }
+        console.log(device)
+        newDC[family][device].description = defaultDC[device].description
+        newDC[family][device].friendly = defaultDC[device].friendly
+      }
+      state.deviceTree = newDC
     }
   },
   actions: {
@@ -186,6 +204,9 @@ export default new Vuex.Store({
       setTimeout(() => { dispatch('setData', ['debug', false]) }, 80)
       setTimeout(() => { dispatch('setData', ['activeData', {}]) }, 100)
       setTimeout(() => { dispatch('setData', ['coffeeHistory', {}]) }, 120)
+    },
+    setupDeviceConfig ({ commit }) {
+      commit('setupDeviceConfig')
     }
 
   },

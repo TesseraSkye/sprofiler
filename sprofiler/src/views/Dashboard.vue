@@ -2,10 +2,9 @@
   <v-container>
     <v-row>
       <v-col>
+        <h1 class="ma-4 pa-4">Welcome!</h1>
         <v-card elevation="10" outlined>
-          <v-card-title>
-            <h1>Welcome!</h1>
-          </v-card-title>
+          <!-- <v-card-title></v-card-title> -->
           <v-card-text v-if="!this.isActive">
             <h2>To get started, head over to the <i>Settings</i> tab and connect to your Sprofiler.</h2>
           </v-card-text>

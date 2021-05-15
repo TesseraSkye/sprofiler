@@ -109,7 +109,7 @@ async function bleDC (name) {
 }
 
 function getID (name) { // checks for connected at name. (e.g. 'acaia')
-  return this.$store.state.activeDevices[name]
+  return store.state.activeDevices[name]
 }
 
 export { bleInit, bleServe, getID, bleStop, bleDC, bleStart, getUUID }

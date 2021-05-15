@@ -1,31 +1,29 @@
 <template>
-  <v-card outlined elevation="10">
+  <v-card outlined elevation="10" class="px-2">
     <v-card-title>Bluetooth {{ this.btActive }}</v-card-title>
-    <v-card-text v-if="this.isDebug"><h4>active devices:</h4></v-card-text>
-    <v-card-text :key='device' v-for="device in this.getDevices">{{device}}</v-card-text>
-    <v-card-actions>
-      <v-menu offset-y>
-        <template #activator="{ on, attrs }">
-          <v-btn :color="$parent.getAccent" block v-bind="attrs" v-on="on">Pair a device</v-btn>
-        </template>
-        <v-list elevation="10" outlined :color="$parent.getAccent + ' darken-2'">
-            <v-list-item :key="family" v-for="family in this.getDeviceFamilies">
-              <v-list-item-title>{{ family }}</v-list-item-title>
-            </v-list-item>
-          </v-list>
-      </v-menu>
-    </v-card-actions>
-    <!-- <v-menu offset-y value="">
-        <v-list>
-          <v-list-item :key="family" v-for="family in this.getDeviceFamilies">
-            <v-list-item-title>{{ family }}</v-list-item-title>
-          </v-list-item>
-        </v-list>
-    </v-menu> -->
-    <v-fade-transition>
-    <v-overlay absolute  v-if="this.connectionOverlay">
-    </v-overlay>
-    </v-fade-transition>
+    <template v-if="this.isDebug">
+      <v-card-text><h4>active devices:</h4></v-card-text>
+      <v-card-text :key='device' v-for="device in this.getDevices">{{device}}</v-card-text>
+    </template>
+    <v-divider class="my-2"/>
+    <v-tabs :color="this.getAccent" centered v-model="tab">
+      <v-tab v-for="(item, key) in this.deviceTree" :key="key">{{ key }}</v-tab>
+    </v-tabs>
+    <v-divider class="my-2"/>
+    <v-tabs-items v-model="tab">
+      <v-tab-item v-for="(family, key) in this.deviceTree" :key="key">
+        <v-card color="grey darken-3" :key="key" v-for="(item, key) in family" class="ma-2" elevation=10>
+          <v-card-title>{{ item.friendly }}<i>{{!!getID(key) ? "..... active!" : ""}}</i></v-card-title>
+          <v-card-subtitle>{{item.description}}</v-card-subtitle>
+          <v-card-actions>
+            <v-btn v-if="!getID(key)" elevation=4 :color="getAccent + ' darken-2'" @click="serve(key)">Connect</v-btn>
+            <v-btn v-if="!!getID(key)" elevation=4 :color="getAccent + ' darken-2'" @click="disconnect(key)">Disonnect</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-tab-item>
+    </v-tabs-items>
+    <br>
+    <br>
   </v-card>
 
 </template>
@@ -37,7 +35,7 @@ export default {
   name: 'ble',
   data () {
     return {
-      connectionOverlay: false
+      tab: 'profiler'
     }
   },
   computed: {
@@ -57,8 +55,9 @@ export default {
     getDevices () {
       return this.$store.state.activeDevices
     },
-    getDeviceFamilies () {
-      return this.$store.state.deviceFamilies
+    deviceTree () {
+      console.log(this.$store.state.deviceTree)
+      return this.$store.state.deviceTree
     }
   },
   methods: {
@@ -67,10 +66,12 @@ export default {
     },
     serve (device = 'sprofiler') {
       bleServe(device)
+      // setTimeout(() => { this.$router.push('/dash') }, 220)
     },
     disconnect (name) {
       bleDC(name)
       if (name) { this.$store.dispatch('removeData', ['activeDevices', [name]]) } else { this.$store.dispatch('setData', ['activeDevices', {}]) } // if no name, dc all
+      setTimeout(() => { this.$router.push('/dash') }, 220)
     },
     getID (name) { // checks for connected at name. (e.g. 'acaia')
       return this.$store.state.activeDevices[name]

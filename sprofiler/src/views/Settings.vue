@@ -1,88 +1,104 @@
 <template>
   <v-container>
-    <v-row align-content="center">
-      <v-col class="text-center" cols=12>
-        <h1>Settings</h1>
-        <h5>{{this.getVersion}}</h5>
-        <h5>Trans Rights</h5>
+      <v-row align-content="center">
+        <v-col class="text-center" cols=12>
+          <v-btn @click="incDBC()" color ="transparent">
+            <h1>Settings</h1>
+          </v-btn>
+          <h5>{{this.getVersion}}</h5>
+          <h5>Trans Rights</h5>
+        </v-col>
+      </v-row>
+    <br>
+    <v-row>
+      <v-col>
+        <v-tabs v-model="page" centered :color="this.getAccent">
+          <v-tab>
+            <v-icon>mdi-wifi</v-icon>
+          </v-tab>
+          <v-tab>
+            <v-icon>mdi-palette</v-icon>
+          </v-tab>
+          <v-tab v-if="this.isDebug">
+            <v-icon>mdi-code-json</v-icon>
+          </v-tab>
+        </v-tabs>
       </v-col>
     </v-row>
-    <v-divider/>
-    <v-tabs v-model="page">
-      <v-tab>Connection</v-tab>
-      <v-tab>Appearance</v-tab>
-      <v-tab>Debug</v-tab>
-    </v-tabs>
-    <v-divider/>
-    <v-tabs-items v-model="page">
-      <v-tab-item>
-        <v-row>
-          <v-col>
-            <Ble />
-          </v-col>
-        </v-row>
-      </v-tab-item>
-      <v-tab-item>
-        <v-row>
-          <v-col sm="12" md="6">
-            <v-card outlined elevation="10">
-              <v-card-text>
-                <h2>Accent Color:</h2>
-              </v-card-text>
-              <v-row>
-                <v-col :key='accent' v-for="accent in getAccentPresets" align-self="center">
-                  <v-btn :color="accent" :small="isAccent(accent)" fab x-small class="mx-2 my-4" @click="setAccent(accent)" />
-                </v-col>
-              </v-row>
-            </v-card>
-          </v-col>
-        </v-row>
-      </v-tab-item>
-      <v-tab-item>
-        <v-row>
-          <v-col sm="12" md="6">
-            <h1>THERE ARE OPTIONS HERE THAT CAN AND WILL WIPE ALL OF YOUR DATA PERMANENTLY. USE WITH CARE.</h1>
-            <v-card outlined elevation="10">
-              <v-card-text>
-                <h2>Debugging Data:</h2>
-                <!-- <h4>pressure data {{this.$store.state.pressureArray}}</h4> -->
-                <h4>BLE Device ID: {{this.isActive}}</h4>
-                <h4>State: {{this.getState}}</h4>
-                <v-btn @click="this.override" class="my-2" color="orange">OVERRIDE STATE</v-btn>
-                <br>
-                <v-btn @click="setDialog(true)" color="red">WIPE ALL DATA!!</v-btn>
-              </v-card-text>
-            </v-card>
-            <br>
-            <br>
-              <v-dialog v-model="dialog" width="500">
-                <v-card>
-                  <v-card-title class="headline red">
-                    Erase all data?
-                  </v-card-title>
-    
-                  <v-card-text class="my-2">
-                    Are you sure you want to do this? This action can not be undone.
+    <v-row>
+      <v-col>
+        <v-tabs-items v-model="page">
+          <v-tab-item>
+            <!-- <v-row>
+              <v-col> -->
+                <Ble/>
+              <!-- </v-col>
+            </v-row> -->
+          </v-tab-item>
+          <v-tab-item>
+            <!-- <v-row>
+              <v-col sm="12" md="6"> -->
+                <v-card outlined elevation="10">
+                  <v-card-text>
+                    <h2>Accent Color:</h2>
                   </v-card-text>
-    
-                  <v-divider></v-divider>
-    
-                  <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn
-                      color="primary"
-                      text
-                      @click="wipeStorage"
-                    >
-                      Sure
-                    </v-btn>
-                  </v-card-actions>
+                  <v-divider/>
+                  <v-row>
+                    <v-col :key='accent' v-for="accent in getAccentPresets" align-self="center">
+                      <v-btn :color="accent" :small="isAccent(accent)" fab x-small class="mx-2 my-4" @click="setAccent(accent)" />
+                    </v-col>
+                  </v-row>
                 </v-card>
-              </v-dialog>
-          </v-col>
-        </v-row>
-      </v-tab-item>
-    </v-tabs-items>
+              <!-- </v-col>
+            </v-row> -->
+          </v-tab-item>
+          <v-tab-item>
+            <!-- <v-row>
+              <v-col sm="12" md="6"> -->
+                <v-card color="red darken-2" outlined elevation="10">
+                  <v-card-title>USE CAUTION.</v-card-title>
+                  <v-spacer/>
+                  <v-spacer/>
+                  <v-divider/>
+                  <v-card-text>
+                    <h2>Debugging Data:</h2>
+                    <!-- <h4>pressure data {{this.$store.state.pressureArray}}</h4> -->
+                    <h4>BLE Device ID: {{this.isActive}}</h4>
+                    <h4>State: {{this.getState}}</h4>
+                    <v-btn @click="this.override" class="my-2" color="orange">OVERRIDE STATE</v-btn>
+                    <br>
+                    <v-btn @click="setDialog(true)" color="red">WIPE ALL DATA!!</v-btn>
+                  </v-card-text>
+                </v-card>
+                <br>
+                <br>
+                  <v-dialog v-model="dialog" width="500">
+                    <v-card>
+                      <v-card-title class="headline red">
+                        Erase all data?
+                      </v-card-title>
+                      <v-card-text class="my-2">
+                        Are you sure you want to do this? This action can not be undone.
+                      </v-card-text>
+                      <v-divider></v-divider>
+                      <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn
+                          color="primary"
+                          text
+                          @click="wipeStorage"
+                        >
+                          Sure
+                        </v-btn>
+                      </v-card-actions>
+                    </v-card>
+                  </v-dialog>
+              <!-- </v-col>
+            </v-row> -->
+          </v-tab-item>
+        </v-tabs-items>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
@@ -94,7 +110,9 @@ export default {
   name: 'settings',
   data () {
     return {
-      dialog: false
+      dialog: false,
+      page: 'connection',
+      debugCounter: 0
     }
   },
   components: {
@@ -132,6 +150,14 @@ export default {
     },
     setDebug (bool) {
       this.$store.dispatch('setData', ['debug', bool])
+    },
+    incDBC () {
+      this.debugCounter += 1
+      if (this.debugCounter >= 5) {
+        console.warn('ENTERING DEBUG MODE')
+        this.debugCounter = 0
+        this.$store.dispatch('setData', ['debug', !this.isDebug])
+      }
     },
     override () {
       this.$store.dispatch('setData', ['activeData', {
