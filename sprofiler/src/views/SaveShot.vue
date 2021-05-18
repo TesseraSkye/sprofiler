@@ -4,19 +4,19 @@
       <v-col>
         <h1>Save your shot!</h1>
         <v-card elevation="10" outlined class="my-2">
-          <LineChart class="chart-sm mt-2 mr-1" :chartData="this.shotData" />
+          <LineChart class="chart-sm mt-2 mr-1" :chartData="this.activeShot.data" />
         </v-card>
         <v-card elevation="10" outlined class="my-2">
 
           <v-form class="mx-2" ref="form" @submit.prevent="submit">
             <v-text-field
-              v-model="name"
+              v-model="activeShot.name"
               :counter="50"
               label="Nickname"
               required
             />
             <v-rating
-            v-model="rating"
+            v-model="activeShot.rating"
             class="mb-2"
             :color="this.getAccent"
             large
@@ -25,7 +25,7 @@
             hover
             length="5"
           />
-            <v-textarea v-model="notes" no-resize height="120" label="Notes"/>
+            <v-textarea v-model="activeShot.comments" no-resize height="120" label="Comments"/>
             <v-btn class="my-2" @click="submit" large color="green" block>submit</v-btn>
             <br>
             <br>
@@ -41,57 +41,57 @@
 </template>
 
 <script>
-// {
-//   nickname: 'Dummy shot',
-//   date: '04/22/21 : 11:07:30',
-//   uuid: 'a7d9g7afdsg6j',
+// 12487893252: {
+//   name: 'Dummy shot',
+//   uuid: '12487893252', // uuid is dateOBJ.getTime()
+//   dateOBJ: {}, // this is a real, actual date object
 //   rating: 4.5,
 //   favorite: false,
-//   notes: 'It was pretty ok',
-//   data: [[0, 0, 1, 2, 4, 6, 9, 5, 4, 3, 1, 1], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]]
+//   comments: 'It was pretty ok',
+//   data: {
+//     profiler: {
+//       sprofiler: [{x: 0, y: 0}, {x: 1, y: 0}, {x: 2, y: 1}, {x: 3, y: 2}, {x: 4, y: 4}, {x: 5, y: 6}, {x: 6, y: 9}, {x: 7, y: 5}, {x: 8, y: 4}, {x:9 , y: 3}, {x: 10, y: 1), {x:11 , y: 1}]
+//     },
+//     scale: {
+//       acaia: [{x: 0, y: 0.0, {x: 1, y: 0.2}, {x: 2, y: 5.1}, {x: 3, y: 12.1}, {x: 4, y: 15.7}, {x: 5, y: 19.5}, {x: 6, y: 24.1}, {x: 7, y: 28.5}, {x: 8, y: 31.2}, {x: 9, y: 32.8}, {x: 10, y: 35.3}, {x: 11, y: 37.7} ]
+//     }
+//   }
 // }
 
 import LineChart from '../components/LineChart.js'
 export default {
-  name: 'save',
+  name: 'save-shot',
   components: {
     LineChart
   },
   data () {
     return {
-      name: '',
-      rating: 0,
-      notes: '',
-      shotData: {},
-      dateInfo: []
+      activeShot: {
+        name: '',
+        uuid: '',
+        dateObj: {},
+        rating: null,
+        favorite: null,
+        comments: '',
+        data: {
+          // family: {
+          //   device: []
+          // }
+        }
+      }
     }
   },
   mounted () {
-    this.dateInfo = this.getDate
     this.fillShotData()
   },
   computed: {
     getAccent () {
       return this.$store.state.accent
-    },
-    getPressureArray () {
-      return this.$store.state.pressureArray
-    },
-    getPressureData () {
-      return this.$store.state.pressureArray[0]
-    },
-    getLabels () {
-      return this.$store.state.pressureArray[1]
-    },
-    getDate () {
-      const now = new Date()
-      return [now.getTime(), now.toLocaleString('default', { month: 'short' }) + ' ' + now.getDay() + ', ' + now.getFullYear() + ' at ' + now.getHours() + ':' + now.getMinutes()]
     }
   },
   methods: {
     clear () {
-      this.$store.dispatch('setData', ['pressureArray', [[], []]])
-      this.$store.dispatch('setData', ['tick', 0])
+      this.$store.dispatch('setData', ['activeData'])
       this.$store.dispatch('setData', ['overlayUUID', ''])
     },
     submit () {
@@ -121,7 +121,7 @@ export default {
             pointRadius: 0,
             pointBorderColor: this.getAccent,
             backgroundColor: '#aaaaaa11',
-            data: this.getPressureData
+            data: this.getActiveData
           }
         ]
       }

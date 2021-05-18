@@ -18,11 +18,11 @@
       </v-col>
     </v-row>
     <v-row v-if="this.hasActiveData || this.isDebug">
-      <v-btn :disabled='!this.hasActiveData' :color="this.getAccent" block class="mb-2" to="/save">{{this.hasActiveData ? "Save" : "Waiting for data..."}}</v-btn>
+      <v-btn :disabled='!this.hasActiveData' :color="this.getAccent" block class="mb-2" to="/save-shot">{{this.hasActiveData ? "Save" : "Waiting for data..."}}</v-btn>
       <br>
       <v-col cols=12>
-        <line-chart :chart-data='chartData' :key='rerenderKey + 5' class="chart-lg d-flex d-sm-none"/>
-        <line-chart :chart-data='chartData' :key='rerenderKey' class="chart-md d-none d-sm-flex"/>
+        <chart-handler live :data='activeData' size="chart-lg" class="d-flex d-sm-none"/>
+        <chart-handler live :data='activeData' size="chart-md" keyOffset=5 class="d-none d-sm-flex"/>
       </v-col>
     </v-row>
     <v-row justify="center" v-if="this.hasActiveData || this.isDebug">
@@ -37,28 +37,70 @@
 
 <script>
 
-import LineChart from '../components/LineChart.js'
+import ChartHandler from '../components/ChartHandler.vue'
 import { bleServe, bleStop } from '../components/bleHandlers.js'
 
 export default {
   name: 'live',
   components: {
-    LineChart
+    ChartHandler
   },
   data () {
     return {
       rerenderKey: 0,
-      activeData: {},
-      chartData: {}
+      activeData: {}
     }
   },
   mounted () {
-    if (this.isConnected) { this.init() }
+    if (this.isLive) { this.init() }
+  },
+  computed: {
+    getOverlayData () {
+      const overlay = this.$store.state.shotHistory[this.getOverlayUUID] || {
+        data: [[], []]
+      }
+      return {
+        pressure: overlay.data
+      }
+    },
+    getOverlayUUID () {
+      const data = this.$store.state.overlayUUID || 0 // this might cause issues, but shouldn't
+      return data
+    },
+    isLive () {
+      const d = this.getDevices
+      return !(d && Object.keys(d).length === 0 && d.constructor === Object)
+    },
+    getDevices () {
+      return this.$store.state.activeDevices
+    },
+    isDebug () {
+      return this.$store.state.debug
+    },
+    getAccent () {
+      return this.$store.state.accent
+    },
+    getPressureData () {
+      return this.$store.state.Data[0]
+    },
+    getLabelData () {
+      return this.$store.state.Data[1]
+    },
+    getLabels () {
+      // if (this.getOverlayData[1]) {
+      const comp = this.getOverlayData[1].length > this.getLabelData.length
+      if (comp) {
+        return this.getOverlayData[1]
+      } else { return this.getLabelData }
+    },
+    hasActiveData () {
+      return !!this.$store.state.activeData.data // !! casts return as a bool
+    },
+    getActiveDevices () {
+      return this.$store.state.activeDevices
+    }
   },
   methods: {
-    isConnected (device = 'sprofiler') { // defaults to sprofiler, if called with device param filled, checks for connected device by that name. (e.g. acaia, etc)
-      return this.$store.state.activeDevices[device]
-    },
     init () {
       this.fillChart()
       this.forceRerender()
@@ -115,48 +157,6 @@ export default {
       //   }
       //   this.chartData.datasets.push()
       // }
-    },
-    forceRerender () {
-      setInterval(() => { this.rerender() }, 200)
-    }
-  },
-  computed: {
-    getOverlayData () {
-      const overlay = this.$store.state.shotHistory[this.getOverlayUUID] || {
-        data: [[], []]
-      }
-      return {
-        pressure: overlay.data
-      }
-    },
-    getOverlayUUID () {
-      const data = this.$store.state.overlayUUID || 0 // this might cause issues, but shouldn't
-      return data
-    },
-    isDebug () {
-      return this.$store.state.debug
-    },
-    getAccent () {
-      return this.$store.state.accent
-    },
-    getPressureData () {
-      return this.$store.state.Data[0]
-    },
-    getLabelData () {
-      return this.$store.state.Data[1]
-    },
-    getLabels () {
-      // if (this.getOverlayData[1]) {
-      const comp = this.getOverlayData[1].length > this.getLabelData.length
-      if (comp) {
-        return this.getOverlayData[1]
-      } else { return this.getLabelData }
-    },
-    hasActiveData () {
-      return !!this.$store.state.activeData.data // !! casts return as a bool
-    },
-    getActiveDevices () {
-      return this.$store.state.activeDevices
     }
   }
 }

@@ -44,8 +44,8 @@
                   </v-card-text>
                   <v-divider/>
                   <v-row>
-                    <v-col :key='accent' v-for="accent in getAccentPresets" align-self="center">
-                      <v-btn :color="accent" :small="isAccent(accent)" fab x-small class="mx-2 my-4" @click="setAccent(accent)" />
+                    <v-col :key='accent' v-for="(item, accent) in getAccentPresets" align-self="center">
+                      <v-btn :color="`hsl(${item[0]}, ${item[1]}%, ${item[2]}%)`" :small="isAccent(item)" fab x-small class="mx-2 my-4" @click="setAccent(item)" />
                     </v-col>
                   </v-row>
                 </v-card>
@@ -142,8 +142,9 @@ export default {
     setDialog (bool) {
       this.dialog = bool
     },
-    setAccent (data) {
-      this.$store.dispatch('setData', ['accent', data])
+    setAccent (accent) {
+      this.$store.dispatch('setData', ['accent', `hsl(${accent[0]}, ${accent[1]}%, ${accent[2]}%)`])
+      this.$store.dispatch('setData', ['accentRaw', accent])
     },
     isAccent (color) {
       return this.getAccent === color
@@ -165,9 +166,11 @@ export default {
         uuid: 'h456h45h6k4k5g',
         data: {
           profiler: {
+            axisID: 'pressure',
             sprofiler: [{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 2, y: 1 }, { x: 3, y: 2 }, { x: 4, y: 4 }, { x: 5, y: 6 }, { x: 6, y: 9 }, { x: 7, y: 5 }, { x: 8, y: 4 }, { x: 9, y: 3 }, { x: 10, y: 1 }, { x: 11, y: 1 }]
           },
           scale: {
+            axisID: 'weight',
             acaia: [{ x: 0, y: 0.0 }, { x: 1, y: 0.2 }, { x: 2, y: 5.1 }, { x: 3, y: 12.1 }, { x: 4, y: 15.7 }, { x: 5, y: 19.5 }, { x: 6, y: 24.1 }, { x: 7, y: 28.5 }, { x: 8, y: 31.2 }, { x: 9, y: 32.8 }, { x: 10, y: 35.3 }, { x: 11, y: 37.7 }]
           }
         }

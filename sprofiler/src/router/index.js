@@ -4,7 +4,7 @@ import Dashboard from '../views/Dashboard.vue'
 import Live from '../views/Live.vue'
 import Library from '../views/Library.vue'
 import Settings from '../views/Settings.vue'
-import Save from '../views/Save.vue'
+import SaveShot from '../views/SaveShot.vue'
 
 Vue.use(VueRouter)
 
@@ -34,9 +34,9 @@ const routes = [
   },
 
   {
-    path: '/save',
-    name: 'Save',
-    component: Save
+    path: '/save-shot',
+    name: 'SaveShot',
+    component: SaveShot
   },
 
   // wildcard so that weird requests aren't unhandeled

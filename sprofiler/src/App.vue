@@ -1,7 +1,7 @@
 <template>
   <v-app>
-    <v-fade-transition v-if="this.splash">
-      <div id="splash" class="text-center">
+    <v-fade-transition>
+      <div v-if="this.splash" id="splash" class="text-center">
         <v-scroll-x-transition class="vw-100">
           <v-img v-if="this.splashIcon" max-width="100vh" src="./assets/icon.png"/>
         </v-scroll-x-transition>
@@ -98,6 +98,7 @@ export default {
 <style scoped>
 #splash {
   height: 100vh;
+  width: 100vw;
   position: fixed;
   background-color: black;
   z-index: 100;

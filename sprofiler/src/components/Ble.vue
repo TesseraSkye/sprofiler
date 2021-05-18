@@ -42,9 +42,15 @@ export default {
     getAccent () {
       return this.$store.state.accent
     },
-    btActive () {
+    isLive () {
       const d = this.getDevices
-      if (!(d && Object.keys(d).length === 0 && d.constructor === Object)) {
+      return !(d && Object.keys(d).length === 0 && d.constructor === Object)
+    },
+      getDevices () {
+        return this.$store.state.activeDevices
+      },
+    btActive () {
+      if (islive) {
         return 'data found!'
       } else {
         return 'inactive.'
@@ -52,9 +58,6 @@ export default {
     },
     isDebug () {
       return this.$store.state.debug
-    },
-    getDevices () {
-      return this.$store.state.activeDevices
     },
     deviceTree () {
       console.log(this.$store.state.deviceTree)

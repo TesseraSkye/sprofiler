@@ -31,8 +31,14 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     accent: '',
+    accentRaw: [],
     // preset accents
-    accentPresets: ['pink', 'cyan', 'green', 'deep-orange'],
+    accentPresets: {
+      pink: [340, 82, 52],
+      cyan: [187, 100, 42],
+      green: [122, 39, 49],
+      deepOrange: [14, 100, 57]
+    },
 
     // types of devices registered
     deviceTree: {}, // initialized at boot
@@ -152,6 +158,7 @@ export default new Vuex.Store({
         if (!newDC[family][device]) { newDC[family][device] = {} }
         console.log(device)
         newDC[family][device].description = defaultDC[device].description
+        newDC[family].axisID = defaultDC[device].dataType || ''
         newDC[family][device].friendly = defaultDC[device].friendly
       }
       state.deviceTree = newDC
