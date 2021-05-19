@@ -45,7 +45,7 @@
                   <v-divider/>
                   <v-row>
                     <v-col :key='accent' v-for="(item, accent) in getAccentPresets" align-self="center">
-                      <v-btn :color="`hsl(${item[0]}, ${item[1]}%, ${item[2]}%)`" :small="isAccent(item)" fab x-small class="mx-2 my-4" @click="setAccent(item)" />
+                      <v-btn :color="`hsl(${item[0]}, ${item[1]}%, ${item[2]}%)`" :small="getRawAccent === item" fab x-small class="mx-2 my-4" @click="setAccent(item)" />
                     </v-col>
                   </v-row>
                 </v-card>
@@ -125,6 +125,9 @@ export default {
     getAccent () {
       return this.$store.state.accent
     },
+    getRawAccent () {
+      return this.$store.state.accentRaw
+    },
     getVersion () {
       return this.$store.state.version
     },
@@ -146,15 +149,12 @@ export default {
       this.$store.dispatch('setData', ['accent', `hsl(${accent[0]}, ${accent[1]}%, ${accent[2]}%)`])
       this.$store.dispatch('setData', ['accentRaw', accent])
     },
-    isAccent (color) {
-      return this.getAccent === color
-    },
     setDebug (bool) {
       this.$store.dispatch('setData', ['debug', bool])
     },
     incDBC () {
       this.debugCounter += 1
-      if (this.debugCounter >= 5) {
+      if (this.debugCounter >= 7) {
         console.warn('ENTERING DEBUG MODE')
         this.debugCounter = 0
         this.$store.dispatch('setData', ['debug', !this.isDebug])
@@ -164,6 +164,7 @@ export default {
       this.$store.dispatch('setData', ['activeData', {
         date: '04/22/21 : 11:07:30',
         uuid: 'h456h45h6k4k5g',
+        labels: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
         data: {
           profiler: {
             axisID: 'pressure',
@@ -183,7 +184,17 @@ export default {
           raiting: 4.5,
           favorite: false,
           notes: 'It was pretty ok',
-          data: [[0, 0, 1, 2, 4, 6, 9, 5, 4, 3, 1, 1], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]]
+          labels: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+          data: {
+            profiler: {
+              axisID: 'pressure',
+              sprofiler: [{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 2, y: 1 }, { x: 3, y: 2 }, { x: 4, y: 4 }, { x: 5, y: 6 }, { x: 6, y: 9 }, { x: 7, y: 5 }, { x: 8, y: 4 }, { x: 9, y: 3 }, { x: 10, y: 1 }, { x: 11, y: 1 }]
+            },
+            scale: {
+              axisID: 'weight',
+              acaia: [{ x: 0, y: 0.0 }, { x: 1, y: 0.2 }, { x: 2, y: 5.1 }, { x: 3, y: 12.1 }, { x: 4, y: 15.7 }, { x: 5, y: 19.5 }, { x: 6, y: 24.1 }, { x: 7, y: 28.5 }, { x: 8, y: 31.2 }, { x: 9, y: 32.8 }, { x: 10, y: 35.3 }, { x: 11, y: 37.7 }]
+            }
+          }
         }
       }])
       this.$store.dispatch('setData', ['coffeeHistory', {
@@ -206,7 +217,7 @@ export default {
         }
       }])
       this.$store.dispatch('setData', ['activeDevices', {
-        acaia: 'jaesfdo4jtt3'
+        sprofiler: 'jaesfdo4jtt3'
       }])
       this.$store.dispatch('setData', ['overlayUUID', 'dummy'])
     },

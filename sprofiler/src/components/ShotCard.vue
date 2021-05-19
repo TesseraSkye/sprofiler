@@ -20,7 +20,7 @@
             <h4>Note: {{this.data.notes || "none"}}</h4>
             <h4>Pulled on {{this.data.date}}</h4>
           </v-card-text>
-          <LineChart class="chart-sm" :chartData="this.shotData"/>
+          <chart-handler :data='this.data'/>
           <v-fade-transition>
             <v-overlay
                 class="zh-90"
@@ -60,12 +60,12 @@
 </template>
 
 <script>
-import LineChart from './LineChart.js'
+import ChartHandler from './ChartHandler.vue'
 export default {
   name: 'shot-card',
   props: ['data'],
   components: {
-    LineChart
+    ChartHandler
   },
   data () {
     return {
@@ -74,8 +74,10 @@ export default {
       dialog: false
     }
   },
-  mounted () {
-    this.fillShotData()
+  computed: {
+    getAccent () {
+      return this.$store.state.accent
+    }
   },
   methods: {
     compare () {
@@ -92,28 +94,6 @@ export default {
     },
     toggleOverlay () {
       if (this.overlay === true) { this.overlay = false } else { this.overlay = true }
-    },
-    fillShotData () {
-      this.shotData = {
-        labels: this.data.data[1],
-        datasets: [
-          {
-            label: 'pressure (bar)',
-            borderColor: this.getAccent,
-            pointBackgroundColor: 'dark',
-            borderWidth: 2,
-            pointRadius: 0,
-            pointBorderColor: this.getAccent,
-            backgroundColor: '#aaaaaa11',
-            data: this.data.data[0]
-          }
-        ]
-      }
-    }
-  },
-  computed: {
-    getAccent () {
-      return this.$store.state.accent
     }
   }
 }

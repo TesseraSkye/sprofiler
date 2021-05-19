@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-row v-if="(!this.hasActiveData)">
+    <v-row v-if="(!this.hasActiveDevices)">
       <v-col>
         <v-card elevation="2">
           <v-card-title>
@@ -10,19 +10,18 @@
             <h3>To use the live data feature, you'll need to connect to a device in the settings tab.</h3>
           </v-card-text>
           <v-card-actions>
-            <v-btn to='/settings'>
+            <v-btn :color="this.getAccent" to='/settings'>
               Take me there ->
             </v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
     </v-row>
-    <v-row v-if="this.hasActiveData || this.isDebug">
-      <v-btn :disabled='!this.hasActiveData' :color="this.getAccent" block class="mb-2" to="/save-shot">{{this.hasActiveData ? "Save" : "Waiting for data..."}}</v-btn>
-      <br>
+    <v-row v-if="this.hasActiveDevices || this.isDebug">
       <v-col cols=12>
-        <chart-handler live :data='activeData' size="chart-lg" class="d-flex d-sm-none"/>
-        <chart-handler live :data='activeData' size="chart-md" keyOffset=5 class="d-none d-sm-flex"/>
+        <v-btn :disabled='!this.hasActiveData' :color="this.getAccent" block class="mb-2" to="/save-shot">{{this.hasActiveData ? "Save" : "Waiting for data..."}}</v-btn>
+        <!-- <br> -->
+        <chart-handler :live="true" :data='this.activeData' :size="[['lg', 'md'], ['', '-sm']]"/>
       </v-col>
     </v-row>
     <v-row justify="center" v-if="this.hasActiveData || this.isDebug">
@@ -47,12 +46,15 @@ export default {
   },
   data () {
     return {
-      rerenderKey: 0,
-      activeData: {}
+      rerenderKey: 0
     }
   },
   mounted () {
-    if (this.isLive) { this.init() }
+    if (this.hasActiveData) {
+      for (const device in this.getActiveDevices) {
+        this.serveBLE(device)
+      }
+    }
   },
   computed: {
     getOverlayData () {
@@ -67,111 +69,40 @@ export default {
       const data = this.$store.state.overlayUUID || 0 // this might cause issues, but shouldn't
       return data
     },
-    isLive () {
-      const d = this.getDevices
-      return !(d && Object.keys(d).length === 0 && d.constructor === Object)
-    },
-    getDevices () {
-      return this.$store.state.activeDevices
-    },
     isDebug () {
       return this.$store.state.debug
     },
     getAccent () {
       return this.$store.state.accent
     },
-    getPressureData () {
-      return this.$store.state.Data[0]
-    },
-    getLabelData () {
-      return this.$store.state.Data[1]
-    },
-    getLabels () {
-      // if (this.getOverlayData[1]) {
-      const comp = this.getOverlayData[1].length > this.getLabelData.length
-      if (comp) {
-        return this.getOverlayData[1]
-      } else { return this.getLabelData }
+    activeData () {
+      return this.$store.state.activeData
     },
     hasActiveData () {
-      return !!this.$store.state.activeData.data // !! casts return as a bool
+      const ad = this.$store.state.activeData // !! casts return as a bool
+      return (!(ad && Object.keys(ad).length === 0 && ad.constructor === Object)) // is it truthy, is 0 length, and is an object
+    },
+    hasActiveDevices () {
+      const ad = this.$store.state.activeDevices // !! casts return as a bool
+      return (!(ad && Object.keys(ad).length === 0 && ad.constructor === Object)) // is it truthy, is 0 length, and is an object
     },
     getActiveDevices () {
       return this.$store.state.activeDevices
     }
   },
   methods: {
-    init () {
-      this.fillChart()
-      this.forceRerender()
-      this.serveBLE()
-    },
     serveBLE () {
-      this.forceRerender()
       bleServe()
     },
     stopBLE () {
       bleStop()
     },
-    resetPressure () {
+    resetActiveData () {
       this.$store.dispatch('setData', ['activeData', {}])
       this.$store.dispatch('setData', ['overlayUUID', ''])
       setTimeout(() => { this.$router.push('/') }, 50)
-    },
-    rerender () {
-      this.rerenderKey += 1
-      this.chartData.labels = this.getLabels // potential bug fix for chart overlap issues
-      if (this.rerenderKey > 50) { this.rerenderKey = 0 }
-    },
-    fillChart () { // parametrically create new datasets & charts based on connected devices
-      this.chartData = {
-        labels: this.getLabels,
-        datasets: [
-          // {
-          //   label: 'Active Pressure',
-          //   borderColor: this.getAccent,
-          //   pointBackgroundColor: 'dark',
-          //   borderWidth: 2,
-          //   pointRadius: 0,
-          //   pointBorderColor: this.getAccent,
-          //   backgroundColor: '#aaaaaa11',
-          //   data: this.getActiveData.pressure,
-          //   yAxisID: 'pressure'
-          // }
-        ]
-      }
-
-      // build a slot for each device that's registered. If it doesn't have data, it won't show up anyway.
-
-      // for (let device in this.getActiveDevices) {
-      //   let builtData = {
-      //     //   label: 'Active Pressure',
-      //     //   borderColor: this.getAccent,
-      //     //   pointBackgroundColor: 'dark',
-      //     //   borderWidth: 2,
-      //     //   pointRadius: 0,
-      //     //   pointBorderColor: this.getAccent,
-      //     //   backgroundColor: '#aaaaaa11',
-      //     //   data: this.getActiveData.pressure,
-      //     //   yAxisID: 'pressure'
-      //   }
-      //   this.chartData.datasets.push()
-      // }
     }
   }
 }
 
 </script>
-<style>
-/* chart styling */
-.chart-lg {
-  height: 75vh;
-}
-.chart-md {
-  height: 50vh;
-}
-.chart-sm {
-  height: 30vh;
-  width: 90vw;
-}
-</style>

@@ -4,7 +4,7 @@
       <v-col>
         <h1>Save your shot!</h1>
         <v-card elevation="10" outlined class="my-2">
-          <LineChart class="chart-sm mt-2 mr-1" :chartData="this.activeShot.data" />
+          <chart-handler :data='this.activeData'/>
         </v-card>
         <v-card elevation="10" outlined class="my-2">
 
@@ -58,11 +58,11 @@
 //   }
 // }
 
-import LineChart from '../components/LineChart.js'
+import ChartHandler from '../components/ChartHandler.vue'
 export default {
   name: 'save-shot',
   components: {
-    LineChart
+    ChartHandler
   },
   data () {
     return {
@@ -87,6 +87,9 @@ export default {
   computed: {
     getAccent () {
       return this.$store.state.accent
+    },
+    activeData () {
+      return this.$store.state.activeData
     }
   },
   methods: {
@@ -107,24 +110,6 @@ export default {
       }]])
       setTimeout(() => { this.clear() }, 200)
       setTimeout(() => { this.$router.push('/library') }, 220)
-    },
-
-    fillShotData () {
-      this.shotData = {
-        labels: this.getLabels,
-        datasets: [
-          {
-            label: 'pressure (bar)',
-            borderColor: this.getAccent,
-            pointBackgroundColor: 'dark',
-            borderWidth: 2,
-            pointRadius: 0,
-            pointBorderColor: this.getAccent,
-            backgroundColor: '#aaaaaa11',
-            data: this.getActiveData
-          }
-        ]
-      }
     }
   }
 }

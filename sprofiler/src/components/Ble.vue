@@ -11,13 +11,13 @@
     </v-tabs>
     <v-divider class="my-2"/>
     <v-tabs-items v-model="tab">
-      <v-tab-item v-for="(family, key) in this.deviceTree" :key="key">
+      <v-tab-item v-for="(family, key) in this.cleanDeviceTree" :key="key">
         <v-card color="transparent" :key="key" v-for="(item, key) in family" elevation=4>
           <v-card-title>{{ item.friendly }}<i>{{!!getID(key) ? "..... active!" : ""}}</i></v-card-title>
           <v-card-subtitle>{{item.description}}</v-card-subtitle>
           <v-card-actions>
-            <v-btn block v-if="!getID(key)" elevation=4 :color="getAccent + ' darken-2'" @click="serve(key)">Connect</v-btn>
-            <v-btn block v-if="!!getID(key)" elevation=4 :color="getAccent + ' darken-2'" @click="disconnect(key)">Disonnect</v-btn>
+            <v-btn block v-if="!getID(key)" elevation=4 :color="getAccent" @click="serve(key)">Connect</v-btn>
+            <v-btn block v-if="!!getID(key)" elevation=4 :color="getAccent" @click="disconnect(key)">Disonnect</v-btn>
           </v-card-actions>
         </v-card>
       </v-tab-item>
@@ -46,11 +46,11 @@ export default {
       const d = this.getDevices
       return !(d && Object.keys(d).length === 0 && d.constructor === Object)
     },
-      getDevices () {
-        return this.$store.state.activeDevices
-      },
+    getDevices () {
+      return this.$store.state.activeDevices
+    },
     btActive () {
-      if (islive) {
+      if (this.islive) {
         return 'data found!'
       } else {
         return 'inactive.'
@@ -62,6 +62,14 @@ export default {
     deviceTree () {
       console.log(this.$store.state.deviceTree)
       return this.$store.state.deviceTree
+    },
+    cleanDeviceTree () {
+      const cdt = this.deviceTree
+      for (const fam in cdt) {
+        delete (cdt[fam].axisID)
+      }
+      console.warn(cdt)
+      return cdt
     }
   },
   methods: {

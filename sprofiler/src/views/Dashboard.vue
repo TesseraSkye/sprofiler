@@ -55,7 +55,7 @@
         </v-card>
       </v-col>
     </v-row>
-    <h1 class="text-center"><v-icon>mdi-chevron-down</v-icon></h1>
+    <h1 class="text-center"><v-icon large>mdi-chevron-down</v-icon></h1>
     <v-row>
       <v-col>
         <v-divider class="mt-2 mb-4"/>

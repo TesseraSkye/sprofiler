@@ -8,7 +8,7 @@ const deviceConfig = _deviceConfig.default
 
 // data format (name, cuuid (optional))
 function getUUID (name, cuuid = '') {
-  const device = deviceConfig[name]
+  const device = deviceConfig[name] || {}
 
   // if cuuid, assume lookign for characteristic uuid, returns cUUID, error returns ""
   // if no char name, reurn service uuid, error returns ""

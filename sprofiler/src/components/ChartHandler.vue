@@ -1,90 +1,136 @@
 <template>
   <v-row>
-    <v-col cols=12>
-      <line-chart :chart-data='chartData' :key='rerenderKey+(keyOffset ? keyOffset : 0)' :class="size ? size : 'chart-sm'"/>
+    <v-col v-if="!this.live" cols=12>
+      <line-chart :chartData='this.chartData' :options="this.chartOptions" :class="'chart-' + this.size[0][0]"/>
+    </v-col>
+    <v-col v-if="this.live" cols=12>
+      <line-chart :chartData='this.chartData' :options="this.chartOptions" :key='rerenderKey' :class="'chart-' + this.size[0][1] + ' d' + this.size[1][0] + '-none ' + 'd' + this.size[1][1] + '-flex'"/>
+      <line-chart :chartData='this.chartData' :options="this.chartOptions" :key='rerenderKey+5' :class="'chart-' + this.size[0][0] + ' d' + this.size[1][0] + '-flex' + ' d' + this.size[1][1] + '-none'"/>
     </v-col>
   </v-row>
 </template>
 
 <script>
-
-    // data format
-    // data: {
-    //   profiler: {
-    //     axisID: 'pressure',
-    //     sprofiler: [{x: 0, y: 0}, {x: 1, y: 0}, {x: 2, y: 1}, {x: 3, y: 2}, {x: 4, y: 4}, {x: 5, y: 6}, {x: 6, y: 9}, {x: 7, y: 5}, {x: 8, y: 4}, {x:9 , y: 3}, {x: 10, y: 1}, {x:11 , y: 1}]
-    //   },
-    //   scale: {
-    //     axisID: 'weight',
-    //     acaia: [{x: 0, y: 0.0}, {x: 1, y: 0.2}, {x: 2, y: 5.1}, {x: 3, y: 12.1}, {x: 4, y: 15.7}, {x: 5, y: 19.5}, {x: 6, y: 24.1}, {x: 7, y: 28.5}, {x: 8, y: 31.2}, {x: 9, y: 32.8}, {x: 10, y: 35.3}, {x: 11, y: 37.7} ]
-    //   }
-    // }
-
 import LineChart from './LineChart.js'
 
 export default {
-  props: ['data', 'live', 'size', 'keyOffset'],
+  props: {
+    data: {},
+    live: {
+      default: false
+    },
+    size: {
+      default: 'sm'
+    }
+  },
   name: 'chart-handler',
   data: () => ({
-    chartData: [], // shouldn't need to have labels, as they are now included
-    rerenderKey: 0,
-    rawTheme: []
+    chartData: {}, // shouldn't need to have labels, as they are now included
+    chartOptions: {},
+    rerenderKey: 0
   }),
-  componets: {
-    LineChart
+  components: {
+    'line-chart': LineChart
   },
   mounted () {
-    if (live) {
+    if (this.live) {
       this.forceRerender()
+    } else {
+      this.rerender()
     }
-    rawTheme = this.getRawAccent
   },
   computed: {
     getRawAccent () {
-      return this.$store.state.accentRaw
+      return this.$store.state.accentRaw || [0, 100, 50]
     },
     rebuiltData () {
-      let rData = []
-
-      for (const family in data.data) {
-        for (const device in family) {
-          let cData = {
-            label: '',
-            borderColor: '',
-            pointBackgroundColor: 'dark',
-            borderWidth: 2,
-            pointRadius: 0,
-            pointBorderColor: '',
-            backgroundColor: '#aaaaaa11',
-            data: [],
-            yAxisID: ''
-          }
-          const newCol = this.newTheme()
-          cData[label] = device
-          cData[borderColor] = newCol
-          cData[pointBorderColor] = newCol
-          cData[data] = family[device],
-          cData[yAxisID] = family.axisID
-          rData.push(cData)
+      let count = 0
+      const rOptions = {
+        // parsing: false,
+        animation: null,
+        legend: {
+          display: false
+        },
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          yAxes: []
         }
       }
-      return rData
+      const rData = {
+        labels: this.data.labels,
+        datasets: []
+      }
+      // console.error(this.data.data)
+      for (const family in this.data.data) {
+        const dType = this.data.data[family].axisID
+        const dTypeUC = dType.charAt(0).toUpperCase() + dType.slice(1)
+        // console.warn('y' + dTypeUC)
+        rOptions.scales.yAxes.push({
+          // type: 'linear',
+          id: 'y' + dTypeUC,
+          axis: 'y'
+        })
+        for (const device in this.data.data[family]) {
+          if (!(device === 'axisID')) {
+            // console.warn(device)
+            const cData = {
+              label: '',
+              borderColor: '',
+              pointBackgroundColor: 'dark',
+              borderWidth: 2,
+              pointRadius: 0,
+              pointBorderColor: '',
+              backgroundColor: '#aaaaaa11',
+              yAxisID: '',
+              data: []
+            }
+            const newCol = this.newTheme(count)
+            cData.label = device
+            cData.borderColor = `hsl(${newCol[0]}, ${newCol[1]}%, ${newCol[2]}%)`
+            cData.pointBorderColor = `hsl(${newCol[0]}, ${newCol[1]}%, ${newCol[2]}%)`
+            cData.data = this.data.data[family][device]
+            cData.yAxisID = 'y' + dTypeUC
+            rData.datasets.push(cData)
+            count += 1
+          }
+        }
+      }
+      if (count > 1) { rOptions.legend.display = true }
+      return [rData, rOptions]
     }
   },
   methods: {
     rerender () {
       this.rerenderKey += 1
       if (this.rerenderKey > 50) { this.rerenderKey = 0 }
-      this.chartData = rebuiltData
+      this.chartData = this.rebuiltData[0]
+      this.chartOptions = this.rebuiltData[1]
     },
-    newTheme () {
-      let mTheme = this.rawTheme.map(x => x)
-      rawTheme[0] = (rawTheme[0] + 20) % 360
+    newTheme (count) {
+      let mTheme = Array.from(this.getRawAccent, x => x)
+      let _count = count * 30
+      _count = (mTheme[0] + _count) % 360
+      mTheme = [_count, this.getRawAccent[1], this.getRawAccent[2]]
+      // console.warn(mTheme)
       return mTheme
     },
     forceRerender () {
       setInterval(() => { this.rerender() }, 200)
-    } 
+    }
   }
 }
 </script>
+<style>
+/* chart styling */
+.chart-lg {
+  height: 70vh;
+}
+.chart-md {
+  height: 45vh;
+}
+.chart-sm {
+  height: 30vh;
+  width: 90vw;
+}
+</style>
