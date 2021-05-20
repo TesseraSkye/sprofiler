@@ -8,11 +8,16 @@ const deviceConfig = _deviceConfig.default
 
 // data format (name, cuuid (optional))
 function getUUID (name, cuuid = '') {
-  const device = deviceConfig[name] || {}
+  const device = deviceConfig[name] || {
+    suuid: 'NO DEVICE FOUND',
+    characteristics: {
+      read: 'NO DEVICE FOUND'
+    }
+  }
 
   // if cuuid, assume lookign for characteristic uuid, returns cUUID, error returns ""
   // if no char name, reurn service uuid, error returns ""
-  return ((cuuid ? (device[cuuid] ? device[cuuid] : '') : (device.suuid ? device.suuid : ''))) // weird if / else shorthand
+  return ((cuuid ? (device.characteristics[cuuid] ? device.characteristics[cuuid] : 'cUUID ERROR') : (device.suuid ? device.suuid : 'sUUID ERROR'))) // weird if / else shorthand
 }
 
 // async ble stuff
@@ -29,7 +34,7 @@ async function bleInit (name) {
       const device = await BleClient.requestDevice({
         services: [serviceUUID]
       })
-
+      console.error('adding device at ' + device.deviceId)
       dispatch('addData', ['activeDevices', [name, device.deviceId]]) // adds the name but not uuid, as that can be looked up.
     } catch (error) {
       console.error(error)
@@ -49,13 +54,15 @@ async function bleStart () { // just turns ble on.
 }
 async function bleServe (name) {
   const suuid = getUUID(name)
+  console.warn('suuid = ' + suuid)
   const cuuid = getUUID(name, 'read') // get cUUID at 'read', this will do for now
-  const deviceID = getID(name)
   const dispatch = store.dispatch
+  if (!getID(name)) { bleInit(name) }
+  const deviceID = getID(name)
   console.warn('connecting to ' + name + ' at ' + deviceID)
   async function main () {
     try {
-      await BleClient.initialize()
+      // await BleClient.initialize()
 
       await BleClient.connect(deviceID)
       console.log('connected to ' + name + ' at ' + deviceID)

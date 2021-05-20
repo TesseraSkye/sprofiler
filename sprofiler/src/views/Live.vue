@@ -50,9 +50,9 @@ export default {
     }
   },
   mounted () {
-    if (this.hasActiveData) {
+    if (this.hasActiveDevices) {
       for (const device in this.getActiveDevices) {
-        this.serveBLE(device)
+        setTimeout(() => { this.serveBLE(device) }, 200)
       }
     }
   },

@@ -77,6 +77,7 @@ export default {
       bleInit()
     },
     serve (device) {
+      console.warn(device)
       bleServe(device)
       // setTimeout(() => { this.$router.push('/dash') }, 220)
     },
