@@ -1,3 +1,4 @@
+
 #include <BLEDevice.h>
 #include <BLEServer.h>
 #include <BLEUtils.h>
@@ -12,9 +13,11 @@ bool oldDeviceConnected = false;
 // calibration data [coeficient, offset]
 float cal[] = {0.047, 3.0};
 
+byte enablePin = A1;
 
-#define SERVICE_UUID        "d43d1e53-4fb6-4907-9f4e-1237e5a39971"
-#define CHARACTERISTIC_UUID "50739418-766d-46f5-9670-f5ef11392f3b"
+
+#define SERVICE_UUID        "0000FAFF-0000-1000-8000-00805F9B34FB"
+#define CHARACTERISTIC_UUID "0000FA01-0000-1000-8000-00805F9B34FB"
 
 uint32_t val;
 uint8_t avg = 8; //num averages
@@ -23,18 +26,24 @@ uint8_t avg = 8; //num averages
 class bleCallbacks: public BLEServerCallbacks {
     void onConnect(BLEServer* pServer) {
       deviceConnected = true;
+//      digitalWrite(enablePin, HIGH); // Enables boost converter and pressure transducer
+      
     };
 
     void onDisconnect(BLEServer* pServer) {
       deviceConnected = false;
+      delay(10000);
+//      if (deviceConnected == false) { digitalWrite(enablePin, LOW); }; // dissables boost and sensor if it's been DC'd for over a minute
     }
 };
+
 
 
 
 void setup() {
   Serial.begin(115200);
 
+  pinMode(enablePin, OUTPUT);
   BLEDevice::init("Sprofiler");
 
   pServer = BLEDevice::createServer();
@@ -65,6 +74,7 @@ void setup() {
   pAdvertising->setMinPreferred(0x12);
   BLEDevice::startAdvertising();
   Serial.println("Awaiting connection...");
+  
 }
 
 void loop() {
@@ -80,14 +90,14 @@ void loop() {
 //        Serial.println(val);
         
         // regression fit, div psi / bar
-        uint32_t out = (((val * cal[0]) + cal[1]) /14.5)*1000;
+        uint32_t out = (((val * cal[0]) + cal[1]) / 14.5)*1000;
         if (out > 1200) {;
           Serial.println(out);
           pCharacteristic->setValue(out);
           pCharacteristic->notify();
         }
         
-        delay(50); // prevents overload
+        delay(100); // prevents overload
     }
     // disconnecting
     // disconnecting
@@ -96,6 +106,7 @@ void loop() {
         pServer->startAdvertising(); // restart advertising
         Serial.println("start advertising");
         oldDeviceConnected = deviceConnected;
+        
     }
     // connecting
     if (deviceConnected && !oldDeviceConnected) {

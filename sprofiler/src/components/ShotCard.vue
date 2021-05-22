@@ -10,6 +10,7 @@
             :color="this.getAccent"
             dense
             background-color="#aaa"
+            half-increments
             readonly
             hover
             length="5"
@@ -19,9 +20,10 @@
             <h4>Note: {{this.data.notes || "none"}}</h4>
             <h4>Pulled on {{this.data.date}}</h4>
           </v-card-text>
-          <LineChart class="chart-sm" :chartData="this.shotData"/>
+          <chart-handler :data='this.data'/>
           <v-fade-transition>
             <v-overlay
+                class="zh-90"
                 v-if="this.overlay"
                 absolute :color="this.getAccent + ' lighten-2'">
                 <v-btn @click="this.compare" class="mx-2" :color="this.getAccent">Compare</v-btn>
@@ -58,12 +60,12 @@
 </template>
 
 <script>
-import LineChart from './LineChart.js'
+import ChartHandler from './ChartHandler.vue'
 export default {
   name: 'shot-card',
   props: ['data'],
   components: {
-    LineChart
+    ChartHandler
   },
   data () {
     return {
@@ -72,17 +74,19 @@ export default {
       dialog: false
     }
   },
-  mounted () {
-    this.fillShotData()
+  computed: {
+    getAccent () {
+      return this.$store.state.accent
+    }
   },
   methods: {
     compare () {
-      this.$store.dispatch('putData', ['overlayUUID', this.data.uuid])
+      this.$store.dispatch('setData', ['overlayUUID', this.data.uuid])
       setTimeout(() => { this.$router.push('/live') }, 200)
     },
     remove () {
       this.dialog = false
-      this.$store.dispatch('removeShot', this.data.uuid)
+      this.$store.dispatch('removeData', ['shotHistory', [this.data.uuid]])
       setTimeout(() => { this.$router.push('/') }, 200)
     },
     setDialog (bool) {
@@ -90,28 +94,6 @@ export default {
     },
     toggleOverlay () {
       if (this.overlay === true) { this.overlay = false } else { this.overlay = true }
-    },
-    fillShotData () {
-      this.shotData = {
-        labels: this.data.data[1],
-        datasets: [
-          {
-            label: 'pressure (bar)',
-            borderColor: this.getAccent,
-            pointBackgroundColor: 'dark',
-            borderWidth: 2,
-            pointRadius: 0,
-            pointBorderColor: this.getAccent,
-            backgroundColor: '#aaaaaa11',
-            data: this.data.data[0]
-          }
-        ]
-      }
-    }
-  },
-  computed: {
-    getAccent () {
-      return this.$store.state.accent
     }
   }
 }

@@ -1,7 +1,7 @@
 {
-  "name": "com.tesseraskye.sprofiler",
+  "name": "com.hungelabs.sprofiler",
   "displayName": "Sprofiler",
-  "version": "0.3.2",
+  "version": "0.4.0",
   "main": "./src/main.js",
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -12,7 +12,7 @@
   "keywords": [
     "ecosystem:cordova"
   ],
-  "author": "Tessera Skye",
+  "author": "Hunge Labs",
   "license": "MIT",
   "dependencies": {
     "@capacitor-community/bluetooth-le": "^1.0.0-4",
@@ -20,7 +20,7 @@
     "@capacitor/cli": "^3.0.0-rc.0",
     "@capacitor/core": "^3.0.0-rc.0",
     "@capacitor/storage": "^0.3.6",
-    "chart.js": "2.8.0",
+    "chart.js": "^2.9.4",
     "core-js": "^3.6.5",
     "vue": "^2.6.11",
     "vue-chartjs": "^3.5.1",

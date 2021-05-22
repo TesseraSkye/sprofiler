@@ -1,33 +1,32 @@
 <template>
   <v-container>
-    <v-row v-if="(!this.getID)">
+    <v-row v-if="(!this.hasActiveDevices)">
       <v-col>
         <v-card elevation="2">
           <v-card-title>
             <h1>Hey!</h1>
           </v-card-title>
           <v-card-text>
-            <h3>To use the profiling feature, you'll need to connect to your Sprofiler in the settings tab.</h3>
+            <h3>To use the live data feature, you'll need to connect to a device in the settings tab.</h3>
           </v-card-text>
           <v-card-actions>
-            <v-btn to='/settings'>
+            <v-btn :color="this.getAccent" to='/settings'>
               Take me there ->
             </v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
     </v-row>
-    <v-row v-if="this.getID || this.isDebug">
-      <v-btn :disabled='!this.hasPressureData' :color="this.getAccent" block class="mb-2" to="/save">{{this.isWaiting}}</v-btn>
-      <br>
+    <v-row v-if="this.hasActiveDevices || this.isDebug">
       <v-col cols=12>
-        <line-chart :chart-data='activePressureArray' :key='rerenderKey + 1' class="chart-lg d-flex d-sm-none"/>
-        <line-chart :chart-data='activePressureArray' :key='rerenderKey' class="chart-md d-none d-sm-flex"/>
+        <v-btn :disabled='!this.hasActiveData' :color="this.getAccent" block class="mb-2" to="/save-shot">{{this.hasActiveData ? "Save" : "Waiting for data..."}}</v-btn>
+        <!-- <br> -->
+        <chart-handler :live="true" :data='this.activeData' :size="[['lg', 'md'], ['', '-sm']]"/>
       </v-col>
     </v-row>
-    <v-row justify="center" v-if="this.getID || this.isDebug">
+    <v-row justify="center" v-if="this.hasActiveData || this.isDebug">
       <v-col>
-        <v-btn @click="this.resetPressure" :disabled='!this.hasPressureData' color="red" block>Clear</v-btn>
+        <v-btn @click="this.resetActiveData" :disabled='!this.hasActiveData' color="red" block>Clear</v-btn>
         <br>
         <br>
       </v-col>
@@ -37,144 +36,76 @@
 
 <script>
 
-import LineChart from '../components/LineChart.js'
+import ChartHandler from '../components/ChartHandler.vue'
 import { bleServe, bleStop } from '../components/bleHandlers.js'
 
 export default {
   name: 'live',
   components: {
-    LineChart
+    ChartHandler
   },
   data () {
     return {
-      rerenderKey: 0,
-      activePressureArray: {}
+      rerenderKey: 0
     }
   },
   mounted () {
-    if (this.getID) { this.init() }
-  },
-  methods: {
-    init () {
-      this.fillChart()
-      this.forceRerender()
-      this.serveBLE()
-    },
-    serveBLE () {
-      this.forceRerender()
-      bleServe()
-    },
-    stopBLE () {
-      bleStop()
-    },
-    resetPressure () {
-      this.$store.dispatch('putData', ['pressureArray', [[], []]])
-      this.$store.dispatch('putData', ['overlayUUID', ''])
-      setTimeout(() => { this.$router.push('/') }, 50)
-    },
-    rerender () {
-      this.rerenderKey += 1
-      if (this.rerenderKey > 50) { this.rerenderKey = 0 }
-    },
-    fillChart () {
-      this.activePressureArray = {
-        labels: this.getLabels,
-        datasets: [
-          {
-            label: 'pressure (bar)',
-            borderColor: this.getAccent,
-            pointBackgroundColor: 'dark',
-            borderWidth: 2,
-            pointRadius: 0,
-            pointBorderColor: this.getAccent,
-            backgroundColor: '#aaaaaa11',
-            data: this.getPressureData
-          },
-          {
-            label: 'pressure (bar)',
-            borderColor: '#555',
-            pointBackgroundColor: 'dark',
-            borderWidth: 2,
-            pointRadius: 0,
-            pointBorderColor: '#555',
-            backgroundColor: '#aaaaaa22',
-            data: this.getOverlayData[0] || []
-          }
-        ]
+    if (this.hasActiveDevices) {
+      for (const device in this.activeDevices) {
+        console.error('starting ble at ' + device)
+        setTimeout(() => { this.serveBLE(device) }, 200)
       }
-    },
-    forceRerender () {
-      setInterval(() => { this.rerender() }, 200)
     }
   },
   computed: {
     getOverlayData () {
-      let data
-      try {
-        data = this.$store.state.shotHistory[this.getOverlayUUID].data
-      } catch (error) {
-        console.error('error retrieving overlay data')
+      const overlay = this.$store.state.shotHistory[this.getOverlayUUID] || {
+        data: [[], []]
       }
-      console.error('got overlay data!')
-      return data || [[], []]
+      return {
+        pressure: overlay.data
+      }
     },
     getOverlayUUID () {
-      const data = this.$store.state.overlayUUID
+      const data = this.$store.state.overlayUUID || 0 // this might cause issues, but shouldn't
       return data
     },
     isDebug () {
       return this.$store.state.debug
     },
-    isWaiting () {
-      if (this.hasPressureData) {
-        return 'SAVE'
-      } else { return 'waiting for data...' }
-    },
     getAccent () {
       return this.$store.state.accent
     },
-    getPressureData () {
-      return this.$store.state.pressureArray[0]
+    activeData () {
+      return this.$store.state.activeData
     },
-    getLabelData () {
-      return this.$store.state.pressureArray[1]
+    hasActiveData () {
+      const ad = this.$store.state.activeData // !! casts return as a bool
+      return (!(ad && Object.keys(ad).length === 0 && ad.constructor === Object)) // is it truthy, is 0 length, and is an object
     },
-    getLabels () {
-      let comp
-      try {
-        comp = (
-          this.getOverlayData[1][this.getOverlayData[1].length - 1]
-        ) > (
-          this.getLabelData[this.getLabelData.length - 1] || 0
-        )
-      } catch (error) {
-        console.error('We did a fucky wucky' + error)
-      }
-      console.error('getting labels: ' + comp)
-      if (comp) {
-        return this.getOverlayData[1]
-      } else { return this.getLabelData }
+    hasActiveDevices () {
+      const ad = this.$store.state.activeDevices // !! casts return as a bool
+      return (!(ad && Object.keys(ad).length === 0 && ad.constructor === Object)) // is it truthy, is 0 length, and is an object
     },
-    getID () {
-      return this.$store.state.deviceID
+    activeDevices () {
+      const devices = this.$store.state.activeDevices
+      console.error('Active Devices = ' + devices)
+      return devices
+    }
+  },
+  methods: {
+    serveBLE (name) {
+      bleServe(name)
     },
-    hasPressureData () {
-      return this.$store.state.pressureArray[0][0]
+    stopBLE (name) {
+      bleStop(name)
+    },
+    resetActiveData () {
+      this.$store.dispatch('setData', ['activeData', {}])
+      this.$store.dispatch('setData', ['overlayUUID', ''])
+      setTimeout(() => { this.$router.push('/') }, 50)
     }
   }
 }
 
 </script>
-<style>
-/* chart styling */
-.chart-lg {
-  height: 75vh;
-}
-.chart-md {
-  height: 50vh;
-}
-.chart-sm {
-  height: 30vh;
-  width: 90vw;
-}
-</style>
