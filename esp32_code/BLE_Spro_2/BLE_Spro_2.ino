@@ -44,7 +44,7 @@ void setup() {
   Serial.begin(115200);
 
   pinMode(enablePin, OUTPUT);
-  BLEDevice::init("ESP32");
+  BLEDevice::init("Sprofiler");
 
   pServer = BLEDevice::createServer();
   pServer->setCallbacks(new bleCallbacks());

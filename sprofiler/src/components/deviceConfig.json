@@ -8,9 +8,9 @@
     "offset": 0,
     "decodeFamily": "uint32",
     "littleEndian": true,
-    "suuid": "0000FAFF-0000-1000-8000-00805F9B34FB",
+    "suuid": "0000faff-0000-1000-8000-00805f9b34fb",
     "characteristics": {
-      "read": "0000FA01-0000-1000-8000-00805F9B34FB"
+      "read": "0000fa01-0000-1000-8000-00805f9b34fb"
     }
   },
   "acaia": {

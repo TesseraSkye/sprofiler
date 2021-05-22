@@ -8,6 +8,8 @@ const deviceConfig = _deviceConfig.default
 
 // data format (name, cuuid (optional))
 function getUUID (name, cuuid = '') {
+  console.error('name - ' + name)
+  console.error(deviceConfig)
   const device = deviceConfig[name] || {
     suuid: 'NO DEVICE FOUND',
     characteristics: {
@@ -25,17 +27,18 @@ function getUUID (name, cuuid = '') {
 // and in some cases, the characteristic you want to access
 
 async function bleInit (name) {
-  const serviceUUID = getUUID(name)
+  console.error('initializing ble.....')
+  const suuid = getUUID(name)
   const dispatch = store.dispatch
   async function main () {
     try {
       await BleClient.initialize()
 
       const device = await BleClient.requestDevice({
-        services: [serviceUUID]
+        services: [suuid]
       })
       console.error('adding device at ' + device.deviceId)
-      dispatch('addData', ['activeDevices', [name, device.deviceId]]) // adds the name but not uuid, as that can be looked up.
+      dispatch('addData', ['activeDevices', [name, device.deviceId]]) // adds the name and dID, but not suuid, as that can be looked up.
     } catch (error) {
       console.error(error)
     }
@@ -59,28 +62,32 @@ async function bleServe (name) {
   const dispatch = store.dispatch
   if (!getID(name)) { bleInit(name) }
   const deviceID = getID(name)
-  console.warn('connecting to ' + name + ' at ' + deviceID)
+  // console.warn('connecting to ' + name + ' at ' + deviceID)
   async function main () {
     try {
-      // await BleClient.initialize()
+      await BleClient.initialize()
 
       await BleClient.connect(deviceID)
-      console.log('connected to ' + name + ' at ' + deviceID)
+      console.error('connected to ' + name + ' at ' + deviceID)
 
       await BleClient.startNotifications(
         deviceID,
         suuid,
         cuuid,
-        value => {
+        val => {
           console.log(
-            'response at cuuid is ' + value
+            'response at cuuid is ' + val
           )
-          const decoded = decodeData(value, name) // there's a good reason for not passing name first - if it gets left off, it should handle it in a default way, not an error.
-          dispatch('addActiveData', decoded)
+          handleBLE(val)
         }
       )
     } catch (error) {
       console.error(error)
+    }
+    function handleBLE (value) {
+      const decoded = decodeData(value, name) // there's a good reason for not passing name first - if it gets left off, it should handle it in a default way, not an error.
+      // console.error('decoded: ' + decoded)
+      dispatch('addActiveData', decoded)
     }
   }
   main()
@@ -118,7 +125,10 @@ async function bleDC (name) {
 }
 
 function getID (name) { // checks for connected at name. (e.g. 'acaia')
-  return store.state.activeDevices[name]
+  console.error('device list: ' + store.state.activeDevices)
+  const id = store.state.activeDevices[name]
+  console.error('Getting ID of ' + name + ', saw ' + id)
+  return id
 }
 
 export { bleInit, bleServe, getID, bleStop, bleDC, bleStart, getUUID }

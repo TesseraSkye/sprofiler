@@ -51,7 +51,8 @@ export default {
   },
   mounted () {
     if (this.hasActiveDevices) {
-      for (const device in this.getActiveDevices) {
+      for (const device in this.activeDevices) {
+        console.error('starting ble at ' + device)
         setTimeout(() => { this.serveBLE(device) }, 200)
       }
     }
@@ -86,16 +87,18 @@ export default {
       const ad = this.$store.state.activeDevices // !! casts return as a bool
       return (!(ad && Object.keys(ad).length === 0 && ad.constructor === Object)) // is it truthy, is 0 length, and is an object
     },
-    getActiveDevices () {
-      return this.$store.state.activeDevices
+    activeDevices () {
+      const devices = this.$store.state.activeDevices
+      console.error('Active Devices = ' + devices)
+      return devices
     }
   },
   methods: {
-    serveBLE () {
-      bleServe()
+    serveBLE (name) {
+      bleServe(name)
     },
-    stopBLE () {
-      bleStop()
+    stopBLE (name) {
+      bleStop(name)
     },
     resetActiveData () {
       this.$store.dispatch('setData', ['activeData', {}])

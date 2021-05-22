@@ -60,7 +60,7 @@ export default {
       return this.$store.state.debug
     },
     deviceTree () {
-      console.log(this.$store.state.deviceTree)
+      // console.log(this.$store.state.deviceTree)
       return this.$store.state.deviceTree
     },
     cleanDeviceTree () {
@@ -68,7 +68,7 @@ export default {
       for (const fam in cdt) {
         delete (cdt[fam].axisID)
       }
-      console.warn(cdt)
+      // console.warn(cdt)
       return cdt
     }
   },
@@ -77,7 +77,7 @@ export default {
       bleInit()
     },
     serve (device) {
-      console.warn(device)
+      // console.warn(device)
       bleServe(device)
       // setTimeout(() => { this.$router.push('/dash') }, 220)
     },

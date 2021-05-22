@@ -3,7 +3,8 @@ import Vuex from 'vuex'
 
 import { Storage } from '@capacitor/storage'
 
-import * as deviceConfig from '../components/deviceConfig.json'
+import * as _deviceConfig from '../components/deviceConfig.json'
+const deviceConfig = _deviceConfig.default
 
 async function putStorage (key, data) {
   console.log('Setting storage at ' + key)
@@ -22,7 +23,7 @@ async function getStorage (key) {
   console.log('getting storage..')
   const res = await Storage.get({ key: key })
   const out = JSON.parse(res.value)
-  console.log(out)
+  // console.log(out)
   return out
 }
 
@@ -30,6 +31,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    version: '0.4.0',
     accent: '',
     accentRaw: [],
     // preset accents
@@ -49,7 +51,6 @@ export default new Vuex.Store({
     },
     // show debug tips
     debug: false,
-    version: '0.3.5',
     //
     //
     // shot data
@@ -116,18 +117,21 @@ export default new Vuex.Store({
     },
     addActiveData (state, data) { // data = [value, family, name]
       const val = data[0]
-      const family = data[1]
-      const name = data[2]
+      const name = data[1]
+      const family = deviceConfig[name].family
       const rtData = state.activeData
-      if (!rtData.dateOBJ) { rtData.dateOBJ = new Date(); rtData.uuid = rtData.dateOBJ.getTime() } // returns an actual date object and sets uuid
 
+      if (!rtData.dateOBJ) { rtData.dateOBJ = new Date(); rtData.uuid = rtData.dateOBJ.getTime() } // returns an actual date object and sets uuid
+      if (!rtData.data) { rtData.data = {} }
       if (!rtData.data[family]) { rtData.data[family] = {} }
       if (!rtData.data[family][name]) { rtData.data[family][name] = [] }
-      rtData.data[family].axisID = data[3]
-      const elapsed = Math.trunc((Date.now() - rtData.dateOBJ.getTime()) * 100) / 100 // should trunc to the last two digits
+      if (!rtData.labels) { rtData.labels = [] }
+
+      rtData.data[family].axisID = deviceConfig[name].dataType
+      const elapsed = (Math.trunc(Date.now() - rtData.dateOBJ.getTime()) / 10) / 100
       const arr = {}
-      arr.x = val
-      arr.y = elapsed
+      arr.x = elapsed
+      arr.y = val
       rtData.data[family][name].push(arr)
       rtData.labels.push(elapsed)
     },
@@ -146,18 +150,18 @@ export default new Vuex.Store({
     },
     setupDeviceConfig (state) {
       // get device config, sort based on family, recast to new array.
-      const defaultDC = deviceConfig.default
+
       let newDC = {}
       newDC = {} // this just forces a compiler error to go away. It want's a const, but that would break the conditional assignments.
-      for (const device in defaultDC) {
+      for (const device in deviceConfig) {
         // console.log(device)
-        const family = defaultDC[device].family
+        const family = deviceConfig[device].family
         if (!newDC[family]) { newDC[family] = {} }
         if (!newDC[family][device]) { newDC[family][device] = {} }
-        console.log(device)
-        newDC[family][device].description = defaultDC[device].description
-        newDC[family].axisID = defaultDC[device].dataType || ''
-        newDC[family][device].friendly = defaultDC[device].friendly
+        console.log('looking for device' + device)
+        newDC[family][device].description = deviceConfig[device].description
+        newDC[family].axisID = deviceConfig[device].dataType || 'ERROR'
+        newDC[family][device].friendly = deviceConfig[device].friendly
       }
       state.deviceTree = newDC
     }

@@ -22,7 +22,8 @@
     <v-row>
       <v-col>
         <v-card elevation="10" outlined>
-          <v-card-title><h3>Time to make 'spro.</h3></v-card-title>
+          <v-card-title v-if="!this.isActive"><h3>Set up your 'spro.</h3></v-card-title>
+          <v-card-title v-if="!!this.isActive"><h3>Time to make 'spro.</h3></v-card-title>
           <v-card-text v-if="!this.isActive">
             <h4>To get started, head over to the connections tab in settings.</h4>
           </v-card-text>

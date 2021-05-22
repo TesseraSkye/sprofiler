@@ -2,6 +2,8 @@
   <v-container>
       <v-row align-content="center">
         <v-col class="text-center" cols=12>
+          <br v-if="this.isDebug">
+          <br v-if="this.isDebug">
           <v-btn @click="incDBC()" color ="transparent">
             <h1>Settings</h1>
           </v-btn>
@@ -217,7 +219,7 @@ export default {
         }
       }])
       this.$store.dispatch('setData', ['activeDevices', {
-        sprofiler: 'jaesfdo4jtt3'
+        sprofiler: 'FFFFFFFF'
       }])
       this.$store.dispatch('setData', ['overlayUUID', 'dummy'])
     },

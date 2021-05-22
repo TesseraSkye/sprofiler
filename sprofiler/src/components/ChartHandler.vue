@@ -42,8 +42,27 @@ export default {
   computed: {
     getRawAccent () {
       return this.$store.state.accentRaw || [0, 100, 50]
+    }
+  },
+  methods: {
+    rerender () {
+      this.rerenderKey += 1
+      if (this.rerenderKey > 50) { this.rerenderKey = 0 }
+      this.chartData = this.rebuildData()[0]
+      this.chartOptions = this.rebuildData()[1]
     },
-    rebuiltData () {
+    newTheme (count) {
+      let mTheme = Array.from(this.getRawAccent, x => x)
+      let _count = count * 30
+      _count = (mTheme[0] + _count) % 360
+      mTheme = [_count, this.getRawAccent[1], this.getRawAccent[2]]
+      // console.warn(mTheme)
+      return mTheme
+    },
+    forceRerender () {
+      setInterval(() => { this.rerender() }, 200)
+    },
+    rebuildData () {
       let count = 0
       const rOptions = {
         // parsing: false,
@@ -98,25 +117,6 @@ export default {
       }
       if (count > 1) { rOptions.legend.display = true }
       return [rData, rOptions]
-    }
-  },
-  methods: {
-    rerender () {
-      this.rerenderKey += 1
-      if (this.rerenderKey > 50) { this.rerenderKey = 0 }
-      this.chartData = this.rebuiltData[0]
-      this.chartOptions = this.rebuiltData[1]
-    },
-    newTheme (count) {
-      let mTheme = Array.from(this.getRawAccent, x => x)
-      let _count = count * 30
-      _count = (mTheme[0] + _count) % 360
-      mTheme = [_count, this.getRawAccent[1], this.getRawAccent[2]]
-      // console.warn(mTheme)
-      return mTheme
-    },
-    forceRerender () {
-      setInterval(() => { this.rerender() }, 200)
     }
   }
 }
