@@ -42,11 +42,19 @@ import CoffeeCard from '../components/CoffeeCard.vue'
 export default {
   name: 'library',
   data: () => ({
-    page: 0
+    page: 0,
+    destination: '',
+    saveDialog: false
   }),
   components: {
     ShotCard,
     CoffeeCard
+  },
+  created () {
+    this.$router.beforeEach((to, from, next) => {
+      this.destination = from.meta.destination
+      next()
+    })
   },
   computed: {
     getAccent () {
