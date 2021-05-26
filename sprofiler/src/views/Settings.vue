@@ -181,6 +181,7 @@ export default {
       this.$store.dispatch('setData', ['shotHistory', {
         dummy: {
           name: 'Dummy shot 1',
+          dateOBJ: Date.now(),
           date: 'Jan 1, 2021 at 00:00',
           uuid: 'dummy',
           raiting: 4.5,

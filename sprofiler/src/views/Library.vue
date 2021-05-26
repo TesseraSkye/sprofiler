@@ -8,6 +8,15 @@
     </v-tabs>
       </v-col>
     </v-row>
+    <v-slide-x-transition leave-absolute hide-on-leave mode="out-in">
+      <v-row v-if="page === 1">
+        <v-col>
+          <v-btn to="/save-coffee" elevation="10" block :color="this.getAccent">
+            <v-icon>mdi-plus</v-icon>
+          </v-btn>
+        </v-col>
+      </v-row>
+    </v-slide-x-transition>
     <v-row>
       <v-col>
         <v-tabs-items v-model="page">
@@ -33,7 +42,7 @@ import CoffeeCard from '../components/CoffeeCard.vue'
 export default {
   name: 'library',
   data: () => ({
-    page: 'Shots'
+    page: 0
   }),
   components: {
     ShotCard,
@@ -42,6 +51,9 @@ export default {
   computed: {
     getAccent () {
       return this.$store.state.accent
+    },
+    routePage () {
+      return 1
     }
   },
   methods: {

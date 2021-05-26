@@ -1,7 +1,7 @@
 <template>
   <v-row>
     <v-col>
-      <v-card outlined elevation="10">
+      <v-card elevation="10">
         <v-card-title><h3>{{this.data.name}}</h3></v-card-title>
         <v-card-subtitle>{{this.data.origin}}</v-card-subtitle>
         <v-rating

@@ -67,17 +67,17 @@ export default {
   data () {
     return {
       activeShot: {
-        name: '',
-        uuid: '',
-        dateObj: {},
-        rating: null,
-        favorite: null,
-        comments: '',
-        data: {
-          // family: {
-          //   device: []
-          // }
-        }
+        // name: '',
+        // uuid: '',
+        // dateObj: {},
+        // rating: null,
+        // favorite: null,
+        // comments: '',
+        // data: {
+        //   family: {
+        //   device: []
+        //   // }
+        // }
       }
     }
   },
@@ -93,20 +93,23 @@ export default {
     }
   },
   methods: {
+    fillShotData () {
+      this.activeShot = this.activeData
+    },
     clear () {
-      this.$store.dispatch('setData', ['activeData'])
+      this.$store.dispatch('setData', ['activeData', {}])
       this.$store.dispatch('setData', ['overlayUUID', ''])
     },
     submit () {
-      this.date = this.getDate
-      this.$store.dispatch('addData', ['shotHistory', [this.dateInfo[0], {
+      this.$store.dispatch('addData', ['shotHistory', [this.activeData.uuid, {
         name: this.name,
-        uuid: this.dateInfo[0],
-        date: this.dateInfo[1],
+        uuid: this.activeShot.uuid,
+        dateOBJ: this.activeShot.dateOBJ,
+        date: this.activeShot.dateOBJ.toLocaleString(),
         rating: this.rating,
         favorite: (this.rating >= 4.5),
         notes: this.notes,
-        data: this.getPressureArray
+        data: this.activeShot.data
       }]])
       setTimeout(() => { this.clear() }, 200)
       setTimeout(() => { this.$router.push('/library') }, 220)

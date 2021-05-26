@@ -8,8 +8,8 @@ const deviceConfig = _deviceConfig.default
 
 // data format (name, cuuid (optional))
 function getUUID (name, cuuid = '') {
-  console.error('name - ' + name)
-  console.error(deviceConfig)
+  // console.error('name - ' + name)
+  // console.error(deviceConfig)
   const device = deviceConfig[name] || {
     suuid: 'NO DEVICE FOUND',
     characteristics: {
@@ -27,7 +27,7 @@ function getUUID (name, cuuid = '') {
 // and in some cases, the characteristic you want to access
 
 async function bleInit (name) {
-  console.error('initializing ble.....')
+  // console.error('initializing ble.....')
   const suuid = getUUID(name)
   const dispatch = store.dispatch
   async function main () {
@@ -37,7 +37,7 @@ async function bleInit (name) {
       const device = await BleClient.requestDevice({
         services: [suuid]
       })
-      console.error('adding device at ' + device.deviceId)
+      // console.error('adding device at ' + device.deviceId)
       dispatch('addData', ['activeDevices', [name, device.deviceId]]) // adds the name and dID, but not suuid, as that can be looked up.
     } catch (error) {
       console.error(error)
@@ -57,7 +57,7 @@ async function bleStart () { // just turns ble on.
 }
 async function bleServe (name) {
   const suuid = getUUID(name)
-  console.warn('suuid = ' + suuid)
+  // console.warn('suuid = ' + suuid)
   const cuuid = getUUID(name, 'read') // get cUUID at 'read', this will do for now
   const dispatch = store.dispatch
   if (!getID(name)) { bleInit(name) }
@@ -68,7 +68,7 @@ async function bleServe (name) {
       await BleClient.initialize()
 
       await BleClient.connect(deviceID)
-      console.error('connected to ' + name + ' at ' + deviceID)
+      // console.error('connected to ' + name + ' at ' + deviceID)
 
       await BleClient.startNotifications(
         deviceID,
@@ -125,9 +125,9 @@ async function bleDC (name) {
 }
 
 function getID (name) { // checks for connected at name. (e.g. 'acaia')
-  console.error('device list: ' + store.state.activeDevices)
+  // console.error('device list: ' + store.state.activeDevices)
   const id = store.state.activeDevices[name]
-  console.error('Getting ID of ' + name + ', saw ' + id)
+  // console.error('Getting ID of ' + name + ', saw ' + id)
   return id
 }
 

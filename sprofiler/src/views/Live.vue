@@ -46,7 +46,6 @@ export default {
   },
   data () {
     return {
-      rerenderKey: 0
     }
   },
   mounted () {
@@ -89,7 +88,7 @@ export default {
     },
     activeDevices () {
       const devices = this.$store.state.activeDevices
-      console.error('Active Devices = ' + devices)
+      // console.error('Active Devices = ' + devices)
       return devices
     }
   },

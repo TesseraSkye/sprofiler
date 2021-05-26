@@ -5,9 +5,9 @@
   "main": "./src/main.js",
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build && npx cap copy",
+    "build": "vue-cli-service build && npx cap copy android",
     "lint": "vue-cli-service lint",
-    "resources": "cordova-res android"
+    "resources": "cordova-res --skip-config --copy android"
   },
   "keywords": [
     "ecosystem:cordova"
