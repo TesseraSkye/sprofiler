@@ -1,18 +1,18 @@
 <template>
-  <v-card elevation="10" class="px-2">
-    <v-card-title>Bluetooth {{ this.btActive }}</v-card-title>
+  <v-card>
+    <!-- <v-card-title>Bluetooth {{ this.btActive }}</v-card-title> -->
     <template v-if="this.isDebug">
       <v-card-text><h4>active devices:</h4></v-card-text>
       <v-card-text :key='device' v-for="device in this.getDevices">{{device}}</v-card-text>
     </template>
-    <v-divider class="my-2"/>
-    <v-tabs :color="this.getAccent" centered v-model="tab">
+    <!-- <v-divider class="my-2"/> -->
+    <v-tabs background-color="262626" :color="this.getAccent" centered v-model="tab" class="mb-5">
       <v-tab v-for="(item, key) in this.deviceTree" :key="key">{{ key }}</v-tab>
     </v-tabs>
-    <v-divider class="my-2"/>
+    <!-- <v-divider class="my-2"/> -->
     <v-tabs-items v-model="tab">
-      <v-tab-item v-for="(family, key) in this.cleanDeviceTree" :key="key">
-        <v-card color="transparent" :key="key" v-for="(item, key) in family" elevation=4>
+      <v-tab-item class="pa-2" v-for="(family, key) in this.cleanDeviceTree" :key="key">
+        <v-card class="pa-2 my-4" shaped color="#262626" :key="key" v-for="(item, key) in family">
           <v-card-title>{{ item.friendly }}<i>{{!!getID(key) ? "..... active!" : ""}}</i></v-card-title>
           <v-card-subtitle>{{item.description}}</v-card-subtitle>
           <v-card-actions>

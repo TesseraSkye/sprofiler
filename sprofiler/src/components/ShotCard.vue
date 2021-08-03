@@ -2,20 +2,20 @@
   <v-row>
       <v-col>
         <v-card @click="this.toggleOverlay" shaped elevation="10" color="#262626">
-          <v-card-title>
+          <v-card-title :class="[this.overlay ? 'blur' : '']">
             <h3>{{this.data.name}}</h3>
           </v-card-title>
-          <v-card-subtitle>{{this.data.date}}</v-card-subtitle>
+          <v-card-subtitle :class="[this.overlay ? 'blur' : '']">{{this.data.date}}</v-card-subtitle>
           <chart-handler sleek="true" :class="[this.overlay ? 'blur' : '']" :data='this.data'/>
           <v-fade-transition>
             <v-overlay
                 class="zh-90"
                 v-if="this.overlay"
                 absolute
-                opacity=0.3
-                :color="this.getAccent">
+                opacity=0.4
+                :color="`hsl(${this.getAccentRaw[0]}, ${this.getAccentRaw[1] * 0.3}%, ${this.getAccentRaw[2] * 0.5}%)`">
               <v-card-text>
-                <h4>Note: {{this.data.notes || "none"}}</h4>
+                <h4>{{this.data.notes}}</h4>
               </v-card-text>
               <v-rating
                 class="ml-4"
@@ -106,6 +106,6 @@ export default {
 </script>
 <style>
 .blur {
-  filter: blur(3px);
+  filter: blur(2px);
 }
 </style>

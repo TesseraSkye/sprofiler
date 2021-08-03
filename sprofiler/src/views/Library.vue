@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-row>
+    <v-row class="pt-4">
       <v-col>
         <v-tabs v-model="page" :color="this.getAccent" centered>
       <v-tab>Shots</v-tab>
@@ -9,7 +9,7 @@
       </v-col>
     </v-row>
     <v-slide-x-transition leave-absolute hide-on-leave mode="out-in">
-      <v-row v-if="page === 1">
+      <v-row v-if="page === 1" class="px-4">
         <v-col>
           <v-btn to="/save-coffee" elevation="10" block :color="this.getAccent">
             <v-icon>mdi-plus</v-icon>
@@ -19,14 +19,14 @@
     </v-slide-x-transition>
     <v-row>
       <v-col>
-        <v-tabs-items v-model="page" class="pa-4">
+        <v-tabs-items v-model="page" class="px-4">
           <v-tab-item class="pb-4">
             <!-- Shots -->
-            <shot-card :data="shot" :key="shot.uuid" v-for="shot in this.getStateData('shotHistory')"/>
+            <shot-card class="my-4" :data="shot" :key="shot.uuid" v-for="shot in this.getStateData('shotHistory')"/>
           </v-tab-item>
           <v-tab-item>
             <!-- Coffee -->
-            <coffee-card :data="coffee" :key="coffee.uuid" v-for="coffee in this.getStateData('coffeeHistory')" />
+            <coffee-card class="my-4" :data="coffee" :key="coffee.uuid" v-for="coffee in this.getStateData('coffeeHistory')" />
           </v-tab-item>
         </v-tabs-items>
       </v-col>

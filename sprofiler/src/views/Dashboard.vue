@@ -2,13 +2,13 @@
   <v-container>
     <v-row>
       <v-col>
-        <h1 class="text-center mt-4">Welcome!</h1>
-        <v-divider class="ma-1"/>
+        <h1 class="text-center mt-1">Welcome!</h1>
+        <!-- <v-divider class="ma-1"/> -->
       </v-col>
     </v-row>
     <v-row>
       <v-col>
-        <v-card elevation="10" outlined :color="this.getAccent + ' darken-4'">
+        <v-card shaped color="#262626" elevation="10" class="pa-2">
           <v-card-title>
             <h3>Before you go...</h3>
           </v-card-title>
@@ -21,7 +21,7 @@
     </v-row>
     <v-row>
       <v-col>
-        <v-card elevation="10" outlined>
+        <v-card shaped color="#262626" elevation="10" class="pa-2">
           <v-card-title v-if="!this.isActive"><h3>Set up your 'spro.</h3></v-card-title>
           <v-card-title v-if="!!this.isActive"><h3>Time to make 'spro.</h3></v-card-title>
           <v-card-text v-if="!this.isActive">
@@ -43,7 +43,7 @@
     </v-row>
     <v-row>
       <v-col>
-        <v-card elevation="10" outlined>
+        <v-card shaped color="#262626" elevation="10" class="pa-2">
           <v-card-title>
             <h3>New coffee?</h3>
           </v-card-title>
@@ -60,7 +60,7 @@
     <v-row>
       <v-col>
         <v-divider class="mt-2 mb-4"/>
-        <v-card elevation="10" outlined>
+        <v-card shaped color="#262626" elevation="10" class="pa-2">
           <v-card-title>
             <h3>We have a roadmap!</h3>
           </v-card-title>
@@ -76,7 +76,7 @@
     <v-row>
       <v-col>
         <v-divider class="mt-2 mb-4"/>
-        <v-card elevation="10" outlined>
+        <v-card shaped color="#262626" elevation="10" class="pa-2">
           <v-card-title>
             <h3>Find a bug?</h3>
           </v-card-title>

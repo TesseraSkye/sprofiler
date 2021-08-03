@@ -1,32 +1,37 @@
 <template>
   <v-container>
-      <v-row align-content="center">
-        <v-col class="text-center" cols=12>
-          <br v-if="this.isDebug">
-          <br v-if="this.isDebug">
-          <v-btn @click="incDBC()" color ="transparent">
-            <h1>Settings</h1>
-          </v-btn>
-          <h5>{{this.getVersion}}</h5>
-          <h5>Trans Rights</h5>
-        </v-col>
-      </v-row>
-    <br>
     <v-row>
       <v-col>
-        <v-tabs v-model="page" centered :color="this.getAccent">
-          <v-tab>
-            <v-icon>mdi-wifi</v-icon>
-          </v-tab>
-          <v-tab>
-            <v-icon>mdi-palette</v-icon>
-          </v-tab>
-          <v-tab v-if="this.isDebug">
-            <v-icon>mdi-code-json</v-icon>
-          </v-tab>
-        </v-tabs>
+        <v-row align-content="center" class="mt-1">
+          <v-col class="text-center" cols=12>
+            <br v-if="this.isDebug">
+            <br v-if="this.isDebug">
+            <v-btn @click="incDBC()" elevation="0" color="transparent">
+              <h1 class="text-center">Settings</h1>
+            </v-btn>
+            <h5>{{this.getVersion}}</h5>
+            <h5>Trans Rights</h5>
+          </v-col>
+        </v-row>
+      <!-- <v-divider class="ma-2" /> -->
+      <v-row>
+        <v-col>
+          <v-tabs v-model="page" centered :color="this.getAccent">
+            <v-tab>
+              <v-icon>mdi-wifi</v-icon>
+            </v-tab>
+            <v-tab>
+              <v-icon>mdi-palette</v-icon>
+            </v-tab>
+            <v-tab v-if="this.isDebug">
+              <v-icon>mdi-code-json</v-icon>
+            </v-tab>
+          </v-tabs>
+        </v-col>
+      </v-row>
       </v-col>
     </v-row>
+    <v-divider class="mt-5 mb-2" />
     <v-row>
       <v-col>
         <v-tabs-items v-model="page">
@@ -40,11 +45,11 @@
           <v-tab-item>
             <!-- <v-row>
               <v-col sm="12" md="6"> -->
-                <v-card outlined elevation="10">
-                  <v-card-text>
+                <v-card elevation="10">
+                  <!-- <v-card-text>
                     <h2>Accent Color:</h2>
-                  </v-card-text>
-                  <v-divider/>
+                  </v-card-text> -->
+                  <!-- <v-divider/> -->
                   <v-row>
                     <v-col :key='accent' v-for="(item, accent) in getAccentPresets" align-self="center">
                       <v-btn :color="`hsl(${item[0]}, ${item[1]}%, ${item[2]}%)`" :small="getRawAccent === item" fab x-small class="mx-2 my-4" @click="setAccent(item)" />
@@ -233,3 +238,10 @@ export default {
   }
 }
 </script>
+
+<style>
+.impact {
+  background-color: #1e1e1e1e;
+  filter: drop-shadow(4px 4px 8px #0a0a0a99)
+}
+</style>

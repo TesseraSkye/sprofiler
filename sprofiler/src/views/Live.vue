@@ -1,16 +1,16 @@
 <template>
   <v-container>
-    <v-row v-if="(!this.hasActiveDevices)">
+    <v-row v-if="(!this.hasActiveDevices)" class="mt-2">
       <v-col>
-        <v-card elevation="2">
+        <v-card shaped color="#262626" elevation="10">
           <v-card-title>
-            <h1>Hey!</h1>
+            <h2>Hey!</h2>
           </v-card-title>
           <v-card-text>
-            <h3>To use the live data feature, you'll need to connect to a device in the settings tab.</h3>
+            <h4>To use the live data feature, you'll need to connect to a device in the settings tab.</h4>
           </v-card-text>
-          <v-card-actions>
-            <v-btn :color="this.getAccent" to='/settings'>
+          <v-card-actions class="px-4">
+            <v-btn block class="my-4" :color="this.getAccent" to='/settings'>
               Take me there ->
             </v-btn>
           </v-card-actions>
