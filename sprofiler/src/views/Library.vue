@@ -11,7 +11,7 @@
     <v-slide-x-transition leave-absolute hide-on-leave mode="out-in">
       <v-row v-if="page === 1" class="px-4">
         <v-col>
-          <v-btn to="/save-coffee" elevation="10" block :color="this.getAccent">
+          <v-btn to="/add-coffee" elevation="10" block :color="this.getAccent">
             <v-icon>mdi-plus</v-icon>
           </v-btn>
         </v-col>

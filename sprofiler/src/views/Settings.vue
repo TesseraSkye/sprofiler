@@ -228,6 +228,12 @@ export default {
         sprofiler: 'FFFFFFFF'
       }])
       this.$store.dispatch('setData', ['overlayUUID', 'dummy'])
+      this.store.dispatch('setData', ['tags', {
+        origins: [],
+        varietals: [],
+        processes: [],
+        flavors: []
+      }])
     },
     wipeStorage () {
       this.dialog = false

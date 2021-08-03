@@ -12,7 +12,7 @@
     <!-- <v-divider class="my-2"/> -->
     <v-tabs-items v-model="tab">
       <v-tab-item class="pa-2" v-for="(family, key) in this.cleanDeviceTree" :key="key">
-        <v-card class="pa-2 my-4" shaped color="#262626" :key="key" v-for="(item, key) in family">
+        <v-card elevation=10 class="pa-2 my-4" shaped color="#262626" :key="key" v-for="(item, key) in family">
           <v-card-title>{{ item.friendly }}<i>{{!!getID(key) ? "..... active!" : ""}}</i></v-card-title>
           <v-card-subtitle>{{item.description}}</v-card-subtitle>
           <v-card-actions>

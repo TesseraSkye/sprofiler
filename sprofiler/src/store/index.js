@@ -108,6 +108,12 @@ export default new Vuex.Store({
       //   tastingNotes: 'Very fruity, quite sweet',
       //   tastingTags: 'blueberries, sugar'
       // }
+    },
+    tags: {
+      origins: [],
+      varietals: [],
+      processes: [],
+      flavors: []
     }
   },
   mutations: {
@@ -177,7 +183,8 @@ export default new Vuex.Store({
         ['activeDevices'],
         // ['activeData'],
         ['shotHistory'],
-        ['coffeeHistory']
+        ['coffeeHistory'],
+        ['tags']
       ])
     },
 
@@ -225,6 +232,7 @@ export default new Vuex.Store({
       setTimeout(() => { dispatch('setData', ['activeData', {}]) }, 100)
       setTimeout(() => { dispatch('setData', ['shotHistory', {}]) }, 120)
       setTimeout(() => { dispatch('setData', ['coffeeHistory', {}]) }, 140)
+      setTimeout(() => { dispatch('setData', ['tags', { origins: [], varietals: [], processes: [], flavors: [] }]) }, 160)
     },
     setupDeviceConfig ({ commit }) {
       commit('setupDeviceConfig')

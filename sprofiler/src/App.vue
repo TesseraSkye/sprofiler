@@ -95,7 +95,7 @@ export default {
 }
 </style>
 
-<style scoped>
+<style>
 #splash {
   height: 100vh;
   width: 100vw;

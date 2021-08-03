@@ -5,6 +5,7 @@ import Live from '../views/Live.vue'
 import Library from '../views/Library.vue'
 import Settings from '../views/Settings.vue'
 import SaveShot from '../views/SaveShot.vue'
+import AddCoffee from '../views/AddCoffee.vue'
 
 Vue.use(VueRouter)
 
@@ -37,6 +38,12 @@ const routes = [
     path: '/save-shot',
     name: 'SaveShot',
     component: SaveShot
+  },
+
+  {
+    path: '/add-coffee',
+    name: 'AddCoffee',
+    component: AddCoffee
   },
 
   // wildcard so that weird requests aren't unhandeled
