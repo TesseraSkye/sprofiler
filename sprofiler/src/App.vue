@@ -103,4 +103,7 @@ export default {
   background-color: black;
   z-index: 100;
 }
+.v-card--link:focus::before {
+  opacity: 0;
+}
 </style>

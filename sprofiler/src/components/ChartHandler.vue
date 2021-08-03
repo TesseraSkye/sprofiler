@@ -1,5 +1,5 @@
 <template>
-  <v-row>
+  <v-row class="px-2">
     <v-col v-if="!this.live" cols=12>
       <line-chart :chartData='this.chartData' :options="this.chartOptions" :class="'chart-' + this.size[0][0]"/>
     </v-col>
@@ -20,7 +20,10 @@ export default {
       default: false
     },
     size: {
-      default: 'sm'
+      default: () => { return [['sm']] }
+    },
+    sleek: {
+      default: false
     }
   },
   name: 'chart-handler',
@@ -67,6 +70,9 @@ export default {
       const rOptions = {
         // parsing: false,
         animation: null,
+        layout: {
+          padding: 12
+        },
         legend: {
           display: false
         },
@@ -88,7 +94,9 @@ export default {
         rOptions.scales.yAxes.push({
           // type: 'linear',
           id: 'y' + dTypeUC,
-          axis: 'y'
+          axis: 'y',
+          position: 'right',
+          display: !this.sleek
         })
         for (const device in this.data.data[family]) {
           if (!(device === 'axisID')) {
@@ -116,6 +124,8 @@ export default {
         }
       }
       if (count > 1) { rOptions.legend.display = true }
+      if (this.size[0][0] === 'xs') { rOptions.legend.display = false }
+      if (this.sleek) { rOptions.legend.display = false }
       return [rData, rOptions]
     }
   }
@@ -131,6 +141,10 @@ export default {
 }
 .chart-sm {
   height: 30vh;
-  width: 90vw;
+  width: 80vw;
+}
+.chart-xs {
+  height: 15vh;
+  width: 25vw;
 }
 </style>

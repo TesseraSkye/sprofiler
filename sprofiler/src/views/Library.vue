@@ -19,8 +19,8 @@
     </v-slide-x-transition>
     <v-row>
       <v-col>
-        <v-tabs-items v-model="page">
-          <v-tab-item>
+        <v-tabs-items v-model="page" class="pa-4">
+          <v-tab-item class="pb-4">
             <!-- Shots -->
             <shot-card :data="shot" :key="shot.uuid" v-for="shot in this.getStateData('shotHistory')"/>
           </v-tab-item>
