@@ -113,7 +113,7 @@ export default new Vuex.Store({
       origins: [],
       varietals: [],
       processes: [],
-      flavors: []
+      tastingTags: []
     }
   },
   mutations: {
