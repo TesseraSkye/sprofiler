@@ -206,33 +206,30 @@ export default {
         }
       }])
       this.$store.dispatch('setData', ['coffeeHistory', {
-        sdf7g68dsfg8s: {
-          name: 'Halo Beriti',
-          origin: 'etheopia',
-          varietal: 'heirloom',
-          process: 'natural',
-          elevation: '1600m',
-          roaster: 'Bespoken Coffee',
-          roastLocation: 'Oregon',
-          roastDate: '04/25/21',
-          date: '05/02/21 : 09:51:30',
-          uuid: 'sdf7g68dsfg8s',
-          rating: 4,
-          favorite: true,
-          comments: '',
-          tastingNotes: 'Very fruity, quite sweet',
-          tastingTags: 'blueberries, sugar'
+        1628086737987: {
+          name: 'Wild & Wonderful',
+          rating: 3.5,
+          origins: ['etheopia'],
+          varietals: ['ruiru-11', 'sl-28'],
+          process: 'washed',
+          elevation: 0,
+          roaster: 'Khrat Coffee',
+          roastDate: '2021-08-27',
+          dateOBJ: '2021-08-04T14:18:57.987Z',
+          uuid: 1628086737987,
+          brewingNotes: 'Solid cup, brew at 1:14 on 35',
+          tastingTags: ['white grape', 'jasmine']
         }
       }])
       this.$store.dispatch('setData', ['activeDevices', {
         sprofiler: 'FFFFFFFF'
       }])
       this.$store.dispatch('setData', ['overlayUUID', 'dummy'])
-      this.store.dispatch('setData', ['tags', {
+      this.$store.dispatch('setData', ['tags', {
         origins: [],
         varietals: [],
-        processes: [],
-        flavors: []
+        processes: ['washed', 'honey', 'natural', 'anaerobic', 'mixed', '?'],
+        tastingTags: []
       }])
     },
     wipeStorage () {

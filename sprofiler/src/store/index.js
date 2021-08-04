@@ -91,28 +91,25 @@ export default new Vuex.Store({
       // }
     },
     coffeeHistory: {
-      // sdf7g68dsfg8s: {
-      //   name: 'Halo Beriti',
-      //   origin: 'etheopia',
-      //   varietal: 'heirloom',
-      //   process: 'natural',
-      //   elevation: '1600m',
-      //   roaster: 'Bespoken',
-      //   roastLocation: 'Oregon',
-      //   roastDate: '04/25/21',
-      //   date: '05/02/21 : 09:51:30',
-      //   uuid: 'sdf7g68dsfg8s',
-      //   rating: 4,
-      //   favorite: true,
-      //   comments: '',
-      //   tastingNotes: 'Very fruity, quite sweet',
-      //   tastingTags: 'blueberries, sugar'
+      // 1628086737987: {
+      //   name: 'Wild & Wonderful',
+      //   rating: 3.5,
+      //   origins: ['etheopia'],
+      //   varietals: ['ruiru-11', 'sl-28'],
+      //   process: 'washed',
+      //   elevation: 0,
+      //   roaster: 'Khrat Coffee',
+      //   roastDate: '2021-08-27',
+      //   dateOBJ: '2021-08-04T14:18:57.987Z',
+      //   uuid: 1628086737987,
+      //   brewingNotes: 'Solid cup, brew at 1:14 on 35',
+      //   tastingTags: ['white grape', 'jasmine']
       // }
     },
     tags: {
       origins: [],
       varietals: [],
-      processes: [],
+      processes: ['washed', 'honey', 'natural', 'anaerobic', 'mixed', '?'],
       tastingTags: []
     }
   },
@@ -232,7 +229,7 @@ export default new Vuex.Store({
       setTimeout(() => { dispatch('setData', ['activeData', {}]) }, 100)
       setTimeout(() => { dispatch('setData', ['shotHistory', {}]) }, 120)
       setTimeout(() => { dispatch('setData', ['coffeeHistory', {}]) }, 140)
-      setTimeout(() => { dispatch('setData', ['tags', { origins: [], varietals: [], processes: [], flavors: [] }]) }, 160)
+      setTimeout(() => { dispatch('setData', ['tags', { origins: [], varietals: [], processes: ['washed', 'honey', 'natural', 'anaerobic', 'mixed', '?'], tastingTags: [] }]) }, 160)
     },
     setupDeviceConfig ({ commit }) {
       commit('setupDeviceConfig')

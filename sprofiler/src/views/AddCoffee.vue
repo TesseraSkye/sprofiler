@@ -13,6 +13,22 @@
                 label="Name"
                 required
               />
+              <v-combobox v-model="formData.origins" :items="this.tags.origins" multiple chips :color="this.accent" deletable-chips :delimiters="[',', '.']" hide-no-data label='origin' />
+              <v-combobox v-model="formData.varietals" :items="this.tags.varietals" multiple chips :color="this.accent" deletable-chips :delimiters="[',', '.']" hide-no-data label='varietal' />
+              <v-combobox v-model="formData.process" :items="this.tags.processes" :color="this.accent" clearable hide-no-data label='process' />
+              <v-slider v-model="formData.elevation" label="elevation" class="mt-2" :color="this.accent" min=0 max=4000 step="100" thumb-label />
+              <v-divider class="my-4"/>
+              <v-rating
+                v-model="formData.rating"
+                large
+                dense
+                :color="this.accent"
+                background-color="#aaa"
+                half-increments
+                hover
+                length="5"
+                />
+              <v-combobox v-model="formData.tastingTags" :items="this.tags.tastingTags" multiple chips :color="this.accent" deletable-chips :delimiters="[',', '.']" hide-no-data label='tastes of..' />
               <v-text-field
                 v-model="formData.roaster"
                 :color="this.accent"
@@ -20,11 +36,6 @@
                 required
               />
               <v-date-picker v-model="formData.roastDate" :color="this.accent" landscape no-title class="mb-4"/>
-              <v-combobox v-model="formData.origins" :items="this.tags.origins" multiple chips :color="this.accent" deletable-chips :delimiters="[',', '.']" hide-no-data label='origin' />
-              <v-combobox v-model="formData.varietals" :items="this.tags.varietals" multiple chips :color="this.accent" deletable-chips :delimiters="[',', '.']" hide-no-data label='varietal' />
-              <v-combobox v-model="formData.processes" :items="this.tags.processes" multiple chips :color="this.accent" deletable-chips :delimiters="[',', '.']" hide-no-data label='process' />
-              <v-slider label="elevation" class="mt-2" :color="this.accent" min=0 max=4000 step="100" thumb-label />
-              <v-combobox v-model="formData.tastingTags" :items="this.tags.tastingTags" multiple chips :color="this.accent" deletable-chips :delimiters="[',', '.']" hide-no-data label='tastes of..' />
               <v-textarea v-model="formData.brewingNotes" :color="this.accent" no-resize height="120" label="Brewing Notes"/>
               <v-btn class="my-2" @click="submit" large :color="this.accent" block>submit</v-btn>
               <br>
@@ -39,20 +50,19 @@
 </template>
 <script>
 
-// sdf7g68dsfg8s: {
-//   name: 'Halo Beriti',
-//   origin: 'etheopia',
-//   varietal: 'heirloom',
-//   process: 'natural',
-//   elevation: '1600m',
-//   roaster: 'Bespoken',
-//   roastDate: '04/25/21',
-//   date: '05/02/21 : 09:51:30',
-//   uuid: 'sdf7g68dsfg8s',
-//   rating: 4,
-//   favorite: true,
-//   brewNotes: 'Very fruity, quite sweet',
-//   tastingTags: 'blueberries, sugar'
+// 1628086737987: {
+//   name: 'Wild & Wonderful',
+//   rating: 3.5,
+//   origins: ['etheopia'],
+//   varietals: ['ruiru-11', 'sl-28'],
+//   process: 'washed',
+//   elevation: 0,
+//   roaster: 'Khrat Coffee',
+//   roastDate: '2021-08-27',
+//   dateOBJ: '2021-08-04T14:18:57.987Z',
+//   uuid: 1628086737987,
+//   brewingNotes: 'Solid cup, brew at 1:14 on 35',
+//   tastingTags: ['white grape', 'jasmine']
 // }
 
 export default {
@@ -64,14 +74,13 @@ export default {
         name: '',
         origins: [],
         varietals: [],
-        processes: [],
+        process: '',
         elevation: 0,
         roaster: '',
         roastDate: '',
         dateOBJ: {},
         uuid: '',
         brewingNotes: '',
-        tastingNotes: '',
         tastingTags: []
       }
     }
