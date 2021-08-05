@@ -2,11 +2,13 @@
   <v-container>
       <v-row>
         <v-col>
-          <v-card elevation="10" shaped color="#262626" class="pa-4">
-          <v-card-title>
-            <h2>Add a new coffee!</h2>
-          </v-card-title>
-            <v-form class="mx-2" ref="form" @submit.prevent="submit">
+          <v-form ref="form" @submit.prevent="submit">
+            <v-card elevation="10" shaped color="#262626" class="pa-4 my-4 mx-2">
+              <v-card-title>
+                <h2>Add a new coffee!</h2>
+              </v-card-title>
+            </v-card>
+            <v-card elevation="10" shaped color="#262626" class="pa-4 my-4 mx-2">
               <v-text-field
                 v-model="formData.name"
                 :color="this.accent"
@@ -17,7 +19,17 @@
               <v-combobox v-model="formData.varietals" :items="this.tags.varietals" multiple chips :color="this.accent" deletable-chips :delimiters="[',', '.']" hide-no-data label='varietal' />
               <v-combobox v-model="formData.process" :items="this.tags.processes" :color="this.accent" clearable hide-no-data label='process' />
               <v-slider v-model="formData.elevation" label="elevation" class="mt-2" :color="this.accent" min=0 max=4000 step="100" thumb-label />
-              <v-divider class="my-4"/>
+            </v-card>
+            <v-card elevation="10" shaped color="#262626" class="pa-4 my-4 mx-2">
+              <v-text-field
+                v-model="formData.roaster"
+                :color="this.accent"
+                label="Roaster"
+                required
+              />
+              <v-date-picker v-model="formData.roastDate" elevation=10 :color="this.accent" no-title width="75vw" class="mb-4"/>
+            </v-card>
+            <v-card elevation="10" shaped color="#262626" class="pa-4 my-4 mx-2">
               <v-rating
                 v-model="formData.rating"
                 large
@@ -29,19 +41,14 @@
                 length="5"
                 />
               <v-combobox v-model="formData.tastingTags" :items="this.tags.tastingTags" multiple chips :color="this.accent" deletable-chips :delimiters="[',', '.']" hide-no-data label='tastes of..' />
-              <v-text-field
-                v-model="formData.roaster"
-                :color="this.accent"
-                label="Roaster"
-                required
-              />
-              <v-date-picker v-model="formData.roastDate" :color="this.accent" landscape no-title class="mb-4"/>
               <v-textarea v-model="formData.brewingNotes" :color="this.accent" no-resize height="120" label="Brewing Notes"/>
+            </v-card>
+            <v-card elevation="10" shaped color="#262626" class="pa-4 my-4 mx-2">
               <v-btn class="my-2" @click="submit" large :color="this.accent" block>submit</v-btn>
               <br>
               <v-btn class="my-2" @click="clear; setTimeout(() => { this.$router.push('/') }, 250)" color="#333" block>cancel</v-btn>
-            </v-form>
-          </v-card>
+            </v-card>
+          </v-form>
           <br>
           <br>
         </v-col>
