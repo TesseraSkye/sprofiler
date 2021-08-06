@@ -102,14 +102,15 @@ export default {
     },
     submit () {
       this.$store.dispatch('addData', ['shotHistory', [this.activeData.uuid, {
-        name: this.name,
+        name: this.activeShot.name,
         uuid: this.activeShot.uuid,
         dateOBJ: this.activeShot.dateOBJ,
         date: this.activeShot.dateOBJ.toLocaleString(),
         rating: this.rating,
         favorite: (this.rating >= 4.5),
         notes: this.notes,
-        data: this.activeShot.data
+        data: this.activeShot.data,
+        labels: this.activeShot.labels
       }]])
       setTimeout(() => { this.clear() }, 200)
       setTimeout(() => { this.$router.push('/library') }, 220)

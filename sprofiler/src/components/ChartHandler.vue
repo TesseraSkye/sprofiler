@@ -24,6 +24,9 @@ export default {
     },
     sleek: {
       default: false
+    },
+    overlayData: {
+      default: false
     }
   },
   name: 'chart-handler',
@@ -82,44 +85,55 @@ export default {
           yAxes: []
         }
       }
+      const sortedLabels = (this.data.labels ? this.data.labels : []).concat((this.overlayData.labels ? this.overlayData.labels : []))
+      sortedLabels.sort((a, b) => a - b)
       const rData = {
-        labels: this.data.labels,
+        labels: sortedLabels,
         datasets: []
       }
-      // console.error(this.data.data)
-      for (const family in this.data.data) {
-        const dType = this.data.data[family].axisID
-        const dTypeUC = dType.charAt(0).toUpperCase() + dType.slice(1)
-        // console.warn('y' + dTypeUC)
-        rOptions.scales.yAxes.push({
-          // type: 'linear',
-          id: 'y' + dTypeUC,
-          axis: 'y',
-          position: 'right',
-          display: !this.sleek
-        })
-        for (const device in this.data.data[family]) {
-          if (!(device === 'axisID')) {
-            // console.warn(device)
-            const cData = {
-              label: '',
-              borderColor: '',
-              pointBackgroundColor: 'dark',
-              borderWidth: 2,
-              pointRadius: 0,
-              pointBorderColor: '',
-              backgroundColor: '#aaaaaa11',
-              yAxisID: '',
-              data: []
+      const sets = {}
+      sets.activeData = this.data.data || {}
+      if (Object.keys(this.overlayData).length !== 0 && this.overlayData.constructor === Object) { sets.overlayData = this.overlayData.data }
+      // console.log(sets)
+      for (const set in sets) {
+        // console.error(this.data.data)
+        for (const family in sets[set]) {
+          // console.warn(sets[set][family])
+          const dType = sets[set][family].axisID
+          const dTypeUC = dType.charAt(0).toUpperCase() + dType.slice(1)
+          // console.warn('y' + dTypeUC)
+          rOptions.scales.yAxes.push({
+            // type: 'linear',
+            id: 'y' + dTypeUC,
+            axis: 'y',
+            position: 'right',
+            display: !this.sleek
+          })
+          for (const device in sets[set][family]) {
+            if (!(device === 'axisID')) {
+              // console.warn(device)
+              const cData = {
+                label: '',
+                borderColor: '',
+                pointBackgroundColor: 'dark',
+                borderWidth: 2,
+                pointRadius: 0,
+                pointBorderColor: '',
+                backgroundColor: '#aaaaaa11',
+                yAxisID: '',
+                data: []
+              }
+              const newCol = this.newTheme(count)
+              cData.label = device + ' (overlay)'
+              cData.borderColor = `hsl(${newCol[0]}, ${newCol[1]}%, ${newCol[2]}%)`
+              if (set === 'overlayData') { cData.borderColor = `hsl(${newCol[0]}, 10%, ${newCol[2]}%)` }
+              cData.pointBorderColor = `hsl(${newCol[0]}, ${newCol[1]}%, ${newCol[2]}%)`
+              if (set === 'overlayData') { cData.pointBorderColor = `hsl(${newCol[0]}, 10%, ${newCol[2]}%)` }
+              cData.data = sets[set][family][device]
+              cData.yAxisID = 'y' + dTypeUC
+              rData.datasets.push(cData)
+              count += 1
             }
-            const newCol = this.newTheme(count)
-            cData.label = device
-            cData.borderColor = `hsl(${newCol[0]}, ${newCol[1]}%, ${newCol[2]}%)`
-            cData.pointBorderColor = `hsl(${newCol[0]}, ${newCol[1]}%, ${newCol[2]}%)`
-            cData.data = this.data.data[family][device]
-            cData.yAxisID = 'y' + dTypeUC
-            rData.datasets.push(cData)
-            count += 1
           }
         }
       }

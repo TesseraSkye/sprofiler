@@ -170,6 +170,7 @@ export default {
     override () {
       this.$store.dispatch('setData', ['activeData', {
         date: '04/22/21 : 11:07:30',
+        dateOBJ: new Date(),
         uuid: 'h456h45h6k4k5g',
         labels: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
         data: {
@@ -186,7 +187,7 @@ export default {
       this.$store.dispatch('setData', ['shotHistory', {
         dummy: {
           name: 'Dummy shot 1',
-          dateOBJ: Date.now(),
+          dateOBJ: new Date(),
           date: 'Jan 1, 2021 at 00:00',
           uuid: 'dummy',
           raiting: 4.5,
@@ -215,7 +216,7 @@ export default {
           elevation: 0,
           roaster: 'Khrat Coffee',
           roastDate: '2021-08-27',
-          dateOBJ: '2021-08-04T14:18:57.987Z',
+          dateOBJ: new Date(),
           uuid: 1628086737987,
           brewingNotes: 'Solid cup, brew at 1:14 on 35',
           tastingTags: ['white grape', 'jasmine']

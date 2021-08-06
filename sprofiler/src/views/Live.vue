@@ -21,7 +21,7 @@
       <v-col cols=12>
         <v-btn :disabled='!this.hasActiveData' :color="this.getAccent" block class="mb-2" to="/save-shot">{{this.hasActiveData ? "Save" : "Waiting for data..."}}</v-btn>
         <!-- <br> -->
-        <chart-handler :live="true" :data='this.activeData' :size="[['lg', 'md'], ['', '-sm']]"/>
+        <chart-handler :data='this.activeData' :overlayData="this.overlayData" :size="[['lg', 'md'], ['', '-sm']]"/>
       </v-col>
     </v-row>
     <v-row justify="center" v-if="this.hasActiveData || this.isDebug">
@@ -58,15 +58,12 @@ export default {
     }
   },
   computed: {
-    getOverlayData () {
-      const overlay = this.$store.state.shotHistory[this.getOverlayUUID] || {
-        data: [[], []]
-      }
-      return {
-        pressure: overlay.data
-      }
+    overlayData () {
+      const overlay = this.$store.state.shotHistory[this.overlayUUID] || {}
+      // console.warn(overlay)
+      return overlay
     },
-    getOverlayUUID () {
+    overlayUUID () {
       const data = this.$store.state.overlayUUID || 0 // this might cause issues, but shouldn't
       return data
     },

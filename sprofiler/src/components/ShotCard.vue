@@ -2,10 +2,10 @@
   <v-row>
       <v-col>
         <v-card @click="this.toggleOverlay" shaped elevation="10" color="#262626">
-          <v-card-title :class="[this.overlay ? 'blur' : '']">
+          <v-card-title>
             <h3>{{this.data.name}}</h3>
           </v-card-title>
-          <v-card-subtitle :class="[this.overlay ? 'blur' : '']">{{this.data.date}}</v-card-subtitle>
+          <v-card-subtitle>{{this.data.date}}</v-card-subtitle>
           <chart-handler sleek="true" :class="[this.overlay ? 'blur' : '']" :data='this.data'/>
           <v-fade-transition>
             <v-overlay
