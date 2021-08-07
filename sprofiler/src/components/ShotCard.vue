@@ -13,13 +13,13 @@
                 v-if="this.overlay"
                 absolute
                 opacity=0.4
-                :color="`hsl(${this.getAccentRaw[0]}, ${this.getAccentRaw[1] * 0.3}%, ${this.getAccentRaw[2] * 0.5}%)`">
+                :color="`hsl(${this.accentRaw[0]}, ${this.accentRaw[1] * 0.3}%, ${this.accentRaw[2] * 0.5}%)`">
               <v-card-text>
                 <h4>{{this.data.notes}}</h4>
               </v-card-text>
               <v-rating
                 class="ml-4"
-                :color="this.getAccent"
+                :color="this.accent"
                 dense
                 background-color="#aaa"
                 half-increments
@@ -29,7 +29,7 @@
                 :value="this.data.rating"
               />
               <br>
-              <v-btn @click="this.compare" class="mx-2" :color="this.getAccent">Compare</v-btn>
+              <v-btn @click="this.compare" class="mx-2" :color="this.accent">Compare</v-btn>
               <v-btn @click="setDialog(true)" class="mx-2" color="red">Remove</v-btn>
             </v-overlay>
           </v-fade-transition>
@@ -78,10 +78,10 @@ export default {
     }
   },
   computed: {
-    getAccent () {
+    accent () {
       return this.$store.state.accent
     },
-    getAccentRaw () {
+    accentRaw () {
       return this.$store.state.accentRaw
     }
   },
@@ -107,5 +107,8 @@ export default {
 <style>
 .blur {
   filter: blur(2px);
+}
+.v-card--link:focus::before {
+  opacity: 0;
 }
 </style>

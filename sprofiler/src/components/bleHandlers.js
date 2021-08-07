@@ -50,7 +50,7 @@ async function bleStart () { // just turns ble on.
     try {
       await BleClient.initialize()
     } catch (error) {
-      console.error(error)
+      console.error('BLE initialization failure! ' + error)
     }
   }
   main()
@@ -82,7 +82,7 @@ async function bleServe (name) {
         }
       )
     } catch (error) {
-      console.error(error)
+      console.error('Failed to start BLE notifications. ' + error)
     }
     function handleBLE (value) {
       const decoded = decodeData(value, name) // there's a good reason for not passing name first - if it gets left off, it should handle it in a default way, not an error.

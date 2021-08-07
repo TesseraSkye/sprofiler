@@ -2,37 +2,46 @@
   <v-container>
     <v-row>
       <v-col>
-        <h1>Save your shot!</h1>
-        <v-card elevation="10" outlined class="my-2">
-          <chart-handler :data='this.activeData'/>
+        <v-card shaped color="#262626" class="my-6" elevation="10">
+          <v-card-title>
+            <h2>Save your shot!</h2>
+          </v-card-title>
         </v-card>
-        <v-card elevation="10" outlined class="my-2">
-
-          <v-form class="mx-2" ref="form" @submit.prevent="submit">
+        <v-form class="mx-2" ref="form" @submit.prevent="submit">
+          <v-card shaped class="my-6 pa-4" color="#262626" elevation="10">
             <v-text-field
+            :color="this.accent"
               v-model="activeShot.name"
               :counter="50"
               label="Nickname"
               required
             />
-            <v-rating
-            v-model="activeShot.rating"
-            class="mb-2"
-            :color="this.getAccent"
-            large
-            half-increments
-            background-color="#aaa"
-            hover
-            length="5"
-          />
-            <v-textarea v-model="activeShot.comments" no-resize height="120" label="Comments"/>
-            <v-btn class="my-2" @click="submit" large color="green" block>submit</v-btn>
-            <br>
-            <br>
-            <br>
-            <v-btn class="my-2" @click="clear; setTimeout(() => { this.$router.push('/') }, 250)" color="red" block>clear</v-btn>
-          </v-form>
-        </v-card>
+          </v-card>
+          <v-card shaped class="my-6 pa-4" color="#262626" elevation="10">
+              <v-rating
+              v-model="activeShot.rating"
+              class="mb-2"
+              :color="this.accent"
+              large
+              half-increments
+              background-color="#aaa"
+              hover
+              length="5"
+            />
+          </v-card>
+          <v-card shaped color="#262626" class="my-6" elevation="10">
+            <chart-handler :sleek="true" :data='this.activeData'/>
+          </v-card>
+              <!-- <v-divider class="mt-8 mb-4"></v-divider> -->
+          <v-card shaped class="my-6 pa-4" color="#262626" elevation="10">
+              <v-textarea :color="this.accent" v-model="activeShot.comments" no-resize height="120" label="Comments"/>
+          </v-card>
+        </v-form>
+        <v-card shaped color="#262626" elevation="10" class="pa-4">
+          <v-btn class="my-2" @click="submit" large :color="this.accent" block>submit</v-btn>
+          <br>
+          <v-btn class="my-2" @click="clear; setTimeout(() => { this.$router.push('/') }, 250)" color="red" block>clear</v-btn>
+          </v-card>
         <br>
         <br>
       </v-col>
@@ -85,7 +94,7 @@ export default {
     this.fillShotData()
   },
   computed: {
-    getAccent () {
+    accent () {
       return this.$store.state.accent
     },
     activeData () {

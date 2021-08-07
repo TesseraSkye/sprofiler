@@ -126,9 +126,9 @@ export default {
               const newCol = this.newTheme(count)
               cData.label = device + ' (overlay)'
               cData.borderColor = `hsl(${newCol[0]}, ${newCol[1]}%, ${newCol[2]}%)`
-              if (set === 'overlayData') { cData.borderColor = `hsl(${newCol[0]}, 10%, ${newCol[2]}%)` }
+              if (set === 'overlayData') { cData.borderColor = `hsl(${newCol[0]}, 20%, ${newCol[2]}%)` }
               cData.pointBorderColor = `hsl(${newCol[0]}, ${newCol[1]}%, ${newCol[2]}%)`
-              if (set === 'overlayData') { cData.pointBorderColor = `hsl(${newCol[0]}, 10%, ${newCol[2]}%)` }
+              if (set === 'overlayData') { cData.pointBorderColor = `hsl(${newCol[0]}, 20%, ${newCol[2]}%)` }
               cData.data = sets[set][family][device]
               cData.yAxisID = 'y' + dTypeUC
               rData.datasets.push(cData)
@@ -148,7 +148,7 @@ export default {
 <style>
 /* chart styling */
 .chart-lg {
-  height: 70vh;
+  height: 80vh;
 }
 .chart-md {
   height: 45vh;

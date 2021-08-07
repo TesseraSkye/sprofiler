@@ -133,4 +133,7 @@ export default {
 .blur {
   filter: blur(2px);
 }
+.v-card--link:focus::before {
+  opacity: 0;
+}
 </style>

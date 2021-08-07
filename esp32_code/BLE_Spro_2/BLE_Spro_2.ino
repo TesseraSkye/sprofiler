@@ -11,13 +11,14 @@ bool oldDeviceConnected = false;
 
 
 // calibration data [coeficient, offset]
-float cal[] = {0.047, 3.0};
+//float cal[] = {0.047, 3.0};
 
 byte enablePin = A1;
 
 
 #define SERVICE_UUID        "0000FAFF-0000-1000-8000-00805F9B34FB"
 #define CHARACTERISTIC_UUID "0000FA01-0000-1000-8000-00805F9B34FB"
+uint8_t lowLimit = 200;
 
 uint32_t val;
 uint8_t avg = 8; //num averages
@@ -90,9 +91,10 @@ void loop() {
 //        Serial.println(val);
         
         // regression fit, div psi / bar
-        uint32_t out = (((val * cal[0]) + cal[1]) / 14.5)*1000;
+        val = constrain(val, lowLimit, 4095);
+        uint32_t out = ((((val - lowLimit) * 1.3) * 2.44) * 1000) / 14.5;
+        Serial.println(val);
         if (out > 1200) {;
-          Serial.println(out);
           pCharacteristic->setValue(out);
           pCharacteristic->notify();
         }
