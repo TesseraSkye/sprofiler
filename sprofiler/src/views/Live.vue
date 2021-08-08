@@ -20,19 +20,19 @@
     <v-row v-if="this.hasActiveDevices || this.isDebug">
       <v-col cols=12>
         <v-card @click="toggleState('overlay')" shaped elevation="10" color="#262626" class="pa-2">
-          <chart-handler :sleek="this.uiData.saveDialog" :class="[this.uiData.overlay ? 'blur' : '']" :live="true" :data='this.activeData' :overlayData="this.overlayData" :size="[['lg', 'md'], ['', '-sm']]"/>
+            <chart-handler :sleek="this.uiData.saveDialog" :class="[(this.uiData.overlay || !this.hasActiveData) ? 'blur' : '']" :live="true" :data='this.activeData' :overlayData="this.overlayData" :size="[['lg', 'md'], ['', '-sm']]"/>
           <v-fade-transition>
             <v-overlay
               class="zh-90"
-              v-if="this.uiData.overlay"
+              v-if="this.uiData.overlay || !this.hasActiveData"
               absolute
               opacity=0.4
-              :color="`hsl(${this.accentRaw[0]}, ${this.accentRaw[1] * 0.3}%, ${this.accentRaw[2] * 0.5}%)`">
+              :color="`hsl(${this.accentRaw[0]}, ${this.accentRaw[1] * 0}%, ${this.accentRaw[2] * 0.5}%)`">
               <v-btn :disabled="!this.hasActiveData" block class="mx-2 my-4" :color="this.accent" to="/save-shot">{{this.hasActiveData ? "Save" : "Waiting for data..."}}</v-btn>
               <br>
-              <v-btn class="mx-2 my-4" block :color="this.accent" @click="toggleState('saveDialog')">Toggle data view</v-btn>
+              <v-btn class="mx-2 my-4" block v-if="this.hasActiveData" :color="this.accent" @click="toggleState('saveDialog')">Toggle data view</v-btn>
               <br>
-              <v-btn @click="this.resetActiveData()" block :disabled='!this.hasActiveData' class="mx-2 my-4" color="#262626">Clear</v-btn>
+              <v-btn @click="resetActiveData()" v-if="this.hasActiveData " block :disabled='!this.hasActiveData' class="mx-2 my-4" color="#262626">Clear</v-btn>
             </v-overlay>
           </v-fade-transition>
         </v-card>
