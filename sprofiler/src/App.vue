@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app id="app">
     <v-fade-transition>
       <div v-if="this.splash" id="splash" class="text-center">
         <v-scroll-x-transition class="vw-100">
@@ -96,11 +96,14 @@ export default {
 </style>
 
 <style>
+#app {
+  background-color: #1e1e1e;
+}
 #splash {
   height: 100vh;
   width: 100vw;
   position: fixed;
-  background-color: black;
+  background-color: #1e1e1e;
   z-index: 100;
 }
 .v-card--link:focus::before {

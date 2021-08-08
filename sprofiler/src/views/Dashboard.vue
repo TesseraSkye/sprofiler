@@ -2,13 +2,13 @@
   <v-container>
     <v-row>
       <v-col>
-        <h1 class="text-center mt-1">Welcome!</h1>
+        <h1 class="text-center mt-4">Welcome!</h1>
         <!-- <v-divider class="ma-1"/> -->
       </v-col>
     </v-row>
     <v-row>
       <v-col>
-        <v-card shaped color="#262626" elevation="10" class="pa-2">
+        <v-card v-if="false" shaped outlined elevation="20" class="pa-2">
           <v-card-title>
             <h3>Before you go...</h3>
           </v-card-title>
@@ -56,10 +56,15 @@
         </v-card>
       </v-col>
     </v-row>
+    <br>
+    <br>
     <h1 class="text-center"><v-icon large>mdi-chevron-down</v-icon></h1>
+    <br>
+    <br>
     <v-row>
       <v-col>
         <v-divider class="mt-2 mb-4"/>
+        <br>
         <v-card shaped color="#262626" elevation="10" class="pa-2">
           <v-card-title>
             <h3>We have a roadmap!</h3>
