@@ -31,7 +31,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    version: '0.4.0',
+    version: '0.6.0',
     accent: '',
     accentRaw: [],
     // preset accents

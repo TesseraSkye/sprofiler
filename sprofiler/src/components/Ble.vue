@@ -18,7 +18,7 @@
           <v-card-subtitle>{{item.description}}</v-card-subtitle>
           <v-card-actions>
             <v-btn block v-if="!getID(key)" elevation=4 :color="getAccent" @click="serve(key)">Connect</v-btn>
-            <v-btn block v-if="!!getID(key)" elevation=4 :color="getAccent" @click="disconnect(key)">Disonnect</v-btn>
+            <v-btn block v-if="!!getID(key)" elevation=4 :color="getAccent" @click="disconnect(key)">Disconnect</v-btn>
           </v-card-actions>
             <v-btn v-if="isDebug" @click="read(key)" light class="mx-2 my-4">read char</v-btn>
         </v-card>
