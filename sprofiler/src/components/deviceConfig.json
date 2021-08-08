@@ -12,5 +12,19 @@
     "characteristics": {
       "read": "0000fa01-0000-1000-8000-00805f9b34fb"
     }
+  },
+  "sep": {
+    "family": "profiler",
+    "dataType": "pressure",
+    "description": "The Smart Espresso Profiler, built by Naked Portafilter.",
+    "friendly": "SEP",
+    "coefficient": 0.0689,
+    "offset": 0,
+    "decodeFamily": "int16",
+    "littleEndian": false,
+    "suuid": "000018ff-0000-1000-8000-00805f9b34fb",
+    "characteristics": {
+      "read": "835ab4c0-51e4-11e3-a5bd-0002a5d5c51b"
+    }
   }
 }

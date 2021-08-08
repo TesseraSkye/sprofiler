@@ -37,10 +37,30 @@ async function bleInit (name) {
       const device = await BleClient.requestDevice({
         services: [suuid]
       })
-      // console.error('adding device at ' + device.deviceId)
+      console.error('adding device at ' + device.deviceId)
       dispatch('addData', ['activeDevices', [name, device.deviceId]]) // adds the name and dID, but not suuid, as that can be looked up.
     } catch (error) {
       console.error(error)
+    }
+  }
+  main()
+}
+async function bleScan () {
+  async function main () {
+    try {
+      await BleClient.initialize()
+      setTimeout(async () => {
+        await BleClient.stopLEScan()
+        console.log('stopped scanning')
+      }, 10000)
+      BleClient.requestLEScan({
+        // services: ['cc4a6a80-51e0-11e3-b451-0002a5d5c51b']
+      }, res => {
+        console.error('Device scan returned: ' + JSON.stringify(res))
+      })
+      // console.error(scanRes)
+    } catch (error) {
+      console.error('failed to scan for devices! ' + error)
     }
   }
   main()
@@ -93,6 +113,22 @@ async function bleServe (name) {
   main()
 }
 
+async function bleRead (name, cName = 'read') {
+  const deviceID = getID(name)
+  const suuid = getUUID(name)
+  const cuuid = getUUID(name, cName)
+  async function main () {
+    try {
+      await BleClient.read(deviceID, suuid, cuuid).then((res) => {
+        console.error('BLERead Resulet is: ' + res)
+      })
+    } catch (error) {
+      console.error(error)
+    }
+  }
+  main()
+}
+
 async function bleStop (name, cName = 'read') { // fine for now
   const deviceID = getID(name)
   const suuid = getUUID(name)
@@ -131,4 +167,4 @@ function getID (name) { // checks for connected at name. (e.g. 'acaia')
   return id
 }
 
-export { bleInit, bleServe, getID, bleStop, bleDC, bleStart, getUUID }
+export { bleInit, bleServe, getID, bleStop, bleDC, bleStart, getUUID, bleScan, bleRead }

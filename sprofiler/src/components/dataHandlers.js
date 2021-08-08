@@ -11,6 +11,10 @@ function decodeData (val, name) { // this is still super janky
   if (cfg.decodeFamily === 'uint32') {
     data = val.getUint32(0, cfg.littleEndian)
     data = (cfg.coefficient * data) + cfg.offset
+  }
+  if (cfg.decodeFamily === 'int16') {
+    data = val.getInt16(0, cfg.litleEndian)
+    data = (cfg.coefficient * data) + cfg.offset
   } else { data = val }
   // console.error('data: ' + data)
   return (name ? [data, name] : [data, 'default'])

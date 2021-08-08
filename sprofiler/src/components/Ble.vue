@@ -4,6 +4,7 @@
     <template v-if="this.isDebug">
       <v-card-text><h4>active devices:</h4></v-card-text>
       <v-card-text :key='device' v-for="device in this.getDevices">{{device}}</v-card-text>
+      <v-btn @click="scan()" light class="mx-2">Scan for devices</v-btn>
     </template>
     <!-- <v-divider class="my-2"/> -->
     <v-tabs background-color="262626" :color="this.getAccent" centered v-model="tab" class="mb-5">
@@ -19,6 +20,7 @@
             <v-btn block v-if="!getID(key)" elevation=4 :color="getAccent" @click="serve(key)">Connect</v-btn>
             <v-btn block v-if="!!getID(key)" elevation=4 :color="getAccent" @click="disconnect(key)">Disonnect</v-btn>
           </v-card-actions>
+            <v-btn v-if="isDebug" @click="read(key)" light class="mx-2 my-4">read char</v-btn>
         </v-card>
       </v-tab-item>
     </v-tabs-items>
@@ -29,7 +31,7 @@
 </template>
 
 <script>
-import { bleInit, bleServe, bleDC } from './bleHandlers.js'
+import { bleInit, bleServe, bleDC, bleScan, bleRead } from './bleHandlers.js'
 
 export default {
   name: 'ble',
@@ -81,6 +83,9 @@ export default {
       bleServe(device)
       // setTimeout(() => { this.$router.push('/dash') }, 220)
     },
+    read (device) {
+      bleRead(device)
+    },
     disconnect (name) {
       bleDC(name)
       if (name) { this.$store.dispatch('removeData', ['activeDevices', [name]]) } else { this.$store.dispatch('setData', ['activeDevices', {}]) } // if no name, dc all
@@ -91,6 +96,9 @@ export default {
     },
     setConOverlay (status) {
       this.connectionOverlay = status
+    },
+    scan () {
+      bleScan()
     }
   }
 }

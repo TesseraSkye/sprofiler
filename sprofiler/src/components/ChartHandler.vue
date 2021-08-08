@@ -1,12 +1,14 @@
 <template>
   <v-row class="px-2">
-    <v-col v-if="!this.live" cols=12>
-      <line-chart :chartData='this.chartData' :options="this.chartOptions" :class="'chart-' + this.size[0][0]"/>
-    </v-col>
-    <v-col v-if="this.live" cols=12>
-      <line-chart :chartData='this.chartData' :options="this.chartOptions" :key='rerenderKey' :class="'chart-' + this.size[0][1] + ' d' + this.size[1][0] + '-none ' + 'd' + this.size[1][1] + '-flex'"/>
-      <line-chart :chartData='this.chartData' :options="this.chartOptions" :key='rerenderKey+5' :class="'chart-' + this.size[0][0] + ' d' + this.size[1][0] + '-flex' + ' d' + this.size[1][1] + '-none'"/>
-    </v-col>
+    <v-fade-transition>
+      <v-col v-if="!this.live" cols=12>
+        <line-chart :chartData='this.chartData' :options="this.chartOptions" :class="'chart-' + this.size[0][0]"/>
+      </v-col>
+      <v-col v-if="this.live" cols=12>
+        <line-chart :chartData='this.chartData' :options="this.chartOptions" :key='rerenderKey' :class="'chart-' + this.size[0][1] + ' d' + this.size[1][0] + '-none ' + 'd' + this.size[1][1] + '-flex'"/>
+        <line-chart :chartData='this.chartData' :options="this.chartOptions" :key='rerenderKey+5' :class="'chart-' + this.size[0][0] + ' d' + this.size[1][0] + '-flex' + ' d' + this.size[1][1] + '-none'"/>
+      </v-col>
+    </v-fade-transition>
   </v-row>
 </template>
 
