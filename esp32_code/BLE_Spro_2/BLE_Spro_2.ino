@@ -13,8 +13,8 @@ bool oldDeviceConnected = false;
 // calibration data [coeficient, offset]
 //float cal[] = {0.047, 3.0};
 
-byte enablePin = A1;
-
+byte dataADC = A0;
+byte batADC = A13;
 
 #define SERVICE_UUID        "0000FAFF-0000-1000-8000-00805F9B34FB"
 #define CHARACTERISTIC_UUID "0000FA01-0000-1000-8000-00805F9B34FB"
@@ -27,14 +27,12 @@ uint8_t avg = 8; //num averages
 class bleCallbacks: public BLEServerCallbacks {
     void onConnect(BLEServer* pServer) {
       deviceConnected = true;
-//      digitalWrite(enablePin, HIGH); // Enables boost converter and pressure transducer
       
     };
 
     void onDisconnect(BLEServer* pServer) {
       deviceConnected = false;
       delay(10000);
-//      if (deviceConnected == false) { digitalWrite(enablePin, LOW); }; // dissables boost and sensor if it's been DC'd for over a minute
     }
 };
 
@@ -43,8 +41,6 @@ class bleCallbacks: public BLEServerCallbacks {
 
 void setup() {
   Serial.begin(115200);
-
-  pinMode(enablePin, OUTPUT);
   BLEDevice::init("Sprofiler");
 
   pServer = BLEDevice::createServer();
@@ -79,6 +75,9 @@ void setup() {
 }
 
 void loop() {
+  uint16_t batteryVoltage = 2 * analogRead(batADC);
+//  Serial.println(batteryVoltage);
+  delay(50);
   val = 0;
     if (deviceConnected) {
         for(uint8_t i = 0; i < avg; i++) {
@@ -87,13 +86,10 @@ void loop() {
         }
 
         val = val / avg;
-//        Serial.println(analogRead(A0));
-//        Serial.println(val);
         
-        // regression fit, div psi / bar
         val = constrain(val, lowLimit, 4095);
-        uint32_t out = ((((val - lowLimit) * 1.3) * 2.44) * 1000) / 14.5;
-        Serial.println(val);
+        uint32_t out = ((val + 300)  * 1000) / (38.5 * 14.5);
+        Serial.println(out);
         if (out > 1200) {;
           pCharacteristic->setValue(out);
           pCharacteristic->notify();
