@@ -118,7 +118,7 @@ export default new Vuex.Store({
     setState (state, array) {
       state[array[0]] = array[1]
     },
-    addActiveData (state, data) { // data = [value, family, name]
+    addActiveData (state, data) { // data = [value, name]
       const val = data[0]
       const name = data[1]
       const family = deviceConfig[name].family
