@@ -17,7 +17,9 @@ function decodeData (val, name) { // this is still super janky
     data = (cfg.coefficient * data) + cfg.offset
   } else { data = val }
   // console.error('data: ' + data)
-  return (name ? [data, name] : [data, 'default'])
+  const out = (name ? [data, name] : [data, 'default'])
+  console.error('decoded data bundle is: ' + out)
+  return out
 }
 
 export { decodeData }

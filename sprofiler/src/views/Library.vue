@@ -8,7 +8,7 @@
     </v-tabs>
       </v-col>
     </v-row>
-    <v-slide-x-transition leave-absolute hide-on-leave mode="out-in">
+    <!-- <v-slide-x-transition leave-absolute hide-on-leave mode="out-in">
       <v-row v-if="page === 1" class="px-4">
         <v-col>
           <v-btn to="/add-coffee" elevation="10" block :color="this.accent">
@@ -16,22 +16,23 @@
           </v-btn>
         </v-col>
       </v-row>
-    </v-slide-x-transition>
-    <v-row>
-      <v-col>
-        <v-tabs-items v-model="page" class="px-4">
+    </v-slide-x-transition> -->
+    <v-row justify="center">
+        <v-tabs-items v-model="page" class="px-4 vw-100">
           <v-tab-item class="pb-4">
             <!-- Shots -->
+            <v-btn block large :color="this.accent" v-if="!this.sortedShots[0] && !this.hasActiveDevices" to="/settings">Connect a device</v-btn>
+            <v-btn block large :color="this.accent" v-if="this.sortedShots[0] && this.hasActiveDevices" to="/live">Pull a Shot</v-btn>
             <shot-card class="my-4" :data="getStateData('shotHistory')[shot]" :key="shot" v-for="shot in this.sortedShots"/>
-            <v-btn block :color="this.accent" v-if="!this.sortedShots[0] && !this.hasActiveDevices" to="/settings">Connect a device</v-btn>
-            <v-btn block :color="this.accent" v-if="!this.sortedShots[0] && this.hasActiveDevices" to="/live">Pull a Shot</v-btn>
           </v-tab-item>
           <v-tab-item>
             <!-- Coffee -->
+            <v-btn large to="/add-coffee" elevation="10" block :color="this.accent">
+              <v-icon>mdi-plus</v-icon>
+            </v-btn>
             <coffee-card class="my-4" :data="getStateData('coffeeHistory')[shot]" :key="shot" v-for="shot in this.sortedCoffees"/>
           </v-tab-item>
         </v-tabs-items>
-      </v-col>
     </v-row>
     <br>
     <br>
@@ -53,10 +54,9 @@ export default {
     CoffeeCard
   },
   created () {
-    this.$router.beforeEach((to, from, next) => {
-      this.destination = from.meta.destination
-      next()
-    })
+    if (this.$route.query.tab === 'coffee') {
+      this.page = 1
+    }
   },
   computed: {
     accent () {

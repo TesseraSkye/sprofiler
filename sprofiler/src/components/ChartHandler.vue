@@ -160,7 +160,7 @@ export default {
   width: 80vw;
 }
 .chart-xs {
-  height: 15vh;
-  width: 25vw;
+  height: 25vh;
+  width: 40vw;
 }
 </style>

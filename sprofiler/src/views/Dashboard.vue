@@ -19,8 +19,8 @@
         </v-card>
       </v-col>
     </v-row>
-    <v-row>
-      <v-col>
+    <v-row justify="center">
+      <v-col cols=11 md=6>
         <v-card shaped color="#262626" elevation="10" class="pa-2">
           <v-card-title v-if="!this.isActive"><h3>Set up your 'spro.</h3></v-card-title>
           <v-card-title v-if="!!this.isActive"><h3>Time to make 'spro.</h3></v-card-title>
@@ -31,18 +31,16 @@
             <h4>You're ready to go!</h4>
           </v-card-text>
           <v-card-actions>
-            <v-btn block v-if="!this.isActive" :color="this.getAccent" to='/settings'>
+            <v-btn large block v-if="!this.isActive" :color="this.getAccent" to='/settings'>
               Let's go ->
             </v-btn>
-            <v-btn block v-if="!!this.isActive" :color="this.getAccent" to='/live'>
+            <v-btn large block v-if="!!this.isActive" :color="this.getAccent" to='/live'>
               Pull a shot ->
             </v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
-    </v-row>
-    <v-row>
-      <v-col>
+      <v-col cols=11 md=6>
         <v-card shaped color="#262626" elevation="10" class="pa-2">
           <v-card-title>
             <h3>New coffee?</h3>
@@ -51,20 +49,16 @@
             <h4>Add it to the history books.</h4>
           </v-card-text>
           <v-card-actions>
-            <v-btn block :color="this.getAccent" to="/library">Take me there -></v-btn>
+            <v-btn large block :color="this.getAccent" :to="{ path: 'library', query: { tab: 'coffee' }}">Take me there -></v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
     </v-row>
     <br>
-    <br>
     <h1 class="text-center"><v-icon large>mdi-chevron-down</v-icon></h1>
     <br>
-    <br>
-    <v-row>
-      <v-col>
-        <v-divider class="mt-2 mb-4"/>
-        <br>
+    <v-row justify="center">
+      <v-col cols=11 md=6>
         <v-card shaped color="#262626" elevation="10" class="pa-2">
           <v-card-title>
             <h3>We have a roadmap!</h3>
@@ -73,23 +67,20 @@
             <h4>To explore what we have planned, check our Trello.</h4>
           </v-card-text>
           <v-card-actions>
-            <v-btn block :color="this.getAccent" href="https://trello.com/b/ME1z05LE/sprofiler">Show me the future</v-btn>
+            <v-btn large block :color="this.getAccent" href="https://trello.com/b/ME1z05LE/sprofiler">Show me the future</v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
-    </v-row>
-    <v-row>
-      <v-col>
-        <v-divider class="mt-2 mb-4"/>
+      <v-col cols=11 md=6>
         <v-card shaped color="#262626" elevation="10" class="pa-2">
           <v-card-title>
-            <h3>Find a bug?</h3>
+            <h3>Get in contact.</h3>
           </v-card-title>
           <v-card-text>
-            <h4>We'd love to hear from you. Submit a bug report, feature request, or PR on our Github!</h4>
+            <h4>Submit a bug report or feature request on our Github!</h4>
           </v-card-text>
           <v-card-actions>
-            <v-btn block :color="this.getAccent" href="https://github.com/tesseraskye/sprofiler">Git involved</v-btn>
+            <v-btn large block :color="this.getAccent" href="https://github.com/tesseraskye/sprofiler">Git involved</v-btn>
           </v-card-actions>
         </v-card>
       </v-col>

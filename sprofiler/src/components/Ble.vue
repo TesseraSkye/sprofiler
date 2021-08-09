@@ -4,7 +4,7 @@
     <template v-if="this.isDebug">
       <v-card-text><h4>active devices:</h4></v-card-text>
       <v-card-text :key='device' v-for="device in this.getDevices">{{device}}</v-card-text>
-      <v-btn @click="scan()" light class="mx-2">Scan for devices</v-btn>
+      <v-btn large @click="scan()" light class="mx-2">Scan for devices</v-btn>
     </template>
     <!-- <v-divider class="my-2"/> -->
     <v-tabs background-color="262626" :color="this.getAccent" centered v-model="tab" class="mb-5">
@@ -17,10 +17,10 @@
           <v-card-title>{{ item.friendly }}<i>{{!!getID(key) ? "..... active!" : ""}}</i></v-card-title>
           <v-card-subtitle>{{item.description}}</v-card-subtitle>
           <v-card-actions>
-            <v-btn block v-if="!getID(key)" elevation=4 :color="getAccent" @click="serve(key)">Connect</v-btn>
-            <v-btn block v-if="!!getID(key)" elevation=4 :color="getAccent" @click="disconnect(key)">Disconnect</v-btn>
+            <v-btn large block v-if="!getID(key)" elevation=4 :color="getAccent" @click="serve(key)">Connect</v-btn>
+            <v-btn large block v-if="!!getID(key)" elevation=4 :color="getAccent" @click="disconnect(key)">Disconnect</v-btn>
           </v-card-actions>
-            <v-btn v-if="isDebug" @click="read(key)" light class="mx-2 my-4">read char</v-btn>
+            <v-btn large v-if="isDebug" @click="read(key)" light class="mx-2 my-4">read char</v-btn>
         </v-card>
       </v-tab-item>
     </v-tabs-items>

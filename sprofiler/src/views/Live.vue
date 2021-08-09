@@ -10,7 +10,7 @@
             <h4>To use the live data feature, you'll need to connect to a device in the settings tab.</h4>
           </v-card-text>
           <v-card-actions class="px-4">
-            <v-btn block class="my-4" :color="this.accent" to='/settings'>
+            <v-btn large block class="my-4" :color="this.accent" to='/settings'>
               Take me there ->
             </v-btn>
           </v-card-actions>
@@ -28,11 +28,11 @@
               absolute
               opacity=0.4
               :color="`hsl(${this.accentRaw[0]}, ${this.accentRaw[1] * 0}%, ${this.accentRaw[2] * 0.5}%)`">
-              <v-btn :disabled="!this.hasActiveData" block class="mx-2 my-4" :color="this.accent" to="/save-shot">{{this.hasActiveData ? "Save" : "Waiting for data..."}}</v-btn>
+              <v-btn large :disabled="!this.hasActiveData" block class="mx-2 my-4" :color="this.accent" to="/save-shot">{{this.hasActiveData ? "Save" : "Waiting for data..."}}</v-btn>
               <br>
-              <v-btn class="mx-2 my-4" block v-if="this.hasActiveData" :color="this.accent" @click="toggleState('saveDialog')">Toggle data view</v-btn>
+              <v-btn large class="mx-2 my-4" block v-if="this.hasActiveData" :color="this.accent" @click="toggleState('saveDialog')">Toggle data view</v-btn>
               <br>
-              <v-btn @click="resetActiveData()" v-if="this.hasActiveData " block :disabled='!this.hasActiveData' class="mx-2 my-4" color="#262626">Clear</v-btn>
+              <v-btn large @click="resetActiveData()" v-if="this.hasActiveData " block :disabled='!this.hasActiveData' class="mx-2 my-4" color="#262626">Clear</v-btn>
             </v-overlay>
           </v-fade-transition>
         </v-card>

@@ -98,13 +98,13 @@ async function bleServe (name) {
           console.log(
             'response at cuuid is ' + val
           )
-          handleBLE(val)
+          handleBLE(val, name)
         }
       )
     } catch (error) {
       console.error('Failed to start BLE notifications. ' + error)
     }
-    function handleBLE (value) {
+    function handleBLE (value, name) {
       const decoded = decodeData(value, name) // there's a good reason for not passing name first - if it gets left off, it should handle it in a default way, not an error.
       // console.error('decoded: ' + decoded)
       dispatch('addActiveData', decoded)

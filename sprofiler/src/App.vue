@@ -109,4 +109,7 @@ export default {
 .v-card--link:focus::before {
   opacity: 0;
 }
+.justify-self-center {
+  justify-self: center;
+}
 </style>
