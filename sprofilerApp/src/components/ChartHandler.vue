@@ -61,7 +61,7 @@ export default {
     },
     newTheme (count) {
       let mTheme = Array.from(this.getRawAccent, x => x)
-      let _count = count * 30
+      let _count = count * 45
       _count = (mTheme[0] + _count) % 360
       mTheme = [_count, this.getRawAccent[1], this.getRawAccent[2]]
       // console.warn(mTheme)
@@ -128,9 +128,9 @@ export default {
               const newCol = this.newTheme(count)
               cData.label = device + ' (overlay)'
               cData.borderColor = `hsl(${newCol[0]}, ${newCol[1]}%, ${newCol[2]}%)`
-              if (set === 'overlayData') { cData.borderColor = `hsl(${newCol[0]}, 20%, ${newCol[2]}%)` }
+              if (set === 'overlayData') { cData.borderColor = `hsl(${newCol[0]}, 20%, ${newCol[2] + 20}%)` }
               cData.pointBorderColor = `hsl(${newCol[0]}, ${newCol[1]}%, ${newCol[2]}%)`
-              if (set === 'overlayData') { cData.pointBorderColor = `hsl(${newCol[0]}, 20%, ${newCol[2]}%)` }
+              if (set === 'overlayData') { cData.pointBorderColor = `hsl(${newCol[0]}, 20%, ${newCol[2] + 20}%)` }
               cData.data = sets[set][family][device]
               cData.yAxisID = 'y' + dTypeUC
               rData.datasets.push(cData)

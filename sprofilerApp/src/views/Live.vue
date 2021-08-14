@@ -20,7 +20,7 @@
     <v-row v-if="this.hasActiveDevices || this.isDebug">
       <v-col cols=12>
         <v-card @click="toggleState('overlay')" shaped elevation="10" color="#262626" class="pa-2">
-            <chart-handler :sleek="this.uiData.saveDialog" :class="[(this.uiData.overlay || !this.hasActiveData) ? 'blur' : '']" :live="true" :data='this.activeData' :overlayData="this.overlayData" :size="[['lg', 'md'], ['', '-sm']]"/>
+            <chart-handler :sleek="this.uiData.saveDialog" :live="true" :data='this.activeData' :overlayData="this.overlayData" :size="[['lg', 'md'], ['', '-sm']]"/>
           <v-fade-transition>
             <v-overlay
               class="zh-90"

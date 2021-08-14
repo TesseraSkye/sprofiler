@@ -157,6 +157,7 @@ export default new Vuex.Store({
       let newDC = {}
       newDC = {} // this just forces a compiler error to go away. It want's a const, but that would break the conditional assignments.
       for (const device in deviceConfig) {
+        if (deviceConfig[device].disabled) { continue }
         // console.log(device)
         const family = deviceConfig[device].family
         if (!newDC[family]) { newDC[family] = {} }

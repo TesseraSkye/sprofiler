@@ -1,40 +1,37 @@
 <template>
-  <v-card>
+  <v-row>
     <!-- <v-card-title>Bluetooth {{ this.btActive }}</v-card-title> -->
     <template v-if="this.isDebug">
-      <v-card-text><h4>active devices:</h4></v-card-text>
-      <v-card-text :key='device' v-for="device in this.getDevices">{{device}}</v-card-text>
-      <v-btn large @click="scan()" light class="mx-2">Scan for devices</v-btn>
+      <v-card class="vw-100" elevation=10 shaped color="#262626">
+        <v-card-text><h4>active devices:</h4></v-card-text>
+        <v-card-text :key='device' v-for="device in this.getDevices">{{device}}</v-card-text>
+        <v-btn large @click="scan()" light class="mx-2">Scan for devices</v-btn>
+      </v-card>
     </template>
     <!-- <v-divider class="my-2"/> -->
-    <v-tabs background-color="262626" :color="this.getAccent" centered v-model="tab" class="mb-5">
+    <v-tabs background-color="262626" :color="this.getAccent" centered v-model="tab" class="mb-5 my-4">
       <v-tab v-for="(item, key) in this.deviceTree" :key="key">{{ key }}</v-tab>
     </v-tabs>
     <!-- <v-divider class="my-2"/> -->
-    <v-tabs-items v-model="tab">
-      <v-tab-item class="pa-2" v-for="(family, key) in this.cleanDeviceTree" :key="key">
-        <v-card elevation=10 class="pa-2 my-4" shaped color="#262626" :key="key" v-for="(item, key) in family">
-          <v-card-title>{{ item.friendly }}<i>{{!!getID(key) ? "..... active!" : ""}}</i></v-card-title>
-          <v-card-subtitle>{{item.description}}</v-card-subtitle>
-          <v-card-actions>
-            <v-btn large block v-if="!getID(key)" elevation=4 :color="getAccent" @click="serve(key)">Connect</v-btn>
-            <v-btn large block v-if="!!getID(key)" elevation=4 :color="getAccent" @click="disconnect(key)">Disconnect</v-btn>
-          </v-card-actions>
-            <v-btn large v-if="isDebug" @click="read(key)" light class="mx-2 my-4">read char</v-btn>
-        </v-card>
-      </v-tab-item>
-    </v-tabs-items>
-    <br>
-    <br>
-  </v-card>
+      <v-tabs-items v-model="tab" class="vw-100">
+        <v-tab-item class="px-2" v-for="(family, key) in this.cleanDeviceTree" :key="key">
+          <device-card :key="key" v-for="(item, key) in family" :data="item" :name="key" />
+        </v-tab-item>
+      </v-tabs-items>
+      <br>
+      <br>
+  </v-row>
 
 </template>
 
 <script>
-import { bleInit, bleServe, bleDC, bleScan, bleRead } from './bleHandlers.js'
-
+import { bleScan } from './bleHandlers.js'
+import DeviceCard from './DeviceCard.vue'
 export default {
   name: 'ble',
+  components: {
+    'device-card': DeviceCard
+  },
   data () {
     return {
       tab: 'profiler'
@@ -43,10 +40,6 @@ export default {
   computed: {
     getAccent () {
       return this.$store.state.accent
-    },
-    isLive () {
-      const d = this.getDevices
-      return !(d && Object.keys(d).length === 0 && d.constructor === Object)
     },
     getDevices () {
       return this.$store.state.activeDevices
@@ -57,9 +50,6 @@ export default {
       } else {
         return 'inactive.'
       }
-    },
-    isDebug () {
-      return this.$store.state.debug
     },
     deviceTree () {
       // console.log(this.$store.state.deviceTree)
@@ -72,31 +62,12 @@ export default {
       }
       // console.warn(cdt)
       return cdt
+    },
+    isDebug () {
+      return this.$store.state.debug
     }
   },
   methods: {
-    init () {
-      bleInit()
-    },
-    serve (device) {
-      // console.warn(device)
-      bleServe(device)
-      // setTimeout(() => { this.$router.push('/dash') }, 220)
-    },
-    read (device) {
-      bleRead(device)
-    },
-    disconnect (name) {
-      bleDC(name)
-      if (name) { this.$store.dispatch('removeData', ['activeDevices', [name]]) } else { this.$store.dispatch('setData', ['activeDevices', {}]) } // if no name, dc all
-      setTimeout(() => { this.$router.push('/dash') }, 220)
-    },
-    getID (name) { // checks for connected at name. (e.g. 'acaia')
-      return this.$store.state.activeDevices[name]
-    },
-    setConOverlay (status) {
-      this.connectionOverlay = status
-    },
     scan () {
       bleScan()
     }

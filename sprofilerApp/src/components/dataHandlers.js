@@ -9,11 +9,11 @@ function decodeData (val, name) { // this is still super janky
   const cfg = deviceConfig[name]
   let data = null
   if (cfg.decodeFamily === 'uint32') {
-    data = val.getUint32(0, cfg.littleEndian)
+    data = val.getUint32(cfg.byteOffset || 0, cfg.littleEndian || false)
     data = (cfg.coefficient * data) + cfg.offset
   }
   if (cfg.decodeFamily === 'int16') {
-    data = val.getInt16(0, cfg.litleEndian)
+    data = val.getInt16(cfg.byteOffset || 0, cfg.litleEndian || false)
     data = (cfg.coefficient * data) + cfg.offset
   } else { data = val }
   // console.error('data: ' + data)

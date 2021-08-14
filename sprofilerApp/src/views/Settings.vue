@@ -10,7 +10,7 @@
               <h1 class="text-center">Settings</h1>
             </v-btn>
             <h5>{{this.getVersion}}</h5>
-            <h5>Trans Rights</h5>
+            <!-- <h5>Trans Rights</h5> -->
           </v-col>
         </v-row>
       <!-- <v-divider class="ma-2" /> -->
@@ -176,7 +176,7 @@ export default {
         data: {
           profiler: {
             axisID: 'pressure',
-            sprofiler: [{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 2, y: 1 }, { x: 3, y: 2 }, { x: 4, y: 4 }, { x: 5, y: 6 }, { x: 6, y: 9 }, { x: 7, y: 5 }, { x: 8, y: 4 }, { x: 9, y: 3 }, { x: 10, y: 1 }, { x: 11, y: 1 }]
+            sprofiler: [{ x: 0, y: 0 }, { x: 1, y: 1 }, { x: 2, y: 3 }, { x: 3, y: 5 }, { x: 4, y: 7 }, { x: 5, y: 7 }, { x: 6, y: 6 }, { x: 7, y: 5 }, { x: 8, y: 5 }, { x: 9, y: 2 }, { x: 10, y: 2 }, { x: 11, y: 0 }]
           },
           scale: {
             axisID: 'weight',
@@ -198,10 +198,6 @@ export default {
             profiler: {
               axisID: 'pressure',
               sprofiler: [{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 2, y: 1 }, { x: 3, y: 2 }, { x: 4, y: 4 }, { x: 5, y: 6 }, { x: 6, y: 9 }, { x: 7, y: 5 }, { x: 8, y: 4 }, { x: 9, y: 3 }, { x: 10, y: 1 }, { x: 11, y: 1 }]
-            },
-            scale: {
-              axisID: 'weight',
-              acaia: [{ x: 0, y: 0.0 }, { x: 1, y: 0.2 }, { x: 2, y: 5.1 }, { x: 3, y: 12.1 }, { x: 4, y: 15.7 }, { x: 5, y: 19.5 }, { x: 6, y: 24.1 }, { x: 7, y: 28.5 }, { x: 8, y: 31.2 }, { x: 9, y: 32.8 }, { x: 10, y: 35.3 }, { x: 11, y: 37.7 }]
             }
           }
         }
