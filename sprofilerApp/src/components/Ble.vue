@@ -25,6 +25,9 @@
 </template>
 
 <script>
+
+// Ble.vue - container for device cards & creates family structures
+
 import { bleScan } from './bleHandlers.js'
 import DeviceCard from './DeviceCard.vue'
 export default {

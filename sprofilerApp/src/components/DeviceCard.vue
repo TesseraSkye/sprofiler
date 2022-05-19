@@ -49,6 +49,9 @@ export default {
       // dialog: false
     }
   },
+  mounted () {
+    bleInit()
+  },
   computed: {
     accent () {
       return this.$store.state.accent
@@ -65,14 +68,11 @@ export default {
     }
   },
   methods: {
-    init () {
-      bleInit()
-    },
     serve (device) {
       console.warn(device)
       bleServe(device)
       setTimeout(() => { this.$router.push('/dash') }, 120)
-      setTimeout(() => { this.$router.push('/dash') }, 125)
+      setTimeout(() => { this.$router.push('/settings') }, 125)
     },
     read (device) {
       bleRead(device)

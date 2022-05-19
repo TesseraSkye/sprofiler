@@ -13,6 +13,7 @@
 </template>
 
 <script>
+// Holy F U C C my code needs some rework on chart UI, kinda looks like asssssssss
 import LineChart from './LineChart.js'
 
 export default {

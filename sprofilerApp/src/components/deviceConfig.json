@@ -43,6 +43,7 @@
     "family": "scale",
     "dataType": "weight",
     "description": "A 0.1g scale designed by the folks at decent espresso.",
+    "initWrite": "030A0000000009",
     "threshold": 0,
     "coefficient":0.1,
     "decodeFamily":"int16",
@@ -50,7 +51,8 @@
     "friendly": "Decent Scale",
     "suuid": "0000FEE7-0000-1000-8000-00805F9B34FB",
     "characteristics": {
-      "read": "0000FFF4-0000-1000-8000-00805F9B34FB"
+      "read": "0000FFF4-0000-1000-8000-00805F9B34FB",
+      "write": "000036F5-0000-1000-8000-00805F9B34FB"
     }
   },
   "felicita": {
